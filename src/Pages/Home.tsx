@@ -12,7 +12,7 @@ export const Home = () => {
  useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://localhost:7083/api/MovieNowPlaying/Show");
+      const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/MovieNowPlaying/Show");
       setMoviesPlaying(response.data); 
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
