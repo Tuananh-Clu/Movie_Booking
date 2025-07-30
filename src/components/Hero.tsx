@@ -19,6 +19,7 @@ const Hero = () => {
 
   useEffect(() => {
     ListMovieByType("popular", setHeroMovies, 1);
+    console.log(currentMovieId)
   }, []);
 
   const handleMovieChange = useCallback(
