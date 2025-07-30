@@ -12,6 +12,7 @@ export const Search = () => {
 
   useEffect(() => {
     ListMovieByType("now_playing", setMovie, 1);
+    console.log(movie);
   }, []);
 
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
