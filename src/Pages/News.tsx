@@ -10,7 +10,7 @@ export const News = () => {
   const [article, setArticle] = useState<items[]>([]);
   const fetchAllMovieNews=async()=>{
     try{
-      const response=await axios("https://backendformoviebooking-1.onrender.com/api/Article/Show")
+      const response=await axios("http://backendformoviebooking-1.onrender.com/api/Article/Show")
       setArticle(response.data);
     }
     catch(error){
