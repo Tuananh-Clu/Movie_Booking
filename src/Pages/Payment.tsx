@@ -9,7 +9,7 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 
 export const Payment = () => {
-  const { seat, setStore, setSeat } = useContext(SeatsContext);
+  const { seat,store, setStore, setSeat } = useContext(SeatsContext);
   const { getToken } = useAuth();
   const [popUp, setPopUp] = useState(false);
   const buttonPay = useRef<HTMLButtonElement>(null);
@@ -40,7 +40,7 @@ export const Payment = () => {
       console.log(token);
       const response= await axios.post(
         "https://backendformoviebooking-1.onrender.com/api/Client/Up",
-        seat,
+        store,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ export const Payment = () => {
         }
       );
       if (response.status === 200) {
-      setSeat([]); 
+      setStore([]); 
     }
       console.log("succees");
       return response
