@@ -60,13 +60,15 @@ export const Payment = () => {
   };
       useEffect(()=>{
       FetchUser();
-       setTimeout(() => {
+       
+    },[successPay])
+     
+    useEffect(()=>{
+      setTimeout(() => {
     
       setSeat([]);
     }, 2000);
-    },[successPay])
-     
-
+    })
   return (
     <div
       style={{
