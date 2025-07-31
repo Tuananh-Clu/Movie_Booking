@@ -63,7 +63,7 @@ export const Payment = () => {
        setTimeout(() => {
     
       setSeat([]);
-    }, 3000);
+    }, 2000);
     },[successPay])
      
 
