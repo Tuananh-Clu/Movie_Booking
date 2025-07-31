@@ -25,7 +25,7 @@ export const Home = () => {
   useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://localhost:7083/api/MovieUpcoming/Show");
+      const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/MovieNowPlaying/Show");
       setMoviesUpcoming(response.data)
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
