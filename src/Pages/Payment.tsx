@@ -50,6 +50,7 @@ export const Payment = () => {
       );
       if (response.status === 200) {
       setStore([]); 
+      setSeat([])
     }
       console.log("succees");
       return response
