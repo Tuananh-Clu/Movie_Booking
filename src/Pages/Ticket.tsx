@@ -30,7 +30,8 @@ export const Ticket = () => {
     fetchData();
   }, []);
 
-  const tickets = storeDataBase?.tickets.at(1); 
+const tickets = storeDataBase?.tickets.at(-1);
+
 
   return (
     <>
