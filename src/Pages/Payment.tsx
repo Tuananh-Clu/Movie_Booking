@@ -48,10 +48,6 @@ export const Payment = () => {
           },
         }
       );
-      if (response.status === 200) {
-      setStore([]); 
-      setSeat([])
-    }
       console.log("succees");
       return response
     } catch (error) {
@@ -64,7 +60,10 @@ export const Payment = () => {
   };
       useEffect(()=>{
       FetchUser();
-       
+       setTimeout(() => {
+        setStore([]); 
+      setSeat([])
+       }, 2000);
     },[successPay])
      
   return (
