@@ -39,7 +39,7 @@ export const Payment = () => {
       const token = await getToken();
       console.log(token);
       const response= await axios.post(
-        "https://localhost:7083/api/Client/Up",
+        "https://backendformoviebooking-1.onrender.com/api/Client/Up",
         store,
         {
           headers: {

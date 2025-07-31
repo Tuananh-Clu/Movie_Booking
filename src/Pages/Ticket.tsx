@@ -15,7 +15,7 @@ export const Ticket = () => {
     try {
     const token = await getToken();
       const response = await axios(
-        "https://localhost:7083/api/Client/GetUser",
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
         {
       headers: {
             Authorization: `Bearer ${token} `,

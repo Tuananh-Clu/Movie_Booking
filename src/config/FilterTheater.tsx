@@ -31,7 +31,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [filteredSearch, setFilteredSearch] = useState<any[]>(Theaterlist);
   const Filters=async()=>{
     try{
-      var response=await axios.post(`https://localhost:7083/api/Cinema/Filter_movie?movie=${filter.name}`,allCinemas)
+      var response=await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`,allCinemas)
       setFilteredSearch(response.data);
     }
     catch(error){
@@ -50,7 +50,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get("https://localhost:7083/api/Cinema");
+        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
         setAllCinemas(response.data);
         setFilteredSearch(response.data);
       } catch (error) {

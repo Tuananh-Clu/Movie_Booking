@@ -22,7 +22,7 @@ export const MoviesInformation = () => {
   const daySelect = useRef<HTMLDivElement | null>(null);
   const fetchDataManyPage = async () => {
     try{
-      const response=await axios.get("https://localhost:7083/api/StorageMovie/ShowAll");
+      const response=await axios.get("https://backendformoviebooking-1.onrender.com/api/StorageMovie/ShowAll");
       setMainMovies(response.data);
     }
     catch(error){
