@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Navbar } from "../components/Navbar";
-import { type Seat } from "../config/filterSeat";
 import { ViewTickets } from "../components/TicketsComponents/ViewTickets";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
