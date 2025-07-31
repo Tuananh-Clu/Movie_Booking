@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import { useNavigate } from "react-router";
-import { SeatsContext } from "../../config/filterSeat";
-import { useContext } from "react";
 
 export const LoadingSuccess = () => {
-   const { setSeat } = useContext(SeatsContext);
+
   const [animation, setAnimation] = useState<any>(null);
   const navigate=useNavigate()
 
@@ -17,10 +15,7 @@ export const LoadingSuccess = () => {
     };
     fetchData();
   }, []);
-  useEffect(()=>{
-    setSeat([])
-  },[navigate]
-  )
+
  
   return (
     <div className="flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-black/80 z-50">

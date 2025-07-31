@@ -48,6 +48,9 @@ export const Payment = () => {
           },
         }
       );
+      if (response.status === 200) {
+      setSeat([]); 
+    }
       console.log("succees");
       return response
     } catch (error) {
@@ -63,12 +66,6 @@ export const Payment = () => {
        
     },[successPay])
      
-    useEffect(()=>{
-      setTimeout(() => {
-    
-      setSeat([]);
-    }, 2000);
-    })
   return (
     <div
       style={{
