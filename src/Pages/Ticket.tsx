@@ -30,7 +30,7 @@ export const Ticket = () => {
     fetchData();
   }, []);
 
-  const tickets = storeDataBase?.tickets.at(1); // Lấy lượt đặt thứ 2 (nếu có)
+  const tickets = storeDataBase?.tickets.at(1); 
 
   return (
     <>
