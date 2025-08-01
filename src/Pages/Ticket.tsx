@@ -95,7 +95,7 @@ export const Ticket = () => {
                     <p>
                     📍 {ticketGroup[0]?.Location}, {ticket?.city}
                     </p>
-                  <p>🎬 Phòng: {ticket?.roomId}</p>
+                  <p>🎬 Phòng: {ticketGroup[1].roomId}</p>
                     <p>
                       💺 Ghế đã đặt:{" "}
                     <span className="font-medium">
