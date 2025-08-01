@@ -57,8 +57,12 @@ export const Payment = () => {
   const successPay = async () => {
     setStore((prev) => [...prev, [...seat]]);
     setPopUp(true);
-   await  FetchUser();
+
   };
+  useEffect(()=>{
+    FetchUser()
+
+  },[successPay])
   useEffect(()=>{
     if(popUp){
        setTimeout(() => {
