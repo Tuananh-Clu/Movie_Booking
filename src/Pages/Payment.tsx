@@ -1,4 +1,4 @@
-import { useContext,  useRef, useState } from "react";
+import { useContext,  useEffect,  useRef, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { SeatsContext } from "../config/filterSeat";
 import { LoadingSuccess } from "../components/PaymentComponents/LoadingSuccess";
@@ -58,11 +58,14 @@ export const Payment = () => {
     setStore((prev) => [...prev, [...seat]]);
     setPopUp(true);
    await  FetchUser();
-   setTimeout(() => {
+  
+  };
+  useEffect(()=>{
+     setTimeout(() => {
         setStore([]); 
       setSeat([])
        }, 2000);
-  };
+  },[FetchUser])
 
      
   return (
