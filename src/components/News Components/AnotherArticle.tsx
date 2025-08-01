@@ -35,7 +35,7 @@ export const AnotherArticle = () => {
               className="flex gap-4 rounded-xl shadow-md bg-white p-2 hover:bg-gray-50 transition"
             >
               <img
-                src={item.enclosure?.link}
+                src={item?.enclosure?.link}
                 className="w-40 h-28 rounded-md object-cover"
               />
               <div className="flex flex-col items-start justify-between">

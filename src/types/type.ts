@@ -33,17 +33,17 @@ export type items = {
   categories: string[];
   content: string;
   enclosure?: {
-        link: string;
-        type: string;
-        length: number;
-    };
+    link: string ;
+    type: string ;
+    length: number;
+  };
   guid: string;
   link: string;
   pubDate: string;
   thumbnail: string;
   title: string;
-
 };
+
 export type feed = {
   author: string;
   description: string;
@@ -52,11 +52,13 @@ export type feed = {
   title: string;
   url: string;
 };
-export interface articles {
+
+export interface articles{
   status: string;
   feed: feed;
   items: items[];
 }
+
 export interface Database{
   name:string,
   email:string,
