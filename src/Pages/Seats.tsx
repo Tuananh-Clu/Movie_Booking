@@ -158,7 +158,7 @@ export const Seats = () => {
                           onClick={() =>
                             toggleSeat(
                               item.id,
-                              true,
+                              item.isOrdered,
                               seatDates.slice(1, seatDates.length).toString(),
                               currentRoom?.name || ids || "",
                               isVip ? 100000 : 75000,
