@@ -5,55 +5,54 @@ import axios from "axios";
 
 export const MainArticle = () => {
   const [article, setArticle] = useState<items[]>([]);
-  const { SelectArticle } = useContext(NewContext);
-
-  const fetchAllMovieNews = async () => {
-    try {
-      const response = await axios("https://backendformoviebooking-1.onrender.com/api/Article/Show");
+  const {SelectArticle}=useContext(NewContext);
+  const firstArticle=article.slice(0,1).map((item)=>item);
+  const displayArticle=SelectArticle.enclosure?.link===""?firstArticle:SelectArticle;
+const fetchAllMovieNews=async()=>{
+    try{
+      const response=await axios("https://backendformoviebooking-1.onrender.com/api/Article/Show")
       setArticle(response.data);
-    } catch (error) {
-      console.log(error);
     }
-  };
-
+    catch(error){
+      console.log(error)
+    }
+  }
   useEffect(() => {
-    fetchAllMovieNews();
+    fetchAllMovieNews()
   }, []);
-
-  // Fallback lấy bài đầu tiên nếu SelectArticle không có ảnh hợp lệ
-  const displayArticle = SelectArticle?.enclosure?.link
-    ? SelectArticle
-    : article[0];
-
   return (
-    <div className="rounded-2xl">
-      {displayArticle && (
-        <div className="rounded-2xl flex flex-col items-center">
-          <div className="rounded-2xl bg-cover overflow-hidden">
-            <img
-              className="h-[420px] w-full object-cover rounded-2xl"
-              src={displayArticle.enclosure?.link || "/fallback.jpg"}
-              alt={displayArticle.title}
-              onError={(e) => {
-                e.currentTarget.src = "/fallback.jpg";
-              }}
-            />
+    <div className="rounded-2xl  ">
+      {displayArticle==SelectArticle?SelectArticle.enclosure?.link&& (
+          <div className="rounded-2xl flex flex-col items-center" >
+            <div className="rounded-2xl bg-cover ">
+              <img className="h-[420px] rounded-2xl" src={SelectArticle.enclosure.link} alt="" />
+            </div>
+            <h1 className="font-bold text-2xl">{SelectArticle.title}</h1>
+            <div>
+              <h1>Categories:{SelectArticle.categories}</h1>
+             <div className="text-2xs mt-10" dangerouslySetInnerHTML={{ __html: SelectArticle.content }} />
+            </div>
+             <button className="mt-10 bg-red-400 text-white p-3 rounded-2xl"><a href={SelectArticle.link}>Đọc Thêm</a></button>
           </div>
-          <h1 className="font-bold text-2xl mt-4">{displayArticle.title}</h1>
-          <div className="mt-2">
-            <h2>Categories: {displayArticle.categories}</h2>
-            <div
-              className="text-sm mt-4"
-              dangerouslySetInnerHTML={{ __html: displayArticle.content }}
-            />
+        ): (
+          firstArticle.map((item,index)=>{
+            return(
+               <div key={index} className="rounded-2xl w-full" >
+            <div className="rounded-2xl  object-cover ">
+              <img className="md:h-[420px] w-full rounded-2xl" src={item.enclosure?.link} alt="" />
+            </div>
+            <h1 className="font-bold text-2xl">{item.title}</h1>
+            <div>
+              <h1>Categories:{item.categories}</h1>
+             <div className="text-2xs mt-10" dangerouslySetInnerHTML={{ __html: item.content }} />
+            </div>
+             <button className="mt-10 bg-red-400 text-white p-3 rounded-2xl"><a href={item.link}>Đọc Thêm</a></button>
           </div>
-          <button className="mt-6 bg-red-400 text-white px-4 py-2 rounded-2xl">
-            <a href={displayArticle.link} target="_blank" rel="noopener noreferrer">
-              Đọc Thêm
-            </a>
-          </button>
-        </div>
-      )}
+            )
+          })
+        )
+      }
+     
     </div>
   );
 };

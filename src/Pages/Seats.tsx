@@ -135,7 +135,7 @@ export const Seats = () => {
                           i.movieTitle === decodedTitle
                       );
 
-                    const isOrdered = item.isOrdered;
+                    const isOrdered = item.isOrdered=true;
                     const isVip = vipRow.includes(item.id.charAt(0));
 
                     let baseColor = "bg-green-500";
