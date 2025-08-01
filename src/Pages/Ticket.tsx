@@ -47,7 +47,7 @@ export const Ticket = () => {
           <p className="text-gray-400">Không có vé nào được lưu.</p>
         ) : (
           storeDataBase?.tickets.map((ticketGroup: Seat[], index) => {
-            const ticket = ticketGroup[0];
+            const ticket = ticketGroup[1];
             const timess: string[] = ticketGroup
                 .map((item) => item.date)
                 .filter((d): d is string => typeof d === "string");
@@ -93,7 +93,7 @@ export const Ticket = () => {
                       </span>
                     </p>
                     <p>
-                    📍 {ticketGroup[0].Location}, {ticket?.city}
+                    📍 {ticketGroup[0]?.Location}, {ticket?.city}
                     </p>
                   <p>🎬 Phòng: {ticket?.roomId}</p>
                     <p>
