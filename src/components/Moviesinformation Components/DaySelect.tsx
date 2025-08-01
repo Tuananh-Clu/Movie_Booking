@@ -15,7 +15,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
    useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get("https://localhost:7083/api/Cinema");
+        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
         SetDay(response.data)
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { type MovieApi } from "../../types/type";
-import { ListMovieByType } from "../../services/tmdb";
 import { MovieCard } from "../Home Components/MovieCard";
+import axios from "axios";
 
 export const Recommend = () => {
   const [currentMovies, setCurrentMovies] = useState<MovieApi[]>([]);
@@ -11,12 +11,14 @@ export const Recommend = () => {
   }
 
  const fetchDataManyPage = async () => {
-    const allData: MovieApi[] = [];
-    for (let i = 1; i <= 8; i++) {
-      const datas = await ListMovieByType("now_playing", ()=>[], i);
-      allData.push(...datas);
-    }
-    setCurrentMovies(allData);
+try{
+  const response=await axios("https://backendformoviebooking-1.onrender.com/api/StorageMovie/ShowAll")
+ setCurrentMovies(response.data);
+}
+catch{
+  console.log("Error");
+}
+   
   };
   useEffect(() => {
     fetchDataManyPage();

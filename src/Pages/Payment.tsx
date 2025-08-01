@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext,  useRef, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { SeatsContext } from "../config/filterSeat";
 import { LoadingSuccess } from "../components/PaymentComponents/LoadingSuccess";
