@@ -60,11 +60,14 @@ export const Payment = () => {
   };
       useEffect(()=>{
       FetchUser();
+      
+    },[successPay])
+    useEffect(()=>{
        setTimeout(() => {
         setStore([]); 
       setSeat([])
        }, 2000);
-    },[successPay])
+    },[FetchUser])
      
   return (
     <div
