@@ -30,7 +30,7 @@ export type combos = {
 };
 
 export type items = {
-  categories: string;
+  categories: string[];
   content: string;
   enclosure?: {
         link: string;

@@ -9,7 +9,7 @@ type NewsProvider = {
 
 export const NewContext = createContext<NewsProvider>({
   SelectArticle: {
-    categories: "",
+    categories: [],
     content: "",
     enclosure: {
       link: "",
@@ -27,7 +27,7 @@ export const NewContext = createContext<NewsProvider>({
 
 export const NewProvider = ({ children }: { children: ReactNode }) => {
   const [SelectArticle, setSelectArticle] = useState<items>({
-    categories: "",
+    categories: [],
     content: "",
     enclosure: {
       link: "",
