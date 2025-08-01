@@ -6,8 +6,7 @@ import axios from "axios";
 export const MainArticle = () => {
   const [article, setArticle] = useState<items[]>([]);
   const {SelectArticle}=useContext(NewContext);
-  const firstArticle=article[0];
-  const displayArticle=SelectArticle.enclosure?.link===""?firstArticle:SelectArticle;
+  const firstArticle=article.slice(0,1).map((item)=>item);
 const fetchAllMovieNews=async()=>{
     try{
       const response=await axios("https://backendformoviebooking-1.onrender.com/api/Article/Show")
@@ -22,7 +21,7 @@ const fetchAllMovieNews=async()=>{
   }, []);
   return (
     <div className="rounded-2xl  ">
-      {displayArticle==SelectArticle?SelectArticle.enclosure?.link&& (
+      {SelectArticle.enclosure?.link!=""?SelectArticle.enclosure?.link&& (
           <div className="rounded-2xl flex flex-col items-center" >
             <div className="rounded-2xl bg-cover ">
               <img className="h-[420px] rounded-2xl" src={SelectArticle.enclosure.link} alt="" />
