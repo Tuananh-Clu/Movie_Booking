@@ -135,7 +135,7 @@ export const Seats = () => {
                           i.movieTitle === decodedTitle
                       );
 
-                    const isOrdered = item.isOrdered=true;
+                    const isOrdered = item.isOrdered;
                     const isVip = vipRow.includes(item.id.charAt(0));
 
                     let baseColor = "bg-green-500";
@@ -158,7 +158,7 @@ export const Seats = () => {
                           onClick={() =>
                             toggleSeat(
                               item.id,
-                              isOrdered,
+                              true,
                               seatDates.slice(1, seatDates.length).toString(),
                               currentRoom?.name || ids || "",
                               isVip ? 100000 : 75000,
