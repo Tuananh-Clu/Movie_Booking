@@ -6,7 +6,7 @@ import axios from "axios";
 export const MainArticle = () => {
   const [article, setArticle] = useState<items[]>([]);
   const {SelectArticle}=useContext(NewContext);
-  const firstArticle=article.slice(0,1).map((item)=>item);
+  const firstArticle=article[0];
   const displayArticle=SelectArticle.enclosure?.link===""?firstArticle:SelectArticle;
 const fetchAllMovieNews=async()=>{
     try{
