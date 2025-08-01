@@ -58,13 +58,12 @@ export const Payment = () => {
     setStore((prev) => [...prev, [...seat]]);
     setPopUp(true);
    await  FetchUser();
-  
   };
   useEffect(()=>{
      setTimeout(() => {
         setStore([]); 
       setSeat([])
-       }, 2000);
+       }, 5000);
   },[FetchUser])
 
      
