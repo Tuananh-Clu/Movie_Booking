@@ -1,38 +1,69 @@
 import { useParams } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SeatsContext } from "../config/filterSeat";
 import theaterlist from "../assets/asd_showtimes_rich_poster_fixed.json";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
+import { useAuth } from "@clerk/clerk-react";
+import type { Database } from "../types/type";
+import axios from "axios";
 
 export const Seats = () => {
   const { room, title } = useParams();
   const decodedTitle = title ? decodeURIComponent(title) : "";
-  const { seat, setSeat } = useContext(SeatsContext);
+  const { seat } = useContext(SeatsContext);
   const [selected, setSelected] = useState<string[]>([]);
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
+  const { setSeat } = useContext(SeatsContext);
   const seatDates = seat?.map((item) => item.date);
-  const seatDate = seat[0]?.time || "";
+  const [cinema,setCinema]=useState<typeof theaterlist>([]);
 
-  const currentTheater = useMemo(() => {
-    return theaterlist.find((theater) =>
+  const currentTheater = cinema.find((theater) =>
       theater.rooms.some((r) => r.id === room)
     );
-  }, [room]);
-
-  const currentRoom = useMemo(() => {
-    return currentTheater?.rooms.find((r) => r.id === room);
-  }, [currentTheater]);
-
-  const Poster = useMemo(() => {
-    return currentRoom?.showtimes.find(
-      (showtime) => showtime.movie.title === decodedTitle
+  const currentRoom = currentTheater?.rooms.find((r) => r.id === room);
+  const Poster = currentRoom?.showtimes.find((showtime) =>
+    showtime.movie.title === decodedTitle ? showtime.movie.poster : ""
     );
-  }, [currentRoom, decodedTitle]);
+  const [storeDataBase, setStoreDataBase] = useState<Database>();
+  const { getToken } = useAuth();
+  const fetchData = async () => {
+    try {
+      const token = await getToken();
+      const response = await axios(
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
+        {
+          headers: {
+            Authorization: `Bearer ${token} `,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setStoreDataBase(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+   useEffect(() => {
+    const fetchCinemas = async () => {
+      try {
+        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
+        setCinema(response.data)
+      } catch (error) {
+        console.error("Lỗi khi fetch dữ liệu Cinema:", error);
 
+      }
+    };
+
+    fetchCinemas();
+
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   const ids = currentRoom?.id.toString();
-
   const toggleSeat = (
     id: string,
     isOrdered: boolean,
@@ -45,39 +76,39 @@ export const Seats = () => {
     city: string
   ) => {
     if (isOrdered) return;
-
-    const isSelected = selected.includes(id);
-
-    setSelected((prev) =>
-      isSelected ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-
+    setSelected((prev) => {
+      const isSelected = prev.includes(id);
+      if (isSelected) {
+        setSeat((prev) => prev.filter((item) => item.id !== id));
+      } else {
+        return [...prev, id];
+      }
+      return isSelected ? prev.filter((item) => item !== id) : [...prev, id];
+    });
     setSeat((prev) => {
       const exists = prev.some((item) => item.id === id);
-      if (!exists && !isSelected) {
+      if (!exists) {
         return [
           ...prev,
           {
-            isSelected: true,
-            id,
+            isSelected: isOrdered,
+            id: id,
             movieTitle: title,
             time: date,
             roomId: room,
-            price,
-            quantity,
+            price: price,
+            quantity: quantity,
             image: Poster?.movie.poster,
             seatType: vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
             Location: location,
-            city,
+            city: city,
           },
         ];
       }
       return prev.filter((item) => item.id !== id);
     });
-
     console.log("Selected seats:", selected);
   };
-
   useEffect(() => {
     console.log(selected);
   }, [selected]);
@@ -100,7 +131,7 @@ export const Seats = () => {
             </h1>
             {seat.length > 0 && (
               <p className="text-gray-400">
-                📅 {seatDates} | ⏰ {seatDate}
+                📅 {seatDates} | ⏰ {seat[0].time}
               </p>
             )}
             {currentTheater && currentRoom && (
@@ -145,21 +176,21 @@ export const Seats = () => {
                           i.movieTitle === decodedTitle
                       );
 
-                    const matchedInSeat = seat.some(
-                      (i) =>
-                        i.id === item.id &&
-                        i.roomId === currentRoom?.name &&
-                        i.movieTitle === decodedTitle
-                    );
-
                     const isOrdered = item.isOrdered;
                     const isVip = vipRow.includes(item.id.charAt(0));
-
-                    let baseColor = isOrdered
-                      ? "bg-red-600"
-                      : isSelected || matchedInSeat
-                      ? "bg-yellow-400"
-                      : "bg-green-500";
+                    let baseColor = "bg-green-500";
+                    if (isOrdered) baseColor = "bg-red-600";
+                    else if (isSelected) baseColor = "bg-yellow-400";
+                    else if (
+                      seat.some(
+                        (i) =>
+                          i.id === item.id &&
+                          i.roomId === currentRoom?.name &&
+                          i.movieTitle === decodedTitle
+                      )
+                    ) {
+                      baseColor = "bg-yellow-400";
+                    }
 
                     return (
                       <div key={item.id} className="flex items-center">
@@ -167,8 +198,8 @@ export const Seats = () => {
                           onClick={() =>
                             toggleSeat(
                               item.id,
-                              item.isOrdered,
-                              seatDate,
+                              item.isOrdered==true,
+                              seatDates.slice(1, seatDates.length).toString(),
                               currentRoom?.name || ids || "",
                               isVip ? 100000 : 75000,
                               decodedTitle,
@@ -220,7 +251,6 @@ export const Seats = () => {
     </div>
   );
 };
-
 const Legend = ({ color, label }: { color: string; label: string }) => (
   <div className="flex items-center gap-2">
     <div className={`w-4 h-4 rounded ${color}`}></div>
