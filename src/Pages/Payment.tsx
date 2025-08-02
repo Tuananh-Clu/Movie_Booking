@@ -54,34 +54,14 @@ export const Payment = () => {
       console.log(error);
     }
   };
-   const UpdateTicket = async () => {
-    try {
-      const token = await getToken();
-      console.log(token);
-      const response= await axios.post(
-        "https://backendformoviebooking-1.onrender.com/api/Cinema/Update",
-        store,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("succeessad");
-      return response
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
   const successPay = async () => {
     setStore((prev) => [...prev, [...seat]]);
     setPopUp(true);
 
   };
   useEffect(()=>{
-    FetchUser();
-    UpdateTicket()
+    FetchUser()
 
   },[successPay])
   useEffect(()=>{

@@ -28,15 +28,34 @@ export const Ticket = () => {
       console.log(error);
     }
   };
-  
+   const UpdateTicket = async () => {
+    try {
+      const token = await getToken();
+      console.log(token);
+      const response= await axios.post(
+        "https://backendformoviebooking-1.onrender.com/api/Cinema/Update",
+        storeDataBase?.tickets,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("succeessad");
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    fetchData();
+    fetchData()
   }, []);
    useEffect(() => {
+    UpdateTicket()
     console.log(storeDataBase);
   });
-
   return (
     <>
       <Navbar />
