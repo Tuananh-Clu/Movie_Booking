@@ -4,8 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { SeatsContext } from "../config/filterSeat";
 import theaterlist from "../assets/asd_showtimes_rich_poster_fixed.json";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
-import { useAuth } from "@clerk/clerk-react";
-import type { Database } from "../types/type";
 import axios from "axios";
 
 export const Seats = () => {
@@ -26,25 +24,7 @@ export const Seats = () => {
   const Poster = currentRoom?.showtimes.find((showtime) =>
     showtime.movie.title === decodedTitle ? showtime.movie.poster : ""
     );
-  const [storeDataBase, setStoreDataBase] = useState<Database>();
-  const { getToken } = useAuth();
-  const fetchData = async () => {
-    try {
-      const token = await getToken();
-      const response = await axios(
-        "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
-        {
-          headers: {
-            Authorization: `Bearer ${token} `,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setStoreDataBase(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
    useEffect(() => {
     const fetchCinemas = async () => {
       try {
@@ -60,9 +40,7 @@ export const Seats = () => {
 
   }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+
   const ids = currentRoom?.id.toString();
   const toggleSeat = (
     id: string,
