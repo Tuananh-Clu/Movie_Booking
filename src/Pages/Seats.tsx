@@ -52,7 +52,7 @@ export const Seats = () => {
         return [
           ...prev,
           {
-            isSelected: isOrdered,
+            isSelected: true,
             id: id,
             movieTitle: title,
             time: date,
@@ -68,7 +68,6 @@ export const Seats = () => {
         ];
          
       }
-       currentRoom?.seats.map((item)=>item.isOrdered==true)
      
       return prev.filter((item) => item.id !== id);
     });
