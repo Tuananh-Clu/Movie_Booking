@@ -67,11 +67,11 @@ export const Ticket = () => {
         ) : (
           storeDataBase?.tickets.map((ticketGroup: Seat[], index) => {
             const ticket = ticketGroup[0];
-            const timess: string[] = ticketGroup
+            const timess: string[] = ticketGroup.slice(1,2)
                 .map((item) => item.date)
                 .filter((d): d is string => typeof d === "string");
             const date = ticketGroup
-              .slice(0, ticketGroup.length)
+              .slice(1, 2)
               .map((item) => item.time);
             const rows = ticketGroup.map((item) => item.id.charAt(0)).join(" ");
             const seats = ticketGroup.map((item) => item.id).join(" ");
