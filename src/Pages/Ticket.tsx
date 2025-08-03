@@ -66,7 +66,7 @@ export const Ticket = () => {
           <p className="text-gray-400">Không có vé nào được lưu.</p>
         ) : (
           storeDataBase?.tickets.map((ticketGroup: Seat[], index) => {
-            const ticket = ticketGroup[0];
+            const ticket = ticketGroup[1];
             const timess: string[] = ticketGroup.slice(1,2)
                 .map((item) => item.date)
                 .filter((d): d is string => typeof d === "string");
