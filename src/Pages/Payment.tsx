@@ -1,4 +1,4 @@
-import { useContext,  useEffect,  useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { SeatsContext } from "../config/filterSeat";
 import { LoadingSuccess } from "../components/PaymentComponents/LoadingSuccess";
@@ -9,7 +9,7 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 
 export const Payment = () => {
-  const { seat,store, setStore, setSeat } = useContext(SeatsContext);
+  const { seat, store, setStore, setSeat } = useContext(SeatsContext);
   const { getToken } = useAuth();
   const [popUp, setPopUp] = useState(false);
   const buttonPay = useRef<HTMLButtonElement>(null);
@@ -33,17 +33,23 @@ export const Payment = () => {
     0
   );
   const finalTotal = totalPrice + comboTotal;
-  const mergeStore=seat.map(item=>({
-    ...item,date:item.date,
-    movieTitle:item.movieTitle,
-    time:item.time
-  }))
+  const sharedInfo = seat[0] || {};
+
+  const mergeStore = seat.map((item) => ({
+    ...item,
+    date: item.date || sharedInfo.date,
+    movieTitle: item.movieTitle || sharedInfo.movieTitle,
+    time: item.time || sharedInfo.time,
+    image: item.image || sharedInfo.image,
+    Location: item.Location || sharedInfo.Location,
+    city: item.city || sharedInfo.city,
+  }));
 
   const FetchUser = async () => {
     try {
       const token = await getToken();
       console.log(token);
-      const response= await axios.post(
+      const response = await axios.post(
         "https://backendformoviebooking-1.onrender.com/api/Client/Up",
         store,
         {
@@ -54,32 +60,28 @@ export const Payment = () => {
         }
       );
       console.log("succees");
-      return response
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   const successPay = async () => {
     setStore((prev) => [...prev, [...mergeStore]]);
     setPopUp(true);
-
   };
-  useEffect(()=>{
-    FetchUser()
-
-  },[successPay])
-  useEffect(()=>{
-    if(popUp){
-       setTimeout(() => {
-        setStore([]); 
-      setSeat([])
-       }, 2000);
+  useEffect(() => {
+    FetchUser();
+  }, [successPay]);
+  useEffect(() => {
+    if (popUp) {
+      setTimeout(() => {
+        setStore([]);
+        setSeat([]);
+      }, 2000);
     }
-     
-  },[popUp])
+  }, [popUp]);
 
-     
   return (
     <div
       style={{
