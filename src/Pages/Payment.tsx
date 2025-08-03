@@ -33,6 +33,11 @@ export const Payment = () => {
     0
   );
   const finalTotal = totalPrice + comboTotal;
+  const mergeStore=seat.map(item=>({
+    ...item,date:item.date,
+    movieTitle:item.movieTitle,
+    time:item.time
+  }))
 
   const FetchUser = async () => {
     try {
@@ -56,7 +61,7 @@ export const Payment = () => {
   };
   
   const successPay = async () => {
-    setStore((prev) => [...prev, [...seat]]);
+    setStore((prev) => [...prev, [...mergeStore]]);
     setPopUp(true);
 
   };
