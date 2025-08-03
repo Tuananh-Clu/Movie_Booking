@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import Theaterlist from "../assets/asd_showtimes_rich_poster_fixed.json";
+import Theaterlist from "../../showtimes_with_seats.json";
 import axios from "axios";
+import type { Cinema } from "../types/type";
 
 
 interface Filter {
@@ -27,8 +28,8 @@ export const FilterContext = createContext<FilterContextType>({
 
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [filter, setFilter] = useState<Filter>({ name: "", location: "" });
-  const [allCinemas, setAllCinemas] = useState<any[]>(Theaterlist);
-  const [filteredSearch, setFilteredSearch] = useState<any[]>(Theaterlist);
+  const [allCinemas, setAllCinemas] = useState<Cinema[]>(Theaterlist as Cinema[]);
+  const [filteredSearch, setFilteredSearch] = useState<Cinema[]>(Theaterlist as Cinema[]);
   const Filters=async()=>{
     try{
       var response=await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`,allCinemas)
@@ -50,13 +51,13 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
+        const response = await axios.get<Cinema[]>("https://backendformoviebooking-1.onrender.com/api/Cinema");
         setAllCinemas(response.data);
         setFilteredSearch(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
-        setAllCinemas(Theaterlist);
-        setFilteredSearch(Theaterlist);
+        setAllCinemas(Theaterlist as Cinema[]);
+        setFilteredSearch(Theaterlist as Cinema[]);
       }
     };
 

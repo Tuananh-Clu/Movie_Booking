@@ -2,42 +2,42 @@ import { useParams } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { useContext, useEffect, useState } from "react";
 import { SeatsContext } from "../config/filterSeat";
-import theaterlist from "../assets/asd_showtimes_rich_poster_fixed.json";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
 import axios from "axios";
+import type { Cinema } from "../types/type";
 
 export const Seats = () => {
   const { room, title } = useParams();
   const decodedTitle = title ? decodeURIComponent(title) : "";
-  const { seat } = useContext(SeatsContext);
+  const { seat, setSeat } = useContext(SeatsContext);
   const [selected, setSelected] = useState<string[]>([]);
+  const [cinema, setCinema] = useState<Cinema[]>([]);
+
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
-  const { setSeat } = useContext(SeatsContext);
   const seatDates = seat?.map((item) => item.date);
-  const [cinema,setCinema]=useState<typeof theaterlist>([]);
 
   const currentTheater = cinema.find((theater) =>
-      theater.rooms.some((r) => r.id === room)
-    );
+    theater.rooms.some((r) => r.id === room)
+  );
+
   const currentRoom = currentTheater?.rooms.find((r) => r.id === room);
-  const Poster = currentRoom?.showtimes.find((showtime) =>
-    showtime.movie.title === decodedTitle ? showtime.movie.poster : ""
-    );
- 
-   useEffect(() => {
+  const currentShowtime = currentRoom?.showtimes.find(
+    (showtime) => showtime.movie.title === decodedTitle
+  );
+
+  const Poster = currentShowtime?.movie.poster;
+
+  useEffect(() => {
     const fetchCinemas = async () => {
       try {
         const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
-        setCinema(response.data)
+        setCinema(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
-
       }
     };
-
     fetchCinemas();
-
   }, []);
 
 
@@ -76,7 +76,7 @@ export const Seats = () => {
             roomId: room,
             price: price,
             quantity: quantity,
-            image: Poster?.movie.poster,
+            image: Poster,
             seatType: vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
             Location: location,
             city: city,
@@ -94,13 +94,11 @@ export const Seats = () => {
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans">
       <Navbar />
-
       <div className="pt-28 px-4 md:px-16 flex flex-col items-center space-y-10">
-        {/* THÔNG TIN PHIM */}
         <section className="flex flex-col md:flex-row items-center gap-6 bg-neutral-900 p-6 rounded-2xl shadow-md w-full max-w-4xl">
           <img
             className="w-40 rounded-xl shadow"
-            src={Poster?.movie.poster}
+            src={Poster}
             alt=""
           />
           <div className="space-y-2">
@@ -122,17 +120,13 @@ export const Seats = () => {
           </div>
         </section>
 
-        {/* MÀN HÌNH */}
         <div className="bg-gray-300 text-black font-bold text-center w-full md:w-1/2 mx-auto py-3 rounded-2xl shadow-inner">
           MÀN HÌNH
         </div>
 
-        {/* SƠ ĐỒ GHẾ */}
         <div className="w-full flex flex-col items-center gap-5 max-w-5xl">
           {regularRow.map((rowLabel) => {
-            const rowSeats = currentRoom?.seats?.filter((seat) =>
-              seat.id.startsWith(rowLabel)
-            );
+            const rowSeats = currentShowtime?.seats.filter((s) => s.id.startsWith(rowLabel));
             if (!rowSeats || rowSeats.length === 0) return null;
 
             return (
@@ -215,7 +209,6 @@ export const Seats = () => {
           })}
         </div>
 
-        {/* GHI CHÚ TRẠNG THÁI */}
         <div className="flex justify-center gap-4 text-sm mt-8 flex-wrap bg-neutral-800 p-4 rounded-xl">
           <Legend color="bg-green-500" label="Còn trống" />
           <Legend color="bg-yellow-400" label="Đang chọn" />
@@ -223,13 +216,13 @@ export const Seats = () => {
         </div>
       </div>
 
-      {/* TOTAL PRICE */}
       <div className="sticky bottom-0 w-full bg-neutral-900 p-4 shadow-lg z-50">
         <TotalPrice />
       </div>
     </div>
   );
 };
+
 const Legend = ({ color, label }: { color: string; label: string }) => (
   <div className="flex items-center gap-2">
     <div className={`w-4 h-4 rounded ${color}`}></div>

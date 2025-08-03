@@ -64,3 +64,33 @@ export interface Database{
   email:string,
 tickets:Store[][]
 }
+// types.ts
+export interface Seat {
+  id: string;
+  isOrdered: boolean;
+}
+
+export interface Movie {
+  title: string;
+  poster: string;
+}
+
+export interface Showtime {
+  date: string;
+  times: string[];
+  movie: Movie;
+  seats: Seat[];
+}
+
+export interface Room {
+  id: string;
+  name: string;
+  showtimes: Showtime[];
+}
+
+export interface Cinema {
+  name: string;
+  address: string;
+  city: string;
+  rooms: Room[];
+}
