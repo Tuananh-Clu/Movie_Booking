@@ -112,7 +112,7 @@ export const Ticket = () => {
                       </span>
                     </p>
                     <p>
-                    📍 {ticketGroup[1]?.Location}, {ticketGroup[1]?.city}
+                    📍 {ticketGroup[1]?.Location}
                     </p>
                   <p>🎬 Phòng: {ticketGroup[1].roomId}</p>
                     <p>
