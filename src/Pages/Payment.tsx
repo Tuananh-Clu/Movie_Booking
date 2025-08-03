@@ -37,9 +37,9 @@ export const Payment = () => {
 
   const mergeStore = seat.map((item) => ({
     ...item,
-    date: item.date || sharedInfo.date,
-    movieTitle: item.movieTitle || sharedInfo.movieTitle,
-    time: item.time || sharedInfo.time,
+    date:item.date||  sharedInfo.date,
+    movieTitle:  sharedInfo.movieTitle,
+    time:  sharedInfo.time,
     image: item.image || sharedInfo.image,
     Location: item.Location || sharedInfo.Location,
     city: item.city || sharedInfo.city,
