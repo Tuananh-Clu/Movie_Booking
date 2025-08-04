@@ -15,9 +15,8 @@ export const Profile = () => {
   const FetchUser = async () => {
     try {
       const token = await getToken();
-      const response = await axios.post(
+      const response = await axios(
         "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
-        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -33,16 +32,8 @@ export const Profile = () => {
 
   const FetchUserlength = async () => {
     try {
-      const token = await getToken();
-      const response = await axios.post(
+      const response = await axios.get(
         "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
       );
       setUserLength(response.data.length);
     } catch (error) {
