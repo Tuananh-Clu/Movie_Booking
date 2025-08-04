@@ -73,7 +73,7 @@ export const Profile = () => {
                 <li  className="bg-black px-6 py-4 rounded-2xl hover:bg-gray-500 cursor-pointer">Danh Sách Phim</li>
             </ul>
         </div>
-        <div className="bg-gray-400/70 p-5  w-full h-full">
+        <div className="bg-gray-400/70 p-5 rounded-2xl  w-full h-full">
         <DashBoard quantity={userLength}/>
         </div>
       </div>
