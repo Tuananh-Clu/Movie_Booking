@@ -16,6 +16,9 @@ export const Seats = () => {
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
   const seatDates = seat?.map((item) => item.date);
+  const seatSet = new Set(
+    seat.map((item) => `${item.id}-${item.roomId}-${item.movieTitle}`)
+  );
 
   const currentTheater = cinema.find((theater) =>
     theater.rooms.some((r) => r.id === room)
@@ -31,7 +34,9 @@ export const Seats = () => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
+        const response = await axios.get(
+          "https://backendformoviebooking-1.onrender.com/api/Cinema"
+        );
         setCinema(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
@@ -39,7 +44,6 @@ export const Seats = () => {
     };
     fetchCinemas();
   }, []);
-
 
   const ids = currentRoom?.id.toString();
   const toggleSeat = (
@@ -96,11 +100,7 @@ export const Seats = () => {
       <Navbar />
       <div className="pt-28 px-4 md:px-16 flex flex-col items-center space-y-10">
         <section className="flex flex-col md:flex-row items-center gap-6 bg-neutral-900 p-6 rounded-2xl shadow-md w-full max-w-4xl">
-          <img
-            className="w-40 rounded-xl shadow"
-            src={Poster}
-            alt=""
-          />
+          <img className="w-40 rounded-xl shadow" src={Poster} alt="" />
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-amber-400">
               {decodedTitle}
@@ -126,7 +126,9 @@ export const Seats = () => {
 
         <div className="w-full flex flex-col items-center gap-5 max-w-5xl">
           {regularRow.map((rowLabel) => {
-            const rowSeats = currentShowtime?.seats.filter((s) => s.id.startsWith(rowLabel));
+            const rowSeats = currentShowtime?.seats.filter((s) =>
+              s.id.startsWith(rowLabel)
+            );
             if (!rowSeats || rowSeats.length === 0) return null;
 
             return (
@@ -139,18 +141,17 @@ export const Seats = () => {
                 </span>
                 <div className="grid grid-cols-10 gap-2">
                   {rowSeats.map((item, index) => {
-                    const seatSet=new Set(
-                      seat.map((item)=>`${item.id}-${item.roomId}-${item.movieTitle}`)
-                    )
                     const isSelected =
                       selected.includes(item.id) &&
-                      seatSet.has(`${item.id}-${currentRoom?.name}-${decodedTitle}`)
+                      seatSet.has(
+                        `${item.id}-${currentRoom?.name}-${decodedTitle}`
+                      );
 
                     const isOrdered = item.isOrdered;
                     const isVip = vipRow.includes(item.id.charAt(0));
                     let baseColor = "bg-green-500";
                     if (isOrdered) baseColor = "bg-red-600";
-                    if(item.isOrdered==true) baseColor = "bg-red-600";
+                    if (item.isOrdered == true) baseColor = "bg-red-600";
                     else if (isSelected) baseColor = "bg-yellow-400";
                     else if (
                       seat.some(
@@ -169,7 +170,7 @@ export const Seats = () => {
                           onClick={() =>
                             toggleSeat(
                               item.id,
-                              item.isOrdered==true,
+                              item.isOrdered == true,
                               seatDates.slice(1, seatDates.length).toString(),
                               currentRoom?.name || ids || "",
                               isVip ? 100000 : 75000,
