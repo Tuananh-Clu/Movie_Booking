@@ -13,6 +13,7 @@ import axios from "axios";
 import "./index.css";
 import { Ticket } from "./Pages/Ticket";
 import { News } from "./Pages/News";
+import { Profile } from "./Pages/Profile";
 
 function App() {
   const { isSignedIn, user } = useUser();
@@ -53,6 +54,7 @@ function App() {
         <Route path="/Payment" element={<Payment />} />
         <Route path="/Tickets" element={<Ticket />} />
         <Route path="/News" element={<News />} />
+        <Route path="/Profile" element={<Profile/>}></Route>
       </Routes>
     </>
   );

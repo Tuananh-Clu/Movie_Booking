@@ -1,9 +1,10 @@
 import { UserButton } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, User, CreditCard, Settings } from "lucide-react";
+import { Calendar, User} from "lucide-react";
 
 export default function CustomUserButton() {
   const navigate = useNavigate();
+  
 
   return (
     <UserButton
@@ -21,7 +22,7 @@ export default function CustomUserButton() {
         <UserButton.Action
           label="My Booking"
           labelIcon={<Calendar className="w-4 h-4" />}
-          onClick={() => navigate('/my-bookings')}
+          onClick={() => navigate('/Tickets')}
         />
         
         {/* User Profile */}
@@ -31,19 +32,6 @@ export default function CustomUserButton() {
           onClick={() => navigate('/profile')}
         />
         
-        {/* Settings */}
-        <UserButton.Action
-          label="Settings"
-          labelIcon={<Settings className="w-4 h-4" />}
-          onClick={() => navigate('/settings')}
-        />
-        
-        {/* Billing */}
-        <UserButton.Action
-          label="Billing"
-          labelIcon={<CreditCard className="w-4 h-4" />}
-          onClick={() => navigate('/billing')}
-        />
       </UserButton.MenuItems>
     </UserButton>
   );

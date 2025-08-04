@@ -62,6 +62,7 @@ export interface articles{
 export interface Database{
   name:string,
   email:string,
+  role:string
 tickets:Store[][]
 }
 // types.ts
