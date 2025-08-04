@@ -31,7 +31,7 @@ export const Profile = () => {
     }
   };
   useEffect(()=>{
-    FetchUser
+    FetchUser()
   })
     const FetchUserlength = async () => {
     try {
@@ -54,7 +54,7 @@ export const Profile = () => {
     }
   };
   useEffect(()=>{
-    FetchUserlength
+    FetchUserlength()
   })
 
   return (
