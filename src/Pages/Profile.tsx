@@ -9,6 +9,7 @@ export const Profile = () => {
   const { getToken } = useAuth();
   const {user}=useUser();
   const [userData,setUserData]=useState<Database[]>([]);
+  const [userLength,setUserLength]=useState(0);
   const FetchUser = async () => {
     try {
       const token = await getToken();
@@ -32,6 +33,29 @@ export const Profile = () => {
   useEffect(()=>{
     FetchUser
   })
+    const FetchUserlength = async () => {
+    try {
+      const token = await getToken();
+      console.log(token);
+      const response = await axios.post(
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("succees");
+    setUserLength(response.data.length)
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(()=>{
+    FetchUserlength
+  })
 
   return (
     <div className=" bg-gray-600 w-full z-0 h-screen">
@@ -50,7 +74,7 @@ export const Profile = () => {
             </ul>
         </div>
         <div className="bg-gray-400/70 p-5  w-full h-full">
-        <DashBoard quantity={userData.length}/>
+        <DashBoard quantity={userLength}/>
         </div>
       </div>
     </div>
