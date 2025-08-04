@@ -11,6 +11,8 @@ export const Profile = () => {
   const { user } = useUser();
   const [userData, setUserData] = useState<Database[]>([]);
   const [userLength, setUserLength] = useState(0);
+  const [ticket,setTicket]=useState<number>(0);
+    const [DoanhThu,setDoanhThu]=useState<number>(0);
 
   const FetchUser = async () => {
     try {
@@ -40,10 +42,32 @@ export const Profile = () => {
       console.log(error);
     }
   };
+  const FetchSoVe = async () => {
+    try {
+      const response = await axios.get(
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",
+      );
+      setTicket(response.data.length)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const FetchDoanthu = async () => {
+    try {
+      const response = await axios.get(
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",
+      );
+      setDoanhThu(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     FetchUser();
     FetchUserlength();
+    FetchSoVe();
+    FetchDoanthu();
   }, []);
 
   return (
@@ -54,9 +78,8 @@ export const Profile = () => {
           <img className="w-40 h-40 rounded-full" src={user?.imageUrl} />
           <h1 className="text-white mt-3 text-2xl font-bold">{user?.fullName}</h1>
           <h1 className="text-white text-sm">
-            Role: {Array.isArray(userData)?userData.map((item)=>item.role):null}
+             {Array.isArray(userData)?userData?.map(item => item.role).join(", "):[]}
           </h1>
-          <h1 className="text-white text-sm">Tổng số người dùng: {userLength}</h1>
           <div className="w-full h-0.5 mt-3 bg-white"></div>
           <ul className="mt-5 items-center flex flex-col gap-4 w-full text-white">
             <li className="bg-black px-10 py-4 rounded-2xl hover:bg-gray-500 cursor-pointer">DashBoard</li>
@@ -66,7 +89,7 @@ export const Profile = () => {
           </ul>
         </div>
         <div className="bg-gray-400/70 p-5 rounded-2xl w-full h-full">
-          <DashBoard quantity={userLength} ticket={0} />
+          <DashBoard quantity={userLength} ticket={ticket} doanhthu={DoanhThu} />
           <NowBooking />
         </div>
       </div>
