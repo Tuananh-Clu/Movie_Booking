@@ -65,7 +65,7 @@ export interface Database{
 tickets:Store[][]
 }
 // types.ts
-export interface Seat {
+export interface SeatProp {
   id: string;
   isOrdered: boolean;
 }
@@ -79,7 +79,7 @@ export interface Showtime {
   date: string;
   times: string[];
   movie: Movie;
-  seats: Seat[];
+  seats: SeatProp[];
 }
 
 export interface Room {

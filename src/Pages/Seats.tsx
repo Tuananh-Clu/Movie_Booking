@@ -5,6 +5,7 @@ import { SeatsContext } from "../config/filterSeat";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
 import axios from "axios";
 import type { Cinema } from "../types/type";
+import { SeatM } from "../components/SeatsComponents/SeatM";
 
 export const Seats = () => {
   const { room, title } = useParams();
@@ -16,9 +17,6 @@ export const Seats = () => {
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
   const seatDates = seat?.map((item) => item.date);
-  const seatSet = new Set(
-    seat.map((item) => `${item.id}-${item.roomId}-${item.movieTitle}`)
-  );
 
   const currentTheater = cinema.find((theater) =>
     theater.rooms.some((r) => r.id === room)
@@ -34,9 +32,7 @@ export const Seats = () => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/Cinema"
-        );
+        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
         setCinema(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
@@ -45,9 +41,10 @@ export const Seats = () => {
     fetchCinemas();
   }, []);
 
+
   const ids = currentRoom?.id.toString();
   const toggleSeat = (
-    id: string,
+         id: string,
     isOrdered: boolean,
     date: string,
     room: string,
@@ -100,7 +97,11 @@ export const Seats = () => {
       <Navbar />
       <div className="pt-28 px-4 md:px-16 flex flex-col items-center space-y-10">
         <section className="flex flex-col md:flex-row items-center gap-6 bg-neutral-900 p-6 rounded-2xl shadow-md w-full max-w-4xl">
-          <img className="w-40 rounded-xl shadow" src={Poster} alt="" />
+          <img
+            className="w-40 rounded-xl shadow"
+            src={Poster}
+            alt=""
+          />
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-amber-400">
               {decodedTitle}
@@ -126,9 +127,7 @@ export const Seats = () => {
 
         <div className="w-full flex flex-col items-center gap-5 max-w-5xl">
           {regularRow.map((rowLabel) => {
-            const rowSeats = currentShowtime?.seats.filter((s) =>
-              s.id.startsWith(rowLabel)
-            );
+            const rowSeats = currentShowtime?.seats.filter((s) => s.id.startsWith(rowLabel));
             if (!rowSeats || rowSeats.length === 0) return null;
 
             return (
@@ -139,70 +138,18 @@ export const Seats = () => {
                 <span className="w-6 text-gray-400 font-semibold">
                   {rowLabel}
                 </span>
-                <div className="grid grid-cols-10 gap-2">
-                  {rowSeats.map((item, index) => {
-                    const isSelected =
-                      selected.includes(item.id) &&
-                      seatSet.has(
-                        `${item.id}-${currentRoom?.name}-${decodedTitle}`
-                      );
-
-                    const isOrdered = item.isOrdered;
-                    const isVip = vipRow.includes(item.id.charAt(0));
-                    let baseColor = "bg-green-500";
-                    if (isOrdered) baseColor = "bg-red-600";
-                    if (item.isOrdered == true) baseColor = "bg-red-600";
-                    else if (isSelected) baseColor = "bg-yellow-400";
-                    else if (
-                      seat.some(
-                        (i) =>
-                          i.id === item.id &&
-                          i.roomId === currentRoom?.name &&
-                          i.movieTitle === decodedTitle
-                      )
-                    ) {
-                      baseColor = "bg-yellow-400";
-                    }
-
-                    return (
-                      <div key={item.id} className="flex items-center">
-                        <div
-                          onClick={() =>
-                            toggleSeat(
-                              item.id,
-                              item.isOrdered == true,
-                              seatDates.slice(1, seatDates.length).toString(),
-                              currentRoom?.name || ids || "",
-                              isVip ? 100000 : 75000,
-                              decodedTitle,
-                              selected.length + 1,
-                              currentTheater?.address || "",
-                              currentTheater?.city || ""
-                            )
-                          }
-                          className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center 
-                            cursor-pointer transition-all duration-200 ease-in-out shadow-md 
-                            text-sm md:text-base font-semibold text-black
-                            hover:scale-110 ${baseColor} 
-                            ${
-                              isVip
-                                ? "border-2 border-yellow-300"
-                                : "border border-gray-500"
-                            }`}
-                          title={item.id}
-                        >
-                          {item.id.slice(1)}
-                        </div>
-
-                        {/* Lối đi giữa ghế 5 và 6 */}
-                        {(index + 1) % 5 === 0 &&
-                          index + 1 !== rowSeats.length && (
-                            <div className="w-4" />
-                          )}
-                      </div>
-                    );
-                  })}
-                </div>
+               <SeatM
+               rowSeats={rowSeats}
+               seat={seat}
+               selected={selected}
+               vipRow={vipRow}
+               currentRoom={currentRoom}
+               decodedTitle={decodedTitle}
+               seatDates={seatDates??""}
+               currentTheater={currentTheater}
+               handleClick={toggleSeat}
+               ids={ids}
+               />
               </div>
             );
           })}
