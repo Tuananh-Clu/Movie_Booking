@@ -16,7 +16,7 @@ export const Profile = () => {
       const token = await getToken();
       console.log(token);
       const response = await axios.post(
-        "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",{},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ export const Profile = () => {
       const token = await getToken();
       console.log(token);
       const response = await axios.post(
-        "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",{},
         {
           headers: {
             Authorization: `Bearer ${token}`,
