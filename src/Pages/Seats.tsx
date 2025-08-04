@@ -139,14 +139,12 @@ export const Seats = () => {
                 </span>
                 <div className="grid grid-cols-10 gap-2">
                   {rowSeats.map((item, index) => {
+                    const seatSet=new Set(
+                      seat.map((item)=>`${item.id}-${item.roomId}-${item.movieTitle}`)
+                    )
                     const isSelected =
                       selected.includes(item.id) &&
-                      seat.some(
-                        (i) =>
-                          i.id === item.id &&
-                          i.roomId === currentRoom?.name &&
-                          i.movieTitle === decodedTitle
-                      );
+                      seatSet.has(`${item.id}-${currentRoom?.name}-${decodedTitle}`)
 
                     const isOrdered = item.isOrdered;
                     const isVip = vipRow.includes(item.id.charAt(0));
