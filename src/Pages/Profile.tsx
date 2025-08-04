@@ -45,7 +45,7 @@ export const Profile = () => {
   const FetchSoVe = async () => {
     try {
       const response = await axios.get(
-        "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetQuantityTicket",
       );
       setTicket(response.data.length)
     } catch (error) {
@@ -55,7 +55,7 @@ export const Profile = () => {
   const FetchDoanthu = async () => {
     try {
       const response = await axios.get(
-        "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser",
+        "https://backendformoviebooking-1.onrender.com/api/Client/GetDoanhthuTicket",
       );
       setDoanhThu(response.data)
     } catch (error) {
