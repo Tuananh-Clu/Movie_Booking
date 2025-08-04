@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Logo from "../assets/2040698.png";
 import { useNavigate } from "react-router";
 import { MenuLogin } from "./MenuLogin";
-import { useUser } from "@clerk/clerk-react";
+import {  useUser } from "@clerk/clerk-react";
 import { Search } from "./Navbar Components/Search";
 import { MobileMenu } from "./Navbar Components/MobileMenu";
 import CustomUserButton from "./CustomUserButton";
