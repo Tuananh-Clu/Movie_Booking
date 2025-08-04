@@ -5,6 +5,7 @@ import { useAuth, useUser } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import type { Database } from "../types/type";
 import { DashBoard } from "../components/Profile/Admin/DashBoard";
+import { NowBooking } from "../components/Profile/Admin/NowBooking";
 export const Profile = () => {
   const { getToken } = useAuth();
   const {user}=useUser();
@@ -75,6 +76,7 @@ export const Profile = () => {
         </div>
         <div className="bg-gray-400/70 p-5 rounded-2xl  w-full h-full">
         <DashBoard quantity={userLength}/>
+        <NowBooking/>
         </div>
       </div>
     </div>
