@@ -47,7 +47,7 @@ export const Profile = () => {
       const response = await axios.get(
         "https://backendformoviebooking-1.onrender.com/api/Client/GetQuantityTicket",
       );
-      setTicket(response.data.length)
+      setTicket(response.data)
     } catch (error) {
       console.log(error);
     }
