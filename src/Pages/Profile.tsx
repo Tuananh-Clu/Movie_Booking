@@ -54,7 +54,7 @@ export const Profile = () => {
           <img className="w-40 h-40 rounded-full" src={user?.imageUrl} />
           <h1 className="text-white mt-3 text-2xl font-bold">{user?.fullName}</h1>
           <h1 className="text-white text-sm">
-            Role: {userData?.map(item => item.role).join(", ")}
+            Role: {Array.isArray(userData)?userData.map((item)=>item.role):null}
           </h1>
           <h1 className="text-white text-sm">Tổng số người dùng: {userLength}</h1>
           <div className="w-full h-0.5 mt-3 bg-white"></div>
@@ -66,7 +66,7 @@ export const Profile = () => {
           </ul>
         </div>
         <div className="bg-gray-400/70 p-5 rounded-2xl w-full h-full">
-          <DashBoard quantity={userLength} />
+          <DashBoard quantity={userLength} ticket={0} />
           <NowBooking />
         </div>
       </div>
