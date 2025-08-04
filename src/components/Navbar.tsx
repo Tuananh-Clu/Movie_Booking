@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Logo from "../assets/2040698.png";
 import { useNavigate } from "react-router";
 import { MenuLogin } from "./MenuLogin";
-import { UserButton, useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 import { Search } from "./Navbar Components/Search";
 import { MobileMenu } from "./Navbar Components/MobileMenu";
+import CustomUserButton from "./CustomUserButton";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export const Navbar = () => {
   const [ChangeColorBar, setChangeColorBar] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleSearch, setToggleSearch] = useState(false);
-  const [toggleMobileMenu,setToggleMobileMenu]=useState(false);
+  const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,20 +73,25 @@ export const Navbar = () => {
           }}
           className="fa-solid fa-magnifying-glass text-xl cursor-pointer hover:text-yellow-400 transition"
         />
-          <div className="block md:hidden">
-            <i onClick={()=>{ setToggleMobileMenu(prev=>!prev)}}  className="fa-solid fa-bars text-xl  cursor-pointer hover:text-yellow-400 transition"></i>
-          </div>
+        <div className="block md:hidden">
+          <i
+            onClick={() => {
+              setToggleMobileMenu((prev) => !prev);
+            }}
+            className="fa-solid fa-bars text-xl  cursor-pointer hover:text-yellow-400 transition"
+          ></i>
+        </div>
         {isSignedIn ? (
           <div className="flex items-center gap-3">
             <p className="text-sm hidden sm:inline">
               Xin chào, <span className="font-semibold">{user.fullName}</span>
             </p>
-            <UserButton afterSignOutUrl="/" />
+            <CustomUserButton/>
           </div>
         ) : (
           <>
             <i
-              onClick={()=>setToggleMenu((prev)=>!prev)}
+              onClick={() => setToggleMenu((prev) => !prev)}
               className="fa-solid fa-user text-xl cursor-pointer hover:text-blue-400 transition"
             />
 
@@ -97,8 +103,7 @@ export const Navbar = () => {
           </>
         )}
       </div>
-      {toggleMobileMenu?      <MobileMenu setState={setToggleMobileMenu}/>:""}
-
+      {toggleMobileMenu ? <MobileMenu setState={setToggleMobileMenu} /> : ""}
     </div>
   );
 };
