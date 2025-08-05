@@ -124,7 +124,7 @@ export const Ticket = () => {
                     <p>
                       💰 Tổng tiền:{" "}
                       <span className="font-semibold">
-                      {ticketGroup
+                      {ticketGroup.slice(1,ticketGroup.length)
                         .reduce(
                           (sum, item) => sum + item.price * item.quantity,
                           0
