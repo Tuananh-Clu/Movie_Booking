@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type MovieApi } from "../../../types/type";
 
 export const AddPhim = () => {
   const [moviesPlaying, setMoviesPlaying] = useState<MovieApi[]>([]);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
+  const slider=useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +25,7 @@ export const AddPhim = () => {
   return (
     <div className="text-white">
       <h1 className="text-2xl font-bold mb-6">🎥 Phim Đang Chiếu</h1>
-      <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-4 pr-2">
+      <div className="flex gap-6 overflow-x-hidden hide-scrollbar max-w-[600px] pb-4 pr-2">
         {moviesPlaying.map((item, index) => (
           <div
             key={index}
@@ -32,7 +33,7 @@ export const AddPhim = () => {
           >
             <img
               className="w-full h-64 object-cover rounded-t-xl"
-              src={IMG_PATH + item.poster_path}
+              src={IMG_PATH + item.backdrop_path}
               alt={item.tittle}
             />
             <div className="p-3">
