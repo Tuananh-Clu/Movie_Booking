@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import type { Movies } from "../../../types/type";
 
 
 
 export const NowBooking = () => {
-  const [DataMovie,SetDataMovie]=useState<any[]>([])
+  const [DataMovie,SetDataMovie]=useState<Movies[]>([])
     const FetchData = async () => {
     try {
       const response = await axios.get(
@@ -22,14 +23,17 @@ export const NowBooking = () => {
   return (
     <div className='mt-10'>
         <h1 className='text-white text-2xl font-bold'>NowBooking</h1>
-        {DataMovie?.map((item,index)=>{
+        <div className=" flex flex-wrap">
+            {DataMovie?.map((item,index)=>{
           return(
-            <div key={index}>
-              <img src={item?.poster} alt="" />
+            <div className="bg-gray-600 p-5 text-white" key={index}>
+              <img className="w-50 h-50 rounded-2xl" src={item?.poster} alt="" />
               <h1>{item?.title}</h1>
             </div>
           )
         })}
+        </div>
+      
     </div>
   )
 }
