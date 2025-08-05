@@ -27,6 +27,8 @@ export const Profile = () => {
         }
       );
       setUserData(response.data);
+      console.log("UserData từ API:", response.data);
+
     } catch (error) {
       console.log(error);
     }
