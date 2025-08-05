@@ -1,11 +1,10 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { type MovieApi } from "../../../types/type";
 
 export const AddPhim = () => {
   const [moviesPlaying, setMoviesPlaying] = useState<MovieApi[]>([]);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
-  const slider=useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
