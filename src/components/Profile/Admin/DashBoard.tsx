@@ -1,3 +1,5 @@
+
+
 export const DashBoard = ({ quantity,ticket,doanhthu }: { quantity: number,ticket:number,doanhthu:number }) => {
   return (
     <div className="flex flex-row gap-3">
@@ -11,7 +13,7 @@ export const DashBoard = ({ quantity,ticket,doanhthu }: { quantity: number,ticke
       </div>
       <div className="bg-red-900 text-white p-5 rounded-2xl">
         <h1>Doanh Thu:</h1>
-        <h1 className="text-2xl font-bold">{doanhthu}</h1>
+        <h1 className="text-2xl font-bold">{doanhthu.toLocaleString("vi-VN",{style:"currency",currency:"VND"})}</h1>
       </div>
     </div>
   );
