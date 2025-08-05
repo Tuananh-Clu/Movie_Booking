@@ -126,7 +126,7 @@ export const Ticket = () => {
                       <span className="font-semibold">
                       {ticketGroup.slice(1,ticketGroup.length)
                         .reduce(
-                          (sum, item) => sum + item.price * item.quantity,
+                          (sum, item) => sum + item.price ,
                           0
                         )
                           .toLocaleString("vi-VN")}
