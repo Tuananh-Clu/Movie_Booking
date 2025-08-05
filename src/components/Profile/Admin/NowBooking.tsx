@@ -23,7 +23,7 @@ export const NowBooking = () => {
   return (
     <div className="mt-10 px-6">
       <h1 className="text-white text-3xl font-bold mb-6">🎬 Phim Đang Chiếu</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 h-[600px] overflow-y-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 h-[600px] overflow-y-hidden">
         {dataMovie?.map((item, index) => (
           <div
             className="bg-gray-800 hover:bg-gray-700 transition rounded-xl overflow-hidden shadow-md"
