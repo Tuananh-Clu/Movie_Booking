@@ -95,3 +95,9 @@ export interface Cinema {
   city: string;
   rooms: Room[];
 }
+export interface Movies{
+  id:string
+  title: string;
+  poster: string;
+  duration:number;
+}
