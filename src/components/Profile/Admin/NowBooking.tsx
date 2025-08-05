@@ -4,7 +4,7 @@ import type { Showtime } from "../../../types/type";
 
 
 export const NowBooking = () => {
-  const [DataMovie,SetDataMovie]=useState<Showtime[]>()
+  const [DataMovie,SetDataMovie]=useState<Showtime[]>([])
     const FetchData = async () => {
     try {
       const response = await axios.get(
