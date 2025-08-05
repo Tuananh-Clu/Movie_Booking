@@ -80,7 +80,7 @@ export const Profile = () => {
   };
 
   return (
-    <div className=" bg-gray-600 w-full z-0 h-screen">
+    <div className=" bg-gray-600 w-full z-0 h-auto">
       <Navbar />
       <div className="pt-40 px-20 flex flex-row gap-5">
         <div className="bg-gray-400/70 p-5 flex flex-col items-center rounded-2xl">
