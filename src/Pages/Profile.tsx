@@ -9,7 +9,7 @@ import { NowBooking } from "../components/Profile/Admin/NowBooking";
 export const Profile = () => {
   const { getToken } = useAuth();
   const { user } = useUser();
-  const [userData, setUserData] = useState<Database[]>([]);
+  const [userData, setUserData] = useState<Database>();
   const [userLength, setUserLength] = useState(0);
   const [ticket,setTicket]=useState<number>(0);
     const [DoanhThu,setDoanhThu]=useState<number>(0);
@@ -81,7 +81,7 @@ export const Profile = () => {
           <img className="w-40 h-40 rounded-full" src={user?.imageUrl} />
           <h1 className="text-white mt-3 text-2xl font-bold">{user?.fullName}</h1>
           <h1 className="text-white text-sm">
-             {Array.isArray(userData)?userData?.map(item => item.role).join(", "):[]}
+             {userData?.role}
           </h1>
           <div className="w-full h-0.5 mt-3 bg-white"></div>
           <ul className="mt-5 items-center flex flex-col gap-4 w-full text-white">
