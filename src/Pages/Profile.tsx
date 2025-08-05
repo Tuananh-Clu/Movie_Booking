@@ -68,6 +68,7 @@ export const Profile = () => {
     FetchUserlength();
     FetchSoVe();
     FetchDoanthu();
+    console.log(userData)
   }, []);
 
   return (
