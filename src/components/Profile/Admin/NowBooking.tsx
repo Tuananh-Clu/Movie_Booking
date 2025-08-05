@@ -11,6 +11,7 @@ export const NowBooking = () => {
         "https://backendformoviebooking-1.onrender.com/api/Cinema/MovieBooking"
       );
       SetDataMovie(response.data)
+      console.log(response.data)
     } catch (error) {
       console.log(error);
     }
@@ -24,8 +25,8 @@ export const NowBooking = () => {
         {DataMovie?.map((item,index)=>{
           return(
             <div key={index}>
-              <img src={item.movie.poster} alt="" />
-              <h1>{item.movie.title}</h1>
+              <img src={item?.movie?.poster} alt="" />
+              <h1>{item?.movie?.title}</h1>
             </div>
           )
         })}
