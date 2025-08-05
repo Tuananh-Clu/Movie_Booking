@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import type {  Movies} from "../../../types/type";
+
 
 
 export const NowBooking = () => {
-  const [DataMovie,SetDataMovie]=useState<Movies[]>([])
+  const [DataMovie,SetDataMovie]=useState<any[]>([])
     const FetchData = async () => {
     try {
       const response = await axios.get(
