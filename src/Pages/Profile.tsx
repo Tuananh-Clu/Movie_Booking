@@ -79,7 +79,7 @@ export const Profile = () => {
       <Navbar />
       <div className="pt-40 px-10 md:px-20 flex w-full flex-col md:flex-row gap-5">
         {/* Sidebar */}
-        <div className="bg-gray-400/70 p-5 flex w-3/8 flex-col items-center rounded-2xl min-w-[220px]">
+        <div className="bg-gray-400/70 p-5 flex w-2/8 flex-col items-center rounded-2xl min-w-[220px]">
           <img
             className="w-32 h-32 rounded-full object-cover"
             src={user?.imageUrl}
@@ -114,7 +114,7 @@ export const Profile = () => {
           </ul>
         </div>
 
-        <div className="bg-gray-400/70 p-5 w-5/8 rounded-2xl min-h-[600px]">
+        <div className="bg-gray-400/70 p-5 w-6/8 rounded-2xl min-h-[600px]">
           {renderContent()}
         </div>
       </div>
