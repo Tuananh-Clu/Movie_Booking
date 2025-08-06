@@ -1,5 +1,5 @@
 import React, { createContext, useState ,type ReactNode } from "react";
-import type { Movies, SeatProp } from "../types/type";
+import type { Movies, SeatProp} from "../types/type";
 
 
 type Booking = {

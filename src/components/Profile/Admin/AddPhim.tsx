@@ -16,7 +16,7 @@ export const AddPhim = () => {
   const [day, setDay] = useState<string>("");
   const [movies, setMovie] = useState<Movies>();
   const [seatNum, setSeatNum] = useState<number>(0);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // THÊM LOADING STATE
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const slider = useRef<HTMLDivElement>(null);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
@@ -58,12 +58,11 @@ export const AddPhim = () => {
     }
   };
 
-  // TÁCH RIÊNG FUNCTION GỬI DATA LEN SERVER
+
   const uploadToServer = async (dataToSend: any) => {
     try {
-      const url = `https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${encodeURIComponent(
-        selectValue
-      )}&roomId=${selectedRoom}`;
+      const url = `https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${
+        selectValue}&roomId=${selectedRoom}`;
       
       const response = await axios.post(url, dataToSend, {
         headers: {
@@ -75,14 +74,13 @@ export const AddPhim = () => {
       return response.data;
     } catch (error) {
       console.error("Gửi lỗi Error:", error);
-      throw error; // Throw lại error để handle ở handleSubmit
+      throw error; 
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // VALIDATION ĐẦY ĐỦ HƠN
     if (!movies) {
       alert("Bạn chưa chọn phim.");
       return;
@@ -107,7 +105,6 @@ export const AddPhim = () => {
     setIsSubmitting(true);
 
     try {
-      // TẠO DATA ĐÚNG FORMAT BACKEND EXPECT
       const completeBookingData = {
         date: day,
         times: timeLine, 
