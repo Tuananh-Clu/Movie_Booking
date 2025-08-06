@@ -26,7 +26,7 @@ export const AddPhim = () => {
       <h1 className="text-2xl font-bold mb-4">🎥 Phim Đang Chiếu</h1>
 
       {/* Scrollable list */}
-      <div className="relative">
+      <div>
         <div className=" flex gap-4 hide-scrollbar  overflow-x-hidden pb-2 snap-x snap-mandatory">
           {moviesPlaying
             .filter((item) => item.backdrop_path)
