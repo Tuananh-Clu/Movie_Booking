@@ -49,7 +49,7 @@ export const ListPhim = () => {
                   <h1>{item.count}</h1>
                 </th>
                 <th>
-                  <h1>{((item.count)*75000).toLocaleString("vi-VN")}</h1>
+                  <h1>{((item.count)*75000).toLocaleString("vi-VN")}vN</h1>
                 </th>
               </tr>
             );
