@@ -26,7 +26,7 @@ export const AddPhim = () => {
       <h1 className="text-2xl font-bold mb-4">🎥 Phim Đang Chiếu</h1>
 
 
-        <div className=" flex gap-4 hide-scrollbar max-w-[1200px] overflow-x-hidden pb-2 snap-x snap-mandatory">
+        <div className=" flex gap-4 hide-scrollbar max-w-[1350px] overflow-x-hidden pb-2 snap-x snap-mandatory">
           {moviesPlaying
             .filter((item) => item.backdrop_path)
             .map((item, index) => (
