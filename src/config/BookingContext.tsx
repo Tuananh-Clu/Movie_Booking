@@ -5,7 +5,7 @@ import type { Movies, SeatProp } from "../types/type";
 type Booking = {
   movie: Movies;
   seats: SeatProp[];
-  time: string[];
+  times: string[];
   date: string;
 };
 
@@ -16,7 +16,7 @@ type BookingContextType = {
 
 
 export const BookingContext = createContext<BookingContextType>({
-  bookingData:{date:"",time:[],seats:[],movie:{
+  bookingData:{date:"",times:[],seats:[],movie:{
     title:"",
     duration:0,
     poster:"",

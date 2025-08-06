@@ -7,7 +7,7 @@ import { BookingContext } from "../../../config/BookingContext";
 
 export const AddPhim = () => {
   const { allCinemas } = useContext(FilterContext);
-  const {bookingData, setBookingData } = useContext(BookingContext);
+  const {  setBookingData } = useContext(BookingContext);
   const [moviesPlaying, setMoviesPlaying] = useState<MovieApi[]>([]);
   const [selectValue, setSelectValue] = useState<string>("CGV Vincom Bà Triệu");
   const [selectedRoom, setSelectedRoom] = useState<string>("");
@@ -16,6 +16,7 @@ export const AddPhim = () => {
   const [day, setDay] = useState<string>("");
   const [movies, setMovie] = useState<Movies>();
   const [seatNum, setSeatNum] = useState<number>(0);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // THÊM LOADING STATE
 
   const slider = useRef<HTMLDivElement>(null);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
@@ -28,6 +29,7 @@ export const AddPhim = () => {
   const slicedSeats = useMemo<SeatProp[]>(() => {
     return seat.slice(0, seatNum);
   }, [seatNum]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,6 +43,7 @@ export const AddPhim = () => {
     };
     fetchData();
   }, []);
+
   const handleClickRight = () => {
     if (slider.current) {
       slider.current.scrollLeft += 400;
@@ -55,45 +58,86 @@ export const AddPhim = () => {
     }
   };
 
-  const handleSubmit =async(e: React.FormEvent) => {
-    e.preventDefault();
-    if (!movies) {
-      alert("Bạn chưa chọn phim.");
-      return;
-    }
-    if (!day || timeLine.length === 0 || slicedSeats.length === 0) {
-      alert("Vui lòng nhập đầy đủ thông tin!");
-      return;
-    }
-
-    setBookingData({
-      date: day,
-      seats: slicedSeats,
-      time: timeLine,
-      movie: movies,
-    });
-
-    alert("🎉 Tạo lịch chiếu thành công!");
-
-   
-  };
-  useEffect(()=>{
-    const upload=async()=>{
-     try {
+  // TÁCH RIÊNG FUNCTION GỬI DATA LEN SERVER
+  const uploadToServer = async (dataToSend: any) => {
+    try {
       const url = `https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${encodeURIComponent(
         selectValue
       )}&roomId=${selectedRoom}`;
-      await axios.post(url, bookingData, {
+      
+      const response = await axios.post(url, dataToSend, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      
+      console.log("Gửi thành công:", response.data);
+      return response.data;
     } catch (error) {
-      console.log("Gửi lỗi Error", error);
+      console.error("Gửi lỗi Error:", error);
+      throw error; // Throw lại error để handle ở handleSubmit
     }
-  }
-  upload()
-  },[bookingData])
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // VALIDATION ĐẦY ĐỦ HƠN
+    if (!movies) {
+      alert("Bạn chưa chọn phim.");
+      return;
+    }
+    if (!selectedRoom) {
+      alert("Vui lòng chọn phòng chiếu.");
+      return;
+    }
+    if (!day) {
+      alert("Vui lòng chọn ngày chiếu.");
+      return;
+    }
+    if (timeLine.length === 0) {
+      alert("Vui lòng thêm ít nhất một suất chiếu.");
+      return;
+    }
+    if (slicedSeats.length === 0) {
+      alert("Vui lòng nhập số ghế.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // TẠO DATA ĐÚNG FORMAT BACKEND EXPECT
+      const completeBookingData = {
+        date: day,
+        times: timeLine, 
+        movie: movies,
+        seats: slicedSeats
+      };
+
+
+      setBookingData(completeBookingData);
+
+
+      await uploadToServer(completeBookingData);
+      
+      alert("🎉 Tạo lịch chiếu thành công!");
+      
+      setSelectedRoom("");
+      setDay("");
+      setTimeLine([]);
+      setMovie(undefined);
+      setSeatNum(0);
+      
+    } catch (error) {
+      alert("❌ Có lỗi xảy ra khi tạo lịch chiếu. Vui lòng thử lại!");
+      console.error("Submit error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
 
   return (
     <div className="text-white w-full px-4">
@@ -114,7 +158,9 @@ export const AddPhim = () => {
             .map((item, index) => (
               <div
                 key={index}
-                className="min-w-[200px] snap-start bg-zinc-900 rounded-xl shadow-md hover:scale-105 transition-transform duration-200"
+                className={`min-w-[200px] snap-start bg-zinc-900 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 ${
+                  movies?.id === String(item.id) ? 'ring-2 ring-red-500' : ''
+                }`} // THÊM VISUAL FEEDBACK CHO PHIM ĐƯỢC CHỌN
               >
                 <img
                   onClick={async () => {
@@ -136,7 +182,7 @@ export const AddPhim = () => {
                   loading="lazy"
                   className="w-full h-60 object-cover rounded-t-xl cursor-pointer"
                   src={IMG_PATH + item.backdrop_path}
-                  alt={item.tittle}
+                  alt={item.original_title}
                 />
                 <div className="p-3 text-center">
                   <h2 className="text-base font-semibold line-clamp-2">
@@ -147,13 +193,17 @@ export const AddPhim = () => {
             ))}
         </div>
 
-        <button
-          onClick={handleClickRight}
-          className="p-3 bg-black rounded-full"
-        >
+        <button onClick={handleClickRight} className="p-3 bg-black rounded-full">
           <i className="fa-solid fa-arrow-right"></i>
         </button>
       </div>
+
+     
+      {movies && (
+        <div className="mb-6 p-4 bg-green-900/20 border border-green-500 rounded-xl">
+          <p className="text-green-400">✅ Đã chọn phim: <strong>{movies.title}</strong></p>
+        </div>
+      )}
 
       {/* Form */}
       <form
@@ -168,6 +218,7 @@ export const AddPhim = () => {
               value={selectValue}
               onChange={(e) => setSelectValue(e.target.value)}
               className="w-full p-3 rounded-xl bg-black text-white"
+              disabled={isSubmitting}
             >
               {allCinemas.map((item) => (
                 <option key={item.name} value={item.name}>
@@ -183,6 +234,8 @@ export const AddPhim = () => {
               value={selectedRoom}
               onChange={(e) => setSelectedRoom(e.target.value)}
               className="w-full p-3 rounded-xl bg-black text-white"
+              disabled={isSubmitting}
+              required
             >
               <option value="">-- Chọn phòng --</option>
               {selectedCinema?.rooms.map((room) => (
@@ -203,6 +256,8 @@ export const AddPhim = () => {
               value={seatNum}
               onChange={(e) => setSeatNum(Number(e.target.value))}
               className="w-full p-3 rounded-xl bg-black text-white outline-none"
+              disabled={isSubmitting}
+              required
             />
           </div>
         </div>
@@ -216,6 +271,9 @@ export const AddPhim = () => {
               value={day}
               onChange={(e) => setDay(e.target.value)}
               className="w-full p-3 rounded-xl bg-gray-700 text-white outline-none"
+              disabled={isSubmitting}
+              min={new Date().toISOString().split('T')[0]} // KHÔNG CHO CHỌN NGÀY QUÁ KHỨ
+              required
             />
           </div>
 
@@ -223,23 +281,24 @@ export const AddPhim = () => {
             <label className="block font-medium mb-1">⏰ Suất chiếu</label>
             <div className="flex flex-row gap-2">
               <input
-                type="text"
+                type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                placeholder="VD: 19:00"
                 className="w-full p-3 rounded-xl bg-black text-white outline-none"
+                disabled={isSubmitting}
               />
               <button
                 type="button"
                 onClick={() => {
-                  if (time.length >= 4) {
+                  if (time && !timeLine.includes(time)) {
                     setTimeLine((prev) => [...prev, time]);
                     setTime("");
                   }
                 }}
-                className="bg-white text-black p-3 rounded-xl"
+                className="bg-white text-black p-3 rounded-xl hover:bg-gray-200"
+                disabled={isSubmitting || !time}
               >
-                Set
+                Thêm
               </button>
             </div>
           </div>
@@ -249,9 +308,11 @@ export const AddPhim = () => {
               <span
                 key={index}
                 onClick={() =>
-                  setTimeLine((prev) => prev.filter((_, i) => i !== index))
+                  !isSubmitting && setTimeLine((prev) => prev.filter((_, i) => i !== index))
                 }
-                className="bg-white text-black px-4 py-1 rounded-full text-sm font-semibold cursor-pointer hover:bg-red-400 transition"
+                className={`bg-white text-black px-4 py-1 rounded-full text-sm font-semibold cursor-pointer hover:bg-red-400 transition ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 title="Bấm để xoá"
               >
                 {ite}
@@ -266,6 +327,7 @@ export const AddPhim = () => {
               placeholder="VD: 75000"
               min={10000}
               className="w-full p-3 rounded-xl bg-black text-white outline-none"
+              disabled={isSubmitting}
             />
           </div>
         </div>
@@ -273,9 +335,14 @@ export const AddPhim = () => {
         <div className="md:col-span-2 text-center mt-4">
           <button
             type="submit"
-            className="bg-red-600 hover:bg-red-700 transition-all px-6 py-3 rounded-xl font-bold"
+            className={`px-6 py-3 rounded-xl font-bold transition-all ${
+              isSubmitting
+                ? 'bg-gray-600 cursor-not-allowed'
+                : 'bg-red-600 hover:bg-red-700'
+            }`}
+            disabled={isSubmitting}
           >
-            🎫 Tạo Lịch Chiếu
+            {isSubmitting ? '⏳ Đang tạo...' : '🎫 Tạo Lịch Chiếu'}
           </button>
         </div>
       </form>
