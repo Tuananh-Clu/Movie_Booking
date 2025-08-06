@@ -22,28 +22,34 @@ export const AddPhim = () => {
   }, []);
 
   return (
-    <div className="text-white">
-      <h1 className="text-2xl font-bold mb-6">🎥 Phim Đang Chiếu</h1>
-      <div className="flex gap-6 overflow-x-scroll hide-scrollbar w-full pb-4 pr-2">
-        {moviesPlaying.map((item, index) => (
-          <div
-            key={index}
-            className="min-w-[180px] max-w-[180px] bg-gray-800 rounded-xl shadow-md hover:scale-105 transition"
-          >
-            <img
-              className="w-full h-64 object-cover rounded-t-xl"
-              src={IMG_PATH + item.backdrop_path}
-              alt={item.tittle}
-            />
-            <div className="p-3">
-              <h2 className="text-sm font-semibold line-clamp-2">
-                {item.tittle}
-              </h2>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="text-white w-full px-4">
+      <h1 className="text-2xl font-bold mb-4">🎥 Phim Đang Chiếu</h1>
 
+      {/* Scrollable list */}
+      <div className="relative">
+        <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+          {moviesPlaying
+            .filter((item) => item.backdrop_path)
+            .map((item, index) => (
+              <div
+                key={index}
+                className="min-w-[200px] snap-start bg-zinc-900 rounded-xl shadow-lg hover:scale-105 transition-transform duration-200"
+              >
+                <img
+                  loading="lazy"
+                  className="w-full h-60 object-cover rounded-t-xl"
+                  src={IMG_PATH + item.backdrop_path}
+                  alt={item.tittle}
+                />
+                <div className="p-3">
+                  <h2 className="text-base font-semibold line-clamp-2 text-center">
+                    {item.tittle}
+                  </h2>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 };
