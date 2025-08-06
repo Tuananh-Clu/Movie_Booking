@@ -77,7 +77,10 @@ export const AddPhim = () => {
     alert("🎉 Tạo lịch chiếu thành công!");
     try{
       await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?${selectValue}?${selectedRoom}`,
-        bookingData
+        bookingData,
+        {headers:{
+          "Content-Type":"application/json"
+        }}
       )
     }
     catch(error){
