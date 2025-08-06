@@ -115,7 +115,7 @@ export const Profile = () => {
         </div>
 
         {/* Content */}
-        <div className="bg-gray-400/70 p-5 rounded-2xl w-full min-h-[600px]">
+        <div className="bg-gray-400/70 p-5 rounded-2xl min-h-[600px]">
           {renderContent()}
         </div>
       </div>
