@@ -1,11 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type MovieApi } from "../../../types/type";
 
 export const AddPhim = () => {
   const [moviesPlaying, setMoviesPlaying] = useState<MovieApi[]>([]);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
-
+const slider=useRef<HTMLDivElement>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,13 +20,26 @@ export const AddPhim = () => {
 
     fetchData();
   }, []);
+  const handleClickRight=()=>{
+   if(slider.current){
+    slider.current.scrollLeft+=300;
+    slider.current.style.scrollBehavior="smooth";
+   }
+  }
+    const handleClickLeft=()=>{
+   if(slider.current){
+    slider.current.scrollLeft-=300;
+   }
+  }
+  
 
   return (
     <div className="text-white w-full px-4">
       <h1 className="text-2xl font-bold mb-4">🎥 Phim Đang Chiếu</h1>
 
-
-        <div className=" flex gap-4 hide-scrollbar max-w-[1350px] overflow-x-hidden pb-2 snap-x snap-mandatory">
+      <div className="flex flex-row gap-2 items-center">
+        <i onClick={()=>{handleClickRight()}} className="fa-solid p-3 bg-black rounded-full fa-arrow-right fa-flip-horizontal"></i>
+        <div ref={slider} className=" flex gap-4 hide-scrollbar max-w-[1350px] overflow-x-hidden pb-2 snap-x snap-mandatory">
           {moviesPlaying
             .filter((item) => item.backdrop_path)
             .map((item, index) => (
@@ -48,6 +61,8 @@ export const AddPhim = () => {
               </div>
             ))}
         </div>
+        <i onClick={()=>{handleClickLeft()}} className="fa-solid p-3 bg-black rounded-full fa-arrow-right"></i>
       </div>
+    </div>
   );
 };
