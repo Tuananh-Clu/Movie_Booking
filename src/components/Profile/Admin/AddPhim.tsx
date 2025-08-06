@@ -37,7 +37,7 @@ const slider=useRef<HTMLDivElement>(null);
   return (
     <div className="text-white w-full px-4">
       <h1 className="text-2xl font-bold mb-4">🎥 Phim Đang Chiếu</h1>
-
+      {"//slider//"}
       <div className="flex flex-row gap-2 items-center">
         <i onClick={()=>{handleClickLeft()}} className="fa-solid p-3 cursor-pointer bg-black rounded-full fa-arrow-right fa-flip-horizontal"></i>
         <div ref={slider} className=" flex gap-4 hide-scrollbar max-w-[1350px] overflow-x-hidden pb-2 snap-x snap-mandatory">
@@ -56,7 +56,7 @@ const slider=useRef<HTMLDivElement>(null);
                 />
                 <div className="p-5">
                   <h2 className="text-2xl text-white font-semibold line-clamp-2 text-center">
-                    {item.tittle}
+                    {item.original_title}
                   </h2>
                 </div>
               </div>
@@ -64,6 +64,8 @@ const slider=useRef<HTMLDivElement>(null);
         </div>
         <i onClick={()=>{handleClickRight()}} className="fa-solid p-3 cursor-pointer bg-black rounded-full fa-arrow-right"></i>
       </div>
+
+
     </div>
   );
 };
