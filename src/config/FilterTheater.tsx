@@ -14,6 +14,7 @@ interface FilterContextType {
   filter: Filter;
   setFilter: React.Dispatch<React.SetStateAction<Filter>>;
   filteredSearch: any[];
+  allCinemas:Cinema[]
   Filters:()=>void
 }
 
@@ -22,6 +23,7 @@ export const FilterContext = createContext<FilterContextType>({
   filter: { name: "", location: "" },
   setFilter: () => {},
   filteredSearch: [],
+  allCinemas:[],
   Filters:()=>{}
 });
 
@@ -66,7 +68,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <FilterContext.Provider value={{ filter, setFilter, filteredSearch,Filters }}>
+    <FilterContext.Provider value={{ filter, setFilter, filteredSearch,Filters,allCinemas }}>
       {children}
     </FilterContext.Provider>
   );
