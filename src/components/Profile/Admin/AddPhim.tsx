@@ -41,7 +41,6 @@ export const AddPhim = () => {
     };
     fetchData();
   }, []);
-
   const handleClickRight = () => {
     if (slider.current) {
       slider.current.scrollLeft += 400;
@@ -76,7 +75,7 @@ export const AddPhim = () => {
 
     alert("🎉 Tạo lịch chiếu thành công!");
     try{
-      await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?${selectValue}?${selectedRoom}`,
+      await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?${encodeURIComponent(selectValue)}?${selectedRoom}`,
         bookingData,
         {headers:{
           "Content-Type":"application/json"
