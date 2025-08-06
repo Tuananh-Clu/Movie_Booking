@@ -14,7 +14,7 @@ export const AddPhim = () => {
   const [time, setTime] = useState<string>("");
   const [timeLine, setTimeLine] = useState<string[]>([]);
   const [day, setDay] = useState<string>("");
-  const [movies, setMovie] = useState<Movies>();
+  const [movies, setMovies] = useState<Movies>();
   const [seatNum, setSeatNum] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -62,7 +62,7 @@ export const AddPhim = () => {
   const uploadToServer = async (dataToSend: any) => {
     try {
       const url = `https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${
-        selectValue}&roomId=${selectedRoom}`;
+       encodeURIComponent(selectValue)}&roomId=${selectedRoom}`;
       
       const response = await axios.post(url, dataToSend, {
         headers: {
@@ -123,7 +123,7 @@ export const AddPhim = () => {
       setSelectedRoom("");
       setDay("");
       setTimeLine([]);
-      setMovie(undefined);
+      setMovies(undefined);
       setSeatNum(0);
       
     } catch (error) {
@@ -166,7 +166,7 @@ export const AddPhim = () => {
                         `https://api.themoviedb.org/3/movie/${item.id}?api_key=f0ab50cc5acff8fa95bb6bda373e8aa9&language=vi-VN`
                       );
 
-                      setMovie({
+                      setMovies({
                         id: String(item.id),
                         title: item.original_title,
                         poster: item.poster_path,
