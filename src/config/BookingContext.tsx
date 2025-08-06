@@ -1,10 +1,11 @@
 import React, { createContext, useState ,type ReactNode } from "react";
+import type { Movies, SeatProp } from "../types/type";
 
 
 type Booking = {
-  movieId: string;
-  seats: string[];
-  time: string;
+  movie: Movies;
+  seats: SeatProp[];
+  time: string[];
   date: string;
 };
 
@@ -14,7 +15,15 @@ type BookingContextType = {
 };
 
 
-const BookingContext = createContext<BookingContextType | undefined>(undefined);
+export const BookingContext = createContext<BookingContextType>({
+  bookingData:{date:"",time:[],seats:[],movie:{
+    title:"",
+    duration:0,
+    poster:"",
+    id:""  
+  }},
+  setBookingData:()=>{}
+});
 
 
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
