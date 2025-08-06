@@ -46,7 +46,6 @@ export const AddPhim = () => {
     <div className="text-white w-full px-4">
       <h1 className="text-2xl font-bold mb-6">🎥 Phim Đang Chiếu</h1>
 
-      {/* Slider */}
       <div className="flex items-center gap-3 mb-8">
         <button onClick={handleClickLeft} className="p-3 bg-black rounded-full">
           <i className="fa-solid fa-arrow-left"></i>
@@ -86,9 +85,9 @@ export const AddPhim = () => {
         </button>
       </div>
 
-      {/* Form chọn lịch chiếu */}
+  
       <form className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-800 p-6 rounded-2xl">
-        {/* Cột 1: Rạp + Phòng */}
+
         <div className="space-y-4">
           <div>
             <label className="block font-medium mb-1">🎬 Rạp</label>
@@ -123,7 +122,7 @@ export const AddPhim = () => {
           <div></div>
         </div>
 
-        {/* Cột 2: Ngày + Giờ */}
+
         <div className="space-y-4">
           <div>
             <label className="block font-medium mb-1">📅 Ngày chiếu</label>
@@ -151,7 +150,7 @@ export const AddPhim = () => {
           </div>
         </div>
 
-        {/* Nút tạo */}
+ 
         <div className="md:col-span-2 text-center mt-4">
           <button
             type="submit"
