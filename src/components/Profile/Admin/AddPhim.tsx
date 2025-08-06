@@ -61,7 +61,7 @@ export const AddPhim = () => {
   const uploadToServer = async (dataToSend: any) => {
     try {
       const url = `https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${
-       encodeURIComponent(selectValue)}&roomId=${selectedRoom}`;
+       selectValue}&roomId=${selectedRoom}`;
 
       const response = await axios.post(url, dataToSend, {
         headers: {
