@@ -96,8 +96,8 @@ export const Profile = () => {
             {[
               { label: "DashBoard", value: "DashBoard" },
               { label: "Doanh Thu", value: "Doanh Thu" },
-              { label: "Tạo Danh Sách", value: "Danh Sach" },
-              { label: "Danh Sách Phim", value: "Phim" },
+              { label: "Quản Lý Phim", value: "Danh Sach" },
+              { label: "Tạo Suất Chiếu", value: "Phim" },
             ].map((item) => (
               <li
                 key={item.value}
