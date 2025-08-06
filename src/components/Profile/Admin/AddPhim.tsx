@@ -27,7 +27,7 @@ export const AddPhim = () => {
 
       {/* Scrollable list */}
       <div className="relative">
-        <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+        <div className="scrollbar-hide flex gap-4 hide-scrollbar max-w-[1200px]d overflow-x-auto pb-2 snap-x snap-mandatory">
           {moviesPlaying
             .filter((item) => item.backdrop_path)
             .map((item, index) => (
