@@ -24,7 +24,7 @@ export const AddPhim = () => {
   return (
     <div className="text-white">
       <h1 className="text-2xl font-bold mb-6">🎥 Phim Đang Chiếu</h1>
-      <div className="flex gap-6 overflow-x-hidden hide-scrollbar max-w-[1200px] pb-4 pr-2">
+      <div className="flex gap-6 overflow-x-scroll hide-scrollbar w-full pb-4 pr-2">
         {moviesPlaying.map((item, index) => (
           <div
             key={index}
@@ -43,6 +43,7 @@ export const AddPhim = () => {
           </div>
         ))}
       </div>
+
     </div>
   );
 };
