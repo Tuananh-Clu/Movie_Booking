@@ -71,7 +71,7 @@ export const AddPhim = () => {
       console.log("Gửi thành công:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Gửi lỗi Error:", error);
+      console.error("Gửi lỗi Error:l", error);
       throw error;
     }
   };
