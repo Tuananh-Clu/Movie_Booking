@@ -60,7 +60,7 @@ export const AddPhim = () => {
 
   const uploadToServer = async (dataToSend: any) => {
     try {
-      const response = await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${
+      const response = await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?movieId=${
         encodeURIComponent(
        selectValue)}&roomId=${selectedRoom}`, dataToSend, {
         headers: {
