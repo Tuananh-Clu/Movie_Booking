@@ -7,7 +7,7 @@ import { BookingContext } from "../../../config/BookingContext";
 
 export const AddPhim = () => {
   const { allCinemas } = useContext(FilterContext);
-  const {  setBookingData } = useContext(BookingContext);
+  const { setBookingData } = useContext(BookingContext);
   const [moviesPlaying, setMoviesPlaying] = useState<MovieApi[]>([]);
   const [selectValue, setSelectValue] = useState<string>("CGV Vincom Bà Triệu");
   const [selectedRoom, setSelectedRoom] = useState<string>("");
@@ -58,29 +58,28 @@ export const AddPhim = () => {
     }
   };
 
-
   const uploadToServer = async (dataToSend: any) => {
     try {
       const url = `https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${
        encodeURIComponent(selectValue)}&roomId=${selectedRoom}`;
-      
+
       const response = await axios.post(url, dataToSend, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      
+
       console.log("Gửi thành công:", response.data);
       return response.data;
     } catch (error) {
       console.error("Gửi lỗi Error:", error);
-      throw error; 
+      throw error;
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!movies) {
       alert("Bạn chưa chọn phim.");
       return;
@@ -115,17 +114,15 @@ export const AddPhim = () => {
       console.log(completeBookingData);
       setBookingData(completeBookingData);
 
-
       await uploadToServer(completeBookingData);
-      
+
       alert("🎉 Tạo lịch chiếu thành công!");
-      
+
       setSelectedRoom("");
       setDay("");
       setTimeLine([]);
       setMovies(undefined);
       setSeatNum(0);
-      
     } catch (error) {
       alert("❌ Có lỗi xảy ra khi tạo lịch chiếu. Vui lòng thử lại!");
       console.error("Submit error:", error);
@@ -133,8 +130,6 @@ export const AddPhim = () => {
       setIsSubmitting(false);
     }
   };
-
-
 
   return (
     <div className="text-white w-full px-4">
@@ -156,7 +151,7 @@ export const AddPhim = () => {
               <div
                 key={index}
                 className={`min-w-[200px] snap-start bg-zinc-900 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 ${
-                  movies?.id === String(item.id) ? 'ring-2 ring-red-500' : ''
+                  movies?.id === String(item.id) ? "ring-2 ring-red-500" : ""
                 }`} // THÊM VISUAL FEEDBACK CHO PHIM ĐƯỢC CHỌN
               >
                 <img
@@ -190,15 +185,19 @@ export const AddPhim = () => {
             ))}
         </div>
 
-        <button onClick={handleClickRight} className="p-3 bg-black rounded-full">
+        <button
+          onClick={handleClickRight}
+          className="p-3 bg-black rounded-full"
+        >
           <i className="fa-solid fa-arrow-right"></i>
         </button>
       </div>
 
-     
       {movies && (
         <div className="mb-6 p-4 bg-green-900/20 border border-green-500 rounded-xl">
-          <p className="text-green-400">✅ Đã chọn phim: <strong>{movies.title}</strong></p>
+          <p className="text-green-400">
+            ✅ Đã chọn phim: <strong>{movies.title}</strong>
+          </p>
         </div>
       )}
 
@@ -269,7 +268,7 @@ export const AddPhim = () => {
               onChange={(e) => setDay(e.target.value)}
               className="w-full p-3 rounded-xl bg-gray-700 text-white outline-none"
               disabled={isSubmitting}
-              min={new Date().toISOString().split('T')[0]} // KHÔNG CHO CHỌN NGÀY QUÁ KHỨ
+              min={new Date().toISOString().split("T")[0]} // KHÔNG CHO CHỌN NGÀY QUÁ KHỨ
               required
             />
           </div>
@@ -305,10 +304,11 @@ export const AddPhim = () => {
               <span
                 key={index}
                 onClick={() =>
-                  !isSubmitting && setTimeLine((prev) => prev.filter((_, i) => i !== index))
+                  !isSubmitting &&
+                  setTimeLine((prev) => prev.filter((_, i) => i !== index))
                 }
                 className={`bg-white text-black px-4 py-1 rounded-full text-sm font-semibold cursor-pointer hover:bg-red-400 transition ${
-                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 title="Bấm để xoá"
               >
@@ -334,12 +334,12 @@ export const AddPhim = () => {
             type="submit"
             className={`px-6 py-3 rounded-xl font-bold transition-all ${
               isSubmitting
-                ? 'bg-gray-600 cursor-not-allowed'
-                : 'bg-red-600 hover:bg-red-700'
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-red-600 hover:bg-red-700"
             }`}
             disabled={isSubmitting}
           >
-            {isSubmitting ? '⏳ Đang tạo...' : '🎫 Tạo Lịch Chiếu'}
+            {isSubmitting ? "⏳ Đang tạo..." : "🎫 Tạo Lịch Chiếu"}
           </button>
         </div>
       </form>

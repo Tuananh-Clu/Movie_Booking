@@ -11,7 +11,7 @@ type Booking = {
 
 type BookingContextType = {
   bookingData: Booking | null;
-  setBookingData: React.Dispatch<React.SetStateAction<Booking | null>>;
+  setBookingData: React.Dispatch<React.SetStateAction<Booking|null>>;
 };
 
 
