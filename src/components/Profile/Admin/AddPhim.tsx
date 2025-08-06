@@ -3,11 +3,10 @@ import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { type MovieApi, type Movies, type SeatProp } from "../../../types/type";
 import { FilterContext } from "../../../config/FilterTheater";
 import seat from "../../../assets/Seat.json";
-import { BookingContext } from "../../../config/BookingContext";
+
 
 export const AddPhim = () => {
   const { allCinemas } = useContext(FilterContext);
-  const {bookingData, setBookingData } = useContext(BookingContext);
   const [moviesPlaying, setMoviesPlaying] = useState<MovieApi[]>([]);
   const [selectValue, setSelectValue] = useState<string>("CGV Vincom Bà Triệu");
   const [selectedRoom, setSelectedRoom] = useState<string>("");
@@ -55,7 +54,7 @@ export const AddPhim = () => {
     }
   };
 
-  const handleSubmit =async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!movies) {
       alert("Bạn chưa chọn phim.");
@@ -66,24 +65,27 @@ export const AddPhim = () => {
       return;
     }
 
-    setBookingData({
+    const showtimePayload = {
       date: day,
       seats: slicedSeats,
-      time: timeLine,
+      times: timeLine,
       movie: movies,
-    });
+    };
+
 
     alert("🎉 Tạo lịch chiếu thành công!");
-    try{
-      await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?${encodeURIComponent(selectValue)}?${selectedRoom}`,
-        bookingData,
-        {headers:{
-          "Content-Type":"application/json"
-        }}
-      )
-    }
-    catch(error){
-      console.log("Gui Loi Error",error)
+
+    try {
+      const url = `https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?cinemaName=${encodeURIComponent(
+        selectValue
+      )}&roomId=${selectedRoom}`;
+      await axios.post(url, showtimePayload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log("Gửi lỗi Error", error);
     }
   };
 
