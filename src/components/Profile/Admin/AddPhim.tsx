@@ -29,6 +29,7 @@ const slider=useRef<HTMLDivElement>(null);
     const handleClickLeft=()=>{
    if(slider.current){
     slider.current.scrollLeft-=400;
+      slider.current.style.scrollBehavior="smooth";
    }
   }
   
@@ -53,8 +54,8 @@ const slider=useRef<HTMLDivElement>(null);
                   src={IMG_PATH + item.backdrop_path}
                   alt={item.tittle}
                 />
-                <div className="p-3">
-                  <h2 className="text-base font-semibold line-clamp-2 text-center">
+                <div className="p-5">
+                  <h2 className="text-2xl text-white font-semibold line-clamp-2 text-center">
                     {item.tittle}
                   </h2>
                 </div>
