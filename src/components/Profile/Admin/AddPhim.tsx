@@ -112,7 +112,7 @@ export const AddPhim = () => {
         seats: slicedSeats
       };
 
-
+      console.log(completeBookingData);
       setBookingData(completeBookingData);
 
 
