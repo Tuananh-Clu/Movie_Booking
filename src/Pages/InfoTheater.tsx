@@ -2,14 +2,31 @@ import { useNavigate, useParams } from "react-router";
 import { Navbar } from "../components/Navbar";
 import Theaterlist from "../assets/asd_showtimes_rich_poster_fixed.json";
 import { Footer } from "../components/Footer";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SeatsContext } from "../config/filterSeat";
+import axios from "axios";
+import { useEffect } from "react";
 
 export const InfoTheater = () => {
   const { id } = useParams();
-  const Theater = Theaterlist.filter((item) => item.id === id);
+  const [TheaterData,setTheaterData]=useState<typeof Theaterlist>([])
+
   const navigate=useNavigate();
   const {setSeat}=useContext(SeatsContext);
+    useEffect(() => {
+    const fetchCinemas = async () => {
+      try {
+        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
+        setTheaterData(response.data)
+
+      } catch (error) {
+        console.error("Lỗi khi fetch dữ liệu Cinema:", error);
+      }
+    };
+
+    fetchCinemas();
+},[]);
+  const Theater = TheaterData.filter((item) => item.id === id);
 
   return (
     <div className="bg-gray-900 text-white min-h-screen">
