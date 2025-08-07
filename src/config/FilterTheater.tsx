@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import Theaterlist from "../../showtimes_with_seats.json";
+import Theaterlist from "../assets/asd_showtimes_rich_poster_fixed.json";
 import axios from "axios";
 import type { Cinema } from "../types/type";
 
 
 interface Filter {
-  name: string; // city
+  name: string; 
   location: string;
 }
 
