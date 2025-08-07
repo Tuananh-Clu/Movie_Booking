@@ -74,7 +74,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
   const handleClick=(movieTitle: string, time: string, date: string,id:string,image:string,location:string,city:string)=>{
     setSeat([
       {
-        isSelected: false,
+        isSelected: "false",
         id: "",
         time: time,
         roomId: "",

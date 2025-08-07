@@ -68,7 +68,7 @@ export const InfoTheater = () => {
                                     id: "",
                                     time: time,
                                     movieTitle: show.movie.title,
-                                    isSelected: true,
+                                    isSelected: "true",
                                     price: 0,
                                     quantity: 0,
                                     image: show.movie.poster,
