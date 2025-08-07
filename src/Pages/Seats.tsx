@@ -45,7 +45,7 @@ export const Seats = () => {
   const ids = currentRoom?.id.toString();
   const toggleSeat = (
          id: string,
-    isOrdered: boolean,
+    isOrdered: string,
     date: string,
     room: string,
     price: number,
@@ -54,7 +54,7 @@ export const Seats = () => {
     location: string,
     city: string
   ) => {
-    if (isOrdered) return;
+    if (isOrdered=="true") return;
     setSelected((prev) => {
       const isSelected = prev.includes(id);
       if (isSelected) {

@@ -29,7 +29,7 @@ export const SeatM = React.memo(
 
     handleClick: (
       id:string,
-      isOrdered:boolean,
+      isOrdered:string,
       date:string,
       room:string,
       price:number,
@@ -70,7 +70,7 @@ export const SeatM = React.memo(
                           onClick={() =>
                             handleClick(
                               item.id,
-                              item.isOrdered==true,
+                              item.isOrdered="true",
                               seatDates.slice(1, seatDates?.length).toString(),
                               currentRoom?.name || ids || "",
                               isVip ? 100000 : 75000,

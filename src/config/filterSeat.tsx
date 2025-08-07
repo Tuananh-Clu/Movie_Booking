@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 import type { ReactNode } from "react";
 
 export type Seat = {
-  isSelected: boolean;
+  isSelected:string;
   id: string;             // ID ghế (A1, B2...)
   time: string;           // Suất chiếu
   roomId?: string;        // ID phòng
@@ -17,7 +17,7 @@ export type Seat = {
   city:string      // Hình ảnh ghế     
 };
 export type Store={
- isSelected: boolean;
+ isSelected: string;
   id: string;             // ID ghế (A1, B2...)
   time: string;           // Suất chiếu
   roomId?: string;        // ID phòng

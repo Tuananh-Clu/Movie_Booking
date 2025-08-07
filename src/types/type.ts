@@ -68,7 +68,9 @@ tickets:Store[][]
 // types.ts
 export interface SeatProp {
   id: string;
-  isOrdered: boolean;
+  isOrdered:string;
+  price:number;
+  type:string;
 }
 
 export interface Movie {
