@@ -4,58 +4,75 @@ import { useEffect, useState } from "react";
 
 export const ListPhim = () => {
   const [tickets, setTickets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const fetchDataReport = async () => {
     try {
       const response = await axios(
         "https://backendformoviebooking-1.onrender.com/api/Cinema/GetSoLuongVeBan"
       );
       setTickets(response.data);
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      setError("Không thể tải dữ liệu.");
+    } finally {
+      setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchDataReport();
   }, []);
-  return (
-    <div>
-      <div className=" flex flex-row items-center gap-2">
-        <img className="w-10 h-10" src={ticket} alt="" />
-        <h1 className="text-2xl text-white font-bold">
-          Doanh Số Bán Vé Theo Phim
-        </h1>
-        <table>
-          <tr>
-            <th>Id</th>
-            <th>Poster</th>
-            <th>Tên Phim</th>
-            <th>Số Vé</th>
-            <th>Tổng Số</th>
-          </tr>
 
-          {tickets.map((item, index) => {
-            return (
-              <tr>
-                <th>
-                  <h1>{item.movieId}</h1>
-                </th>
-                <th key={index}>
-                  <img src={item.poster} alt="" />
-                </th>
-                <th>
-                  <h1>{item.title}</h1>
-                </th>
-                <th>
-                  <h1>{item.count}</h1>
-                </th>
-                <th>
-                  <h1>{((item.count)*75000).toLocaleString("vi-VN")}vN</h1>
-                </th>
-              </tr>
-            );
-          })}
-        </table>
+  return (
+    <div className="p-6 bg-gray-900 min-h-screen text-white">
+      <div className="flex items-center gap-3 mb-6">
+        <img src={ticket} alt="ticket" className="w-12 h-12" />
+        <h1 className="text-3xl font-bold">Doanh Số Bán Vé Theo Phim</h1>
       </div>
+
+      {loading && <p className="text-gray-300">Đang tải dữ liệu...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
+      {!loading && !error && (
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-center rounded-md overflow-hidden">
+            <thead>
+              <tr className="bg-gray-700 text-white">
+                <th className="px-4 py-3 border border-gray-600">ID</th>
+                <th className="px-4 py-3 border border-gray-600">Poster</th>
+                <th className="px-4 py-3 border border-gray-600">Tên Phim</th>
+                <th className="px-4 py-3 border border-gray-600">Số Vé</th>
+                <th className="px-4 py-3 border border-gray-600">Tổng Doanh Thu</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tickets.map((item, index) => (
+                <tr
+                  key={index}
+                  className="hover:bg-gray-800 transition duration-150"
+                >
+                  <td className="px-4 py-2 border border-gray-700">{item.movieId}</td>
+                  <td className="px-4 py-2 border border-gray-700">
+                    <img
+                      src={item.poster}
+                      alt={item.title}
+                      className="w-16 h-auto mx-auto rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-2 border border-gray-700 font-semibold">
+                    {item.title}
+                  </td>
+                  <td className="px-4 py-2 border border-gray-700">{item.count}</td>
+                  <td className="px-4 py-2 border border-gray-700 text-green-400 font-medium">
+                    {(item.count * 75000).toLocaleString("vi-VN")} ₫
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
