@@ -118,7 +118,7 @@ export const Ticket = () => {
                       {timess} {date}
                     </span>
                   </p>
-                  <p>📍 {ticketGroup[1]?.Location}</p>
+                  <p>📍 {ticketGroup[0]?.Location}</p>
                   <p>🎬 Phòng: {ticketGroup[1].roomId}</p>
                   <p>
                     💺 Ghế đã đặt:{" "}

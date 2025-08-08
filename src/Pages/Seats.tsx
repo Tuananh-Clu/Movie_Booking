@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { SeatsContext } from "../config/filterSeat";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
 import axios from "axios";
@@ -16,19 +16,33 @@ export const Seats = () => {
 
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
-  const seatDates = seat?.map((item) => item.date);
 
-  const currentTheater = cinema.find((theater) =>
-    theater.rooms.some((r) => r.id === room)
-  );
+  // Memoize các giá trị tính toán
+  const { currentTheater, currentRoom, currentShowtime } = useMemo(() => {
+    const theater = cinema.find((theater) =>
+      theater.rooms.some((r) => r.id === room)
+    );
+    
+    const roomData = theater?.rooms.find((r) => r.id === room);
+    const showtime = roomData?.showtimes.find(
+      (showtime) => showtime.movie.title === decodedTitle
+    );
+    
+    return {
+      currentTheater: theater,
+      currentRoom: roomData,
+      currentShowtime: showtime
+    };
+  }, [cinema, room, decodedTitle]);
 
-  const currentRoom = currentTheater?.rooms.find((r) => r.id === room);
-  const currentShowtime = currentRoom?.showtimes.find(
-    (showtime) => showtime.movie.title === decodedTitle
+  const seatDates = useMemo(() => 
+    seat?.map((item) => item.date), [seat]
   );
 
   const Poster = currentShowtime?.movie.poster;
+  const ids = currentRoom?.id.toString();
 
+  // Fetch data chỉ 1 lần
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
@@ -39,12 +53,11 @@ export const Seats = () => {
       }
     };
     fetchCinemas();
-  }, []);
+  }, []); // Empty dependency
 
-
-  const ids = currentRoom?.id.toString();
-  const toggleSeat = (
-         id: string,
+  // Tối ưu toggleSeat function
+  const toggleSeat = useCallback((
+    id: string,
     isOrdered: string,
     date: string,
     room: string,
@@ -54,43 +67,48 @@ export const Seats = () => {
     location: string,
     city: string
   ) => {
-    if (isOrdered=="true") return;
-    setSelected((prev) => {
-      const isSelected = prev.includes(id);
-      if (isSelected) {
-        setSeat((prev) => prev.filter((item) => item.id !== id));
-      } else {
-        return [...prev, id];
-      }
-      return isSelected ? prev.filter((item) => item !== id) : [...prev, id];
+    if (isOrdered === "true") return;
+
+    setSelected((prevSelected) => {
+      const isCurrentlySelected = prevSelected.includes(id);
+      return isCurrentlySelected 
+        ? prevSelected.filter((item) => item !== id)
+        : [...prevSelected, id];
     });
-    setSeat((prev) => {
-      const exists = prev.some((item) => item.id === id);
-      if (!exists) {
-        return [
-          ...prev,
-          {
-            isSelected: isOrdered,
-            id: id,
-            movieTitle: title,
-            time: date,
-            roomId: room,
-            price: price,
-            quantity: quantity,
-            image: Poster,
-            seatType: vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
-            Location: location,
-            city: city,
-          },
-        ];
+
+    setSeat((prevSeat) => {
+      const exists = prevSeat.some((item) => item.id === id);
+      
+      if (exists) {
+        return prevSeat.filter((item) => item.id !== id);
       }
-      return prev.filter((item) => item.id !== id);
+      
+      return [
+        ...prevSeat,
+        {
+          isSelected: isOrdered,
+          id: id,
+          movieTitle: title,
+          time: date,
+          roomId: room,
+          price: price,
+          quantity: quantity,
+          image: Poster,
+          seatType: vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
+          Location: location,
+          city: city,
+        },
+      ];
     });
-    console.log("Selected seats:", selected);
-  };
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
+  }, [setSeat, vipRow, Poster]);
+
+  // Memoize seat rows để tránh tính toán lại
+  const seatRows = useMemo(() => {
+    return regularRow.map((rowLabel) => {
+      const rowSeats = currentShowtime?.seats.filter((s) => s.id.startsWith(rowLabel));
+      return { rowLabel, rowSeats };
+    }).filter(({ rowSeats }) => rowSeats && rowSeats.length > 0);
+  }, [regularRow, currentShowtime]);
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans">
@@ -126,33 +144,29 @@ export const Seats = () => {
         </div>
 
         <div className="w-full flex flex-col items-center gap-5 max-w-5xl">
-          {regularRow.map((rowLabel) => {
-            const rowSeats = currentShowtime?.seats.filter((s) => s.id.startsWith(rowLabel));
-            if (!rowSeats || rowSeats.length === 0) return null;
-
-            return (
-              <div
-                key={rowLabel}
-                className="flex items-center gap-4 w-full justify-center"
-              >
-                <span className="w-6 text-gray-400 font-semibold">
-                  {rowLabel}
-                </span>
-               <SeatM
-               rowSeats={rowSeats}
-               seat={seat}
-               selected={selected}
-               vipRow={vipRow}
-               currentRoom={currentRoom}
-               decodedTitle={decodedTitle}
-               seatDates={seatDates??""}
-               currentTheater={currentTheater}
-               handleClick={toggleSeat}
-               ids={ids}
-               />
-              </div>
-            );
-          })}
+          {seatRows.map(({ rowLabel, rowSeats }) => (
+            <div
+              key={rowLabel}
+              className="flex items-center gap-4 w-full justify-center"
+            >
+              <span className="w-6 text-gray-400 font-semibold">
+                {rowLabel}
+              </span>
+              <SeatM
+              
+                rowSeats={rowSeats as any}
+                seat={seat}
+                selected={selected}
+                vipRow={vipRow}
+                currentRoom={currentRoom}
+                decodedTitle={decodedTitle}
+                seatDates={seatDates ?? ""}
+                currentTheater={currentTheater}
+                handleClick={toggleSeat}
+                ids={ids}
+              />
+            </div>
+          ))}
         </div>
 
         <div className="flex justify-center gap-4 text-sm mt-8 flex-wrap bg-neutral-800 p-4 rounded-xl">
