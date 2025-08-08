@@ -25,7 +25,7 @@ export const InfoTheater = () => {
     };
 
     fetchCinemas();
-},[]);
+},[id]);
   const Theater = TheaterData.filter((item) => item.id === id);
 
   return (
