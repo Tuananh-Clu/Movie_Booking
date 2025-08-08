@@ -50,8 +50,8 @@ export const SeatM = React.memo(
           const isOrdered = item.isSelected;
           const isVip = vipRow.includes(item.id.charAt(0));
           let baseColor = "bg-green-500";
-           if (isOrdered) baseColor = "bg-red-600";
-                    if(item.isOrdered=="true") baseColor = "bg-red-600";
+          if (isOrdered) baseColor = "bg-red-600";
+          if (item.isSelected == "true") baseColor = "bg-red-600";
                     else if (isSelected) baseColor = "bg-yellow-400";
                     else if (
                       seat.some(
@@ -70,7 +70,7 @@ export const SeatM = React.memo(
                           onClick={() =>
                             handleClick(
                               item.id,
-                              item.isOrdered="true",
+                              item.isSelected="true",
                               seatDates.slice(1, seatDates?.length).toString(),
                               currentRoom?.name || ids || "",
                               isVip ? 100000 : 75000,

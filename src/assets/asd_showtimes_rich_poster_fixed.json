@@ -1,4 +1,5 @@
-[{
+[
+  {
   "id": "cinema_new_013",
   "name": "Rạp 13",
   "address": "Địa chỉ số 112, Quận C, Thành phố Hồ Chí Minh",
@@ -18054,4 +18055,5 @@
   "current_movies": [],
   "upcoming": []
 }
+
 ]
