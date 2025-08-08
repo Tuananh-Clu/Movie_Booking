@@ -9,23 +9,24 @@ import { useEffect } from "react";
 
 export const InfoTheater = () => {
   const { id } = useParams();
-  const [TheaterData,setTheaterData]=useState<typeof Theaterlist>([])
+  const [TheaterData, setTheaterData] = useState<typeof Theaterlist>([]);
 
-  const navigate=useNavigate();
-  const {setSeat}=useContext(SeatsContext);
-    useEffect(() => {
+  const navigate = useNavigate();
+  const { setSeat } = useContext(SeatsContext);
+  useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
-        setTheaterData(response.data)
-
+        const response = await axios.get(
+          "https://backendformoviebooking-1.onrender.com/api/Cinema"
+        );
+        setTheaterData(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
       }
     };
 
     fetchCinemas();
-},[id]);
+  }, [id]);
   const Theater = TheaterData.filter((item) => item.id === id);
 
   return (
@@ -57,11 +58,19 @@ export const InfoTheater = () => {
               {item.rooms?.length > 0 ? (
                 <div className="space-y-6 max-h-[500px] hide-scrollbar overflow-y-auto pr-2">
                   {item.rooms.map((room, roomIndex) => (
-                    <div key={roomIndex} className="border-b border-gray-700 pb-6">
-                      <h3 className="text-xl font-bold text-amber-400 mb-2">{room.name}</h3>
+                    <div
+                      key={roomIndex}
+                      className="border-b border-gray-700 pb-6"
+                    >
+                      <h3 className="text-xl font-bold text-amber-400 mb-2">
+                        {room.name}
+                      </h3>
 
                       {room.showtimes.map((show, showIndex) => (
-                        <div key={showIndex} className="flex gap-5 mb-6 bg-gray-900/50 p-4 rounded-xl shadow">
+                        <div
+                          key={showIndex}
+                          className="flex gap-5 mb-6 bg-gray-900/50 p-4 rounded-xl shadow"
+                        >
                           <img
                             src={show.movie.poster}
                             alt={show.movie.title}
@@ -69,34 +78,52 @@ export const InfoTheater = () => {
                           />
                           <div className="flex flex-col justify-between">
                             <div>
-                              <h4 className="text-2xl font-semibold">{show.movie.title}</h4>
+                              <h4 className="text-2xl font-semibold">
+                                {show.movie.title}
+                              </h4>
                               <h1>Thời Lượng:{show.movie.duration}p</h1>
-                              <p className="text-sm text-gray-300 mb-2">📅 {show.date}</p>
+                              <p className="text-sm text-gray-300 mb-2">
+                                📅 {show.date}
+                              </p>
                             </div>
                             <div className="flex flex-wrap gap-2">
                               {show.times.map((time, timeIdx) => (
                                 <button
-                                
-                                onClick={() => {
-                                  const regularRows = ["A", "B", "C", "D"];
-                                  const seatType = room.seats.some(seat => regularRows.includes(seat.id.charAt(0))) ? "Regular" :  "VIP";
-                                  setSeat([{
-                                    date: show.date,
-                                    id: "",
-                                    time: time,
-                                    movieTitle: show.movie.title,
-                                    isSelected: "true",
-                                    price: 0,
-                                    quantity: 0,
-                                    image: show.movie.poster,
-                                    seatType: seatType,
-                                    Location:item.address,
-                                    city:item.city,
-                                  }]);
-                                  const title = encodeURIComponent(show.movie.title);
-                                  navigate(`/Theater/${room.id}/${encodeURIComponent(title)}`);
-                                  console.log("CLick");
-                                }}
+                                  onClick={() => {
+                                    const regularRows = ["A", "B", "C", "D"];
+                                    const seatType =
+                                      Array.isArray(room.seats) &&
+                                      room.seats.some((seat) =>
+                                        regularRows.includes(seat.id.charAt(0))
+                                      )
+                                        ? "Regular"
+                                        : "VIP";
+
+                                    setSeat([
+                                      {
+                                        date: show.date,
+                                        id: "",
+                                        time: time,
+                                        movieTitle: show.movie.title,
+                                        isSelected: "true",
+                                        price: 0,
+                                        quantity: 0,
+                                        image: show.movie.poster,
+                                        seatType: seatType,
+                                        Location: item.address,
+                                        city: item.city,
+                                      },
+                                    ]);
+                                    const title = encodeURIComponent(
+                                      show.movie.title
+                                    );
+                                    navigate(
+                                      `/Theater/${room.id}/${encodeURIComponent(
+                                        title
+                                      )}`
+                                    );
+                                    console.log("CLick");
+                                  }}
                                   key={timeIdx}
                                   className="bg-amber-400 cursor-pointer text-black px-4 py-1 rounded-lg font-medium hover:bg-amber-300 transition"
                                 >
@@ -117,7 +144,7 @@ export const InfoTheater = () => {
           </div>
         ))}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
