@@ -95,6 +95,7 @@ export const InfoTheater = () => {
                                   }]);
                                   const title = encodeURIComponent(show.movie.title);
                                   navigate(`/Theater/${room.id}/${encodeURIComponent(title)}`);
+                                  console.log("CLick");
                                 }}
                                   key={timeIdx}
                                   className="bg-amber-400 cursor-pointer text-black px-4 py-1 rounded-lg font-medium hover:bg-amber-300 transition"
