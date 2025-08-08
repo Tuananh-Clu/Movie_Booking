@@ -4,29 +4,19 @@ import Theaterlist from "../assets/asd_showtimes_rich_poster_fixed.json";
 import { Footer } from "../components/Footer";
 import { useContext, useState } from "react";
 import { SeatsContext } from "../config/filterSeat";
-import axios from "axios";
+
 import { useEffect } from "react";
+import type { TheaterType } from "../types/type";
 
 export const InfoTheater = () => {
   const { id } = useParams();
-  const [TheaterData, setTheaterData] = useState<typeof Theaterlist>([]);
-
-  const navigate = useNavigate();
+  const [TheaterData, setTheaterData] = useState<TheaterType[]>([]);
+ const navigate = useNavigate();
   const { setSeat } = useContext(SeatsContext);
   useEffect(() => {
-    const fetchCinemas = async () => {
-      try {
-        const response = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/Cinema"
-        );
-        setTheaterData(response.data);
-      } catch (error) {
-        console.error("Lỗi khi fetch dữ liệu Cinema:", error);
-      }
-    };
+    setTheaterData(Theaterlist as TheaterType[])
+  })
 
-    fetchCinemas();
-  }, [id]);
   const Theater = TheaterData.filter((item) => item.id === id);
 
   return (
@@ -34,7 +24,7 @@ export const InfoTheater = () => {
       <div>
         <Navbar />
       </div>
-      <div className="w-full min-h-screen bg-gray-700 bg-center mb-40 flex  pt-40 md:px-20 px-10 object-cover">
+      <div className="w-full min-h-screen bg-gray-700 bg-center mb-40 flex  pt-40 px-20 object-cover">
         {Theater.map((item, index) => (
           <div className="flex flex-col gap-8 w-full" key={index}>
             {/* Thông tin rạp */}
@@ -92,8 +82,8 @@ export const InfoTheater = () => {
                                   onClick={() => {
                                     const regularRows = ["A", "B", "C", "D"];
                                     const seatType =
-                                      Array.isArray(room.seats) &&
-                                      room.seats.some((seat) =>
+                                      Array.isArray(show.seats) &&
+                                      show.seats.some((seat) =>
                                         regularRows.includes(seat.id.charAt(0))
                                       )
                                         ? "Regular"
@@ -122,7 +112,6 @@ export const InfoTheater = () => {
                                         title
                                       )}`
                                     );
-                                    console.log("CLick");
                                   }}
                                   key={timeIdx}
                                   className="bg-amber-400 cursor-pointer text-black px-4 py-1 rounded-lg font-medium hover:bg-amber-300 transition"

@@ -81,7 +81,7 @@ export interface Movie {
 export interface Showtime {
   date: string;
   times: string[];
-  movie: Movie;
+  movie: Movies;
   seats: SeatProp[];
 }
 
@@ -103,3 +103,13 @@ export interface Movies{
   poster: string;
   duration:number;
 }
+export type TheaterType = {
+  id: string;
+  name: string;
+  address: string;
+  image: string;
+  rooms:Room[]
+  brand: string;
+  phone: string;
+  city: string;
+};
