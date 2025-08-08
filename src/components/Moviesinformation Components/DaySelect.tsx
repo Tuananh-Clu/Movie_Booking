@@ -5,19 +5,19 @@ import { useContext, useRef, useState } from "react";
 import { SeatsContext } from "../../config/filterSeat";
 import axios from "axios";
 import { useEffect } from "react";
-import type { TheaterType } from "../../types/type";
+import type { dateSelect } from "../../types/type";
 
 interface DaySelectProps {
   title?: string;
 }
 
 export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
-  const theater=List as TheaterType[];
-  const [Day,SetDay]=useState<typeof theater>([]);
+  const theater=List as dateSelect[];
+  const [Day,SetDay]=useState<typeof theater >([]);
    useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
+        const response = await axios.get(`https://backendformoviebooking-1.onrender.com/api/Cinema/GetDanhSachChieu?movieid=${encodeURIComponent(title as string)}`);
         SetDay(response.data)
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
@@ -28,25 +28,8 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
     fetchCinemas();
 
   }, []);
-    const Date = Day.flatMap(cinema =>
-    cinema.rooms.flatMap(room =>
-      room.showtimes
-        .filter(showtime => showtime.movie.title === title)
-        .map(showtime => ({
-          id: cinema.id,
-          date: showtime.date,
-          movie: showtime.movie.title,
-          cinema: cinema.name,
-          room: room.id,
-          times: showtime.times,
-          poster: showtime.movie.poster,
-          duration: showtime.movie.duration,  
-          image:showtime.movie.poster,
-          location:cinema.address,
-          city:cinema.city
-        }))
-    )
-  );
+
+  
   const navigate = useNavigate();
   const slider=useRef(null as HTMLDivElement | null);
   const LeftClick=()=>{
@@ -100,22 +83,22 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
       <div className="flex items-center cursor-pointer justify-between w-full max-w-5xl mb-4 gap-4">
         <i onClick={()=>{LeftClick()}} className="fa-solid fa-2xl fa-circle-arrow-left"></i>
         <div ref={slider} className="flex flex-row  gap-4 overflow-x-hidden max-w-5xl w-full pb-2">
-        {Date.map((item, index) => (
+        {Day.map((item, index) => (
           <div
             key={index}
             className="min-w-[250px] bg-gray-900 text-white p-4 rounded-2xl shadow-lg flex-shrink-0 border border-white/10"
           >
-            <div className="text-red-400 font-bold mb-2">{item.date}</div>
-            <div className="text-lg font-semibold">{item.movie}</div>
+            <div className="text-red-400 font-bold mb-2">{item.Date}</div>
+            <div className="text-lg font-semibold">{item.MovieTitle}</div>
             <div className="text-sm text-gray-300">
-              <p>{item.cinema}</p>
-              <p>Phòng: {item.room}</p>
+              <p>{item.CinemaName}</p>
+              <p>Phòng: {item.RoomName}</p>
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
-              {item.times.map((time, idx) => (
+              {item.time.map((time, idx) => (
                 <span
                   onClick={() => {
-                    handleClick(item.movie, time, item.date,item.room,item.image,item.location,item.location);
+                    handleClick(item.MovieTitle, time, item.Date,item.RoomName,item.Poster,item.Location,item.Location);
                   }}
                   key={idx}
                   className="bg-red-600 px-3 py-1 rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer transition-colors"
