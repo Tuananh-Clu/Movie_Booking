@@ -70,7 +70,7 @@ export const Seats = () => {
         return [
           ...prev,
           {
-            isSelected: isOrdered="true",
+            isSelected: isOrdered,
             id: id,
             movieTitle: title,
             time: date,
