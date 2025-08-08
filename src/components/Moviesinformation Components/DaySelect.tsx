@@ -5,13 +5,15 @@ import { useContext, useRef, useState } from "react";
 import { SeatsContext } from "../../config/filterSeat";
 import axios from "axios";
 import { useEffect } from "react";
+import type { TheaterType } from "../../types/type";
 
 interface DaySelectProps {
   title?: string;
 }
 
 export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
-  const [Day,SetDay]=useState<typeof List>([]);
+  const theater=List as TheaterType[];
+  const [Day,SetDay]=useState<typeof theater>([]);
    useEffect(() => {
     const fetchCinemas = async () => {
       try {
