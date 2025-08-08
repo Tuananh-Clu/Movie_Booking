@@ -70,10 +70,10 @@ export const SeatM = React.memo(
                           onClick={() =>
                             handleClick(
                               item.id,
-                              item.isSelected="true",
+                              item.isSelected,
                               seatDates.slice(1, seatDates?.length).toString(),
                               currentRoom?.name || ids || "",
-                              isVip ? 100000 : 75000,
+                              item.price,
                               decodedTitle,
                               selected.length + 1,
                               currentTheater?.address || "",
