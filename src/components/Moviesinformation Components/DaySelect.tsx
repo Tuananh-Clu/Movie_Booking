@@ -1,5 +1,4 @@
 import type React from "react";
-import List from "../../assets/asd_showtimes_rich_poster_fixed.json";
 import { useNavigate } from "react-router";
 import { useContext, useRef, useState } from "react";
 import { SeatsContext } from "../../config/filterSeat";
@@ -12,8 +11,7 @@ interface DaySelectProps {
 }
 
 export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
-  const theater=List as dateSelect[];
-  const [Day,SetDay]=useState<typeof theater >([]);
+  const [Day,SetDay]=useState<dateSelect[]>([]);
    useEffect(() => {
     const fetchCinemas = async () => {
       try {
