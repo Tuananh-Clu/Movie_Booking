@@ -114,14 +114,14 @@ export type TheaterType = {
   city: string;
 };
 
-export type dateSelect={
-  Date:string,
-  CinemaName:string,
-  CinemaId:string,
-  time:string[],
-  RoomName:string,
-  RoomId:string,
-  Location:string,
-  MovieTitle:string,
-  Poster:string
-}
+export type dateSelect = {
+  date: string;
+  cinemaName: string;
+  cinemaId: string;
+  time: string[];
+  roomName: string;
+  roomId: string;
+  location: string;
+  movieTitle: string;
+  poster: string;
+};
