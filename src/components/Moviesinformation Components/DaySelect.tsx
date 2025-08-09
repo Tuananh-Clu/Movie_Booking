@@ -87,17 +87,17 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
             key={index}
             className="min-w-[250px] bg-gray-900 text-white p-4 rounded-2xl shadow-lg flex-shrink-0 border border-white/10"
           >
-            <div className="text-red-400 font-bold mb-2">{item.Date}</div>
-            <div className="text-lg font-semibold">{item.MovieTitle}</div>
+            <div className="text-red-400 font-bold mb-2">{item.date}</div>
+            <div className="text-lg font-semibold">{item.movieTitle}</div>
             <div className="text-sm text-gray-300">
-              <p>{item.CinemaName}</p>
-              <p>Phòng: {item.RoomName}</p>
+              <p>{item.cinemaName}</p>
+              <p>Phòng: {item.roomName}</p>
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
               {item.time.map((time, idx) => (
                 <span
                   onClick={() => {
-                    handleClick(item.MovieTitle, time, item.Date,item.RoomName,item.Poster,item.Location,item.Location);
+                    handleClick(item.movieTitle, time, item.date,item.roomName,item.poster,item.location,item.location);
                   }}
                   key={idx}
                   className="bg-red-600 px-3 py-1 rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer transition-colors"
