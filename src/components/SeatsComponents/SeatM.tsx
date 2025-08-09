@@ -50,8 +50,8 @@ export const SeatM = React.memo(
           const isOrdered = item.isSelected;
           const isVip = vipRow.includes(item.id.charAt(0));
           let baseColor = "bg-green-500";
-          if (isOrdered=="true") baseColor = "bg-red-600";
-          if (item.isSelected == "true") baseColor = "bg-red-600";
+          if (isOrdered==="true") baseColor = "bg-red-600";
+          if (item.isSelected === "true") baseColor = "bg-red-600";
                     else if (isSelected) baseColor = "bg-yellow-400";
                     else if (
                       seat.some(
