@@ -42,14 +42,7 @@ export const Ticket = () => {
           },
         }
       );
-      const dataToSend = storeDataBase?.tickets.flat();
-
-      if (!dataToSend || dataToSend.length === 0) {
-        console.warn("Không có dữ liệu để gửi Update!");
-        return;
-      }
-
-      console.log("Đang gửi:", JSON.stringify(dataToSend, null, 2));
+    console.log(storeDataBase?.tickets.flat())
       console.log("succeessad");
       return response;
     } catch (error) {
