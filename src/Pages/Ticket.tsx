@@ -34,7 +34,7 @@ export const Ticket = () => {
       console.log(token);
       const response = await axios.post(
         "https://backendformoviebooking-1.onrender.com/api/Cinema/Update",
-        storeDataBase?.tickets.flat().slice(1,storeDataBase.tickets.length),
+        storeDataBase?.tickets.slice(1,storeDataBase.tickets.length).flat(),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export const Ticket = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [storeDataBase]);
   useEffect(() => {
     UpdateTicket();
     console.log(storeDataBase);
