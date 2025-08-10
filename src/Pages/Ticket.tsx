@@ -34,7 +34,7 @@ export const Ticket = () => {
       console.log(token);
       const response = await axios.post(
         "https://backendformoviebooking-1.onrender.com/api/Cinema/Update",
-        storeDataBase?.tickets.map((item: Seat[]) => {item}),
+        storeDataBase?.tickets.slice(1,storeDataBase.tickets.length).flat(),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,7 +42,7 @@ export const Ticket = () => {
           },
         }
       );
-      console.log(  storeDataBase?.tickets.map((item: Seat[]) => {item}))
+    console.log( storeDataBase?.tickets.slice(1,storeDataBase.tickets.length).flat())
       console.log("succeessad");
       return response;
     } catch (error) {

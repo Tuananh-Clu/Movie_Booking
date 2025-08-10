@@ -55,13 +55,13 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
   }
    const vipRow = ["D", "E", "F"];
   const {setSeat}=useContext(SeatsContext);
-  const handleClick=(movieTitle: string, time: string, date: string,id:string,image:string,location:string,city:string)=>{
+  const handleClick=(movieTitle: string, time: string, date: string,id:string,image:string,location:string,city:string,roomId:string)=>{
     setSeat([
       {
         isSelected: "false",
         id: "",
         time: time,
-        roomId: "",
+        roomId:roomId,
         movieTitle: movieTitle,
         date: date,
         price: 0,
@@ -72,7 +72,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
         city:city
       }
     ]);
-    navigate(`/Theater/${id}/${encodeURIComponent(movieTitle)}`);
+    navigate(`/Theater/${roomId}/${encodeURIComponent(movieTitle)}`);
   }
   return (
     <div className="w-full flex flex-col items-center justify-center mt-40 px-4">
@@ -97,7 +97,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
               {item.time.map((time, idx) => (
                 <span
                   onClick={() => {
-                    handleClick(item.movieTitle, time, item.date,item.roomName,item.poster,item.location,item.location);
+                    handleClick(item.movieTitle, time, item.date,item.roomName,item.poster,item.location,item.location,item.roomId);
                   }}
                   key={idx}
                   className="bg-red-600 px-3 py-1 rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer transition-colors"
