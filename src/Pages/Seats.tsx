@@ -55,7 +55,7 @@ export const Seats = () => {
     };
 
     fetchSeat();
-  }, [seat, title]);
+  }, );
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
