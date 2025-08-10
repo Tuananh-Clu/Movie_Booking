@@ -50,13 +50,14 @@ export const Ticket = () => {
     }
   };
 
-  useEffect(() => {
+    useEffect(() => {
     fetchData();
-  }, [storeDataBase]);
+  }, []); 
   useEffect(() => {
-    UpdateTicket();
-    console.log(storeDataBase);
-  },[]);
+    if (storeDataBase?.tickets && storeDataBase.tickets.length > 0) {
+      UpdateTicket();
+    }
+  }, [storeDataBase?.tickets]);
   return (
     <>
       <Navbar />
