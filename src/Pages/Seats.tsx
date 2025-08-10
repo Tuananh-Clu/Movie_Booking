@@ -4,7 +4,7 @@ import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { SeatsContext } from "../config/filterSeat";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
 import axios from "axios";
-import type { Cinema } from "../types/type";
+import {type SeatProp, type Cinema } from "../types/type";
 import { SeatM } from "../components/SeatsComponents/SeatM";
 
 export const Seats = () => {
@@ -13,11 +13,11 @@ export const Seats = () => {
   const { seat, setSeat } = useContext(SeatsContext);
   const [selected, setSelected] = useState<string[]>([]);
   const [cinema, setCinema] = useState<Cinema[]>([]);
+  const [seats,setSeats]=useState<SeatProp[]>([]);
 
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
 
-  // Memoize các giá trị tính toán
   const { currentTheater, currentRoom, currentShowtime } = useMemo(() => {
     const theater = cinema.find((theater) =>
       theater.rooms.some((r) => r.id === room)
@@ -42,7 +42,6 @@ export const Seats = () => {
   const Poster = currentShowtime?.movie.poster;
   const ids = currentRoom?.id.toString();
 
-  // Fetch data chỉ 1 lần
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
@@ -53,9 +52,21 @@ export const Seats = () => {
       }
     };
     fetchCinemas();
-  }, []); // Empty dependency
+  }, []); 
+  useEffect(() => {
+    const fetchSeat = async () => {
+      try {
+        const response = await axios.get(`https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${title}&roomid=${seat[0]?.roomId}&date=${seat[0]?.date}&time=${seat[0]?.time}`);
+        setSeats(response.data);
+      } catch (error) {
+        console.error("Lỗi khi fetch dữ liệu Cinema:", error);
+      }
+    };
+    fetchSeat();
+  }, []); 
 
-  // Tối ưu toggleSeat function
+
+
   const toggleSeat = useCallback((
     id: string,
     isOrdered: string,
@@ -102,10 +113,9 @@ export const Seats = () => {
     });
   }, [setSeat, vipRow, Poster]);
 
-  // Memoize seat rows để tránh tính toán lại
   const seatRows = useMemo(() => {
     return regularRow.map((rowLabel) => {
-      const rowSeats = currentShowtime?.seats.filter((s) => s.id.startsWith(rowLabel));
+      const rowSeats =seats.filter((s) => s.id.startsWith(rowLabel));
       return { rowLabel, rowSeats };
     }).filter(({ rowSeats }) => rowSeats && rowSeats.length > 0);
   }, [regularRow, currentShowtime]);
@@ -153,7 +163,6 @@ export const Seats = () => {
                 {rowLabel}
               </span>
               <SeatM
-              
                 rowSeats={rowSeats as any}
                 seat={seat}
                 selected={selected}
