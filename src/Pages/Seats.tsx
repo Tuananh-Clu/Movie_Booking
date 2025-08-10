@@ -42,8 +42,20 @@ export const Seats = () => {
 
   const Poster = currentShowtime?.movie.poster;
   const ids = currentRoom?.id.toString();
+  useEffect(() => {
+    const fetchSeat = async () => {
+      try {
+        const { data } = await axios.get(
+          `https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${decodedTitle}&roomid=${seat[0].roomId}&date=${seat[0].date}&time=${seat[0].time}`
+        );
+        setSeats(data);
+      } catch (error) {
+        console.error("Lỗi khi fetch ghế:", error);
+      }
+    };
 
-  // Fetch danh sách rạp
+    fetchSeat();
+  }, [seat, title]);
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
@@ -59,20 +71,7 @@ export const Seats = () => {
   }, []);
 
 
-  useEffect(() => {
-    const fetchSeat = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${decodedTitle}&roomid=${seat[0].roomId}&date=${seat[0].date}&time=${seat[0].time}`
-        );
-        setSeats(data);
-      } catch (error) {
-        console.error("Lỗi khi fetch ghế:", error);
-      }
-    };
 
-    fetchSeat();
-  }, [seat, title]);
 
   const toggleSeat = useCallback(
     (
