@@ -19,7 +19,6 @@ export const Seats = () => {
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
 
-  // Lấy thông tin rạp, phòng, suất chiếu hiện tại
   const { currentTheater, currentRoom, currentShowtime } = useMemo(() => {
     const theater = cinema.find((theater) =>
       theater.rooms.some((r) => r.id === room)
@@ -33,7 +32,7 @@ export const Seats = () => {
     return {
       currentTheater: theater,
       currentRoom: roomData,
-      currentShowtime: showtime,
+      currentShowtime: showtime
     };
   }, [cinema, room, decodedTitle]);
 
@@ -59,10 +58,8 @@ export const Seats = () => {
     fetchCinemas();
   }, []);
 
-  // Fetch danh sách ghế khi đủ dữ liệu
-  useEffect(() => {
-    if (!seat[0] || !title) return;
 
+  useEffect(() => {
     const fetchSeat = async () => {
       try {
         const { data } = await axios.get(
@@ -77,7 +74,6 @@ export const Seats = () => {
     fetchSeat();
   }, [seat, title]);
 
-  // Toggle chọn ghế
   const toggleSeat = useCallback(
     (
       id: string,
