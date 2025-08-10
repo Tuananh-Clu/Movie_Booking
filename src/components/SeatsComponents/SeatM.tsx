@@ -1,5 +1,5 @@
 import React from "react";
-import type { Cinema, Room } from "../../types/type";
+import type { infoTheater } from "../../types/type";
 import type { Seat } from "../../config/filterSeat";
 
 export const SeatM = React.memo(
@@ -19,11 +19,11 @@ export const SeatM = React.memo(
     seat: Seat[];
     selected: string[];
     vipRow: string[];
-    currentRoom?: Room;
+    currentRoom?: string;
     decodedTitle: string;
     ids?: string;
     seatDates: (string | undefined)[];
-    currentTheater?: Cinema;
+    currentTheater?: infoTheater;
     handleClick: (
       id: string,
       isOrdered: string,
@@ -44,7 +44,7 @@ export const SeatM = React.memo(
           const isOrdered = String(item.isSelected) === "true";
           const isSelectedNow =
             selected.includes(item.id) &&
-            seatSet.has(`${item.id}${currentRoom?.id}${decodedTitle}`);
+            seatSet.has(`${item.id}${currentRoom}${decodedTitle}`);
           const isVip = vipRow.includes(item.id.charAt(0));
 
           let baseColor = "bg-green-500"; 
@@ -53,7 +53,7 @@ export const SeatM = React.memo(
           } else if (isSelectedNow) {
             baseColor = "bg-yellow-400";
           } else if (
-            seatSet.has(`${item.id}${currentRoom?.name}${decodedTitle}`)
+            seatSet.has(`${item.id}${currentRoom}${decodedTitle}`)
           ) {
             baseColor = "bg-yellow-400";
           }
@@ -66,11 +66,11 @@ export const SeatM = React.memo(
                     item.id,
                     String(item.isSelected),
                     seatDates[1] ?? "",
-                    currentRoom?.name || ids || "",
+                    currentRoom|| ids || "",
                     item.price,
                     decodedTitle,
                     selected.length + 1,
-                    currentTheater?.address || "",
+                    currentTheater?.theateraddress || "",
                     currentTheater?.city || ""
                   )
                 }

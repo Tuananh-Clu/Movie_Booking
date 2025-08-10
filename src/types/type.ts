@@ -125,3 +125,10 @@ export type dateSelect = {
   movieTitle: string;
   poster: string;
 };
+export type infoTheater={
+  theatername:string,
+  theateraddress:string,
+  poster:string,
+  city:string,
+
+}

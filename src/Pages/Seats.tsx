@@ -4,7 +4,7 @@ import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { SeatsContext } from "../config/filterSeat";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
 import axios from "axios";
-import { type SeatProp, type Cinema } from "../types/type";
+import { type SeatProp, type infoTheater } from "../types/type";
 import { SeatM } from "../components/SeatsComponents/SeatM";
 
 export const Seats = () => {
@@ -13,35 +13,18 @@ export const Seats = () => {
 
   const { seat, setSeat } = useContext(SeatsContext);
   const [selected, setSelected] = useState<string[]>([]);
-  const [cinema, setCinema] = useState<Cinema[]>([]);
+  const [cinema, setCinema] = useState<infoTheater[]>([]);
   const [seats, setSeats] = useState<SeatProp[]>([]);
 
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
 
-  const { currentTheater, currentRoom, currentShowtime } = useMemo(() => {
-    const theater = cinema.find((theater) =>
-      theater.rooms.some((r) => r.id === room)
-    );
 
-    const roomData = theater?.rooms.find((r) => r.id === room);
-    const showtime = roomData?.showtimes.find(
-      (showtime) => showtime.movie.title === decodedTitle
-    );
-
-    return {
-      currentTheater: theater,
-      currentRoom: roomData,
-      currentShowtime: showtime
-    };
-  }, [cinema, room, decodedTitle]);
 
   const seatDates = useMemo(() => 
     seat?.map((item) => item.date), [seat]
   );
 
-  const Poster = currentShowtime?.movie.poster;
-  const ids = currentRoom?.id.toString();
   useEffect(() => {
     const fetchSeat = async () => {
       try {
@@ -60,7 +43,7 @@ export const Seats = () => {
     const fetchCinemas = async () => {
       try {
         const { data } = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/Cinema"
+          `https://backendformoviebooking-1.onrender.com/api/Cinema/LayThongTinRap?location=${seat[0].Location}&room=${room}&title=${decodedTitle}`
         );
         setCinema(data);
       } catch (error) {
@@ -107,7 +90,7 @@ export const Seats = () => {
             roomId,
             price,
             quantity,
-            image: Poster,
+            image: cinema[0]?.poster || "",
             seatType: vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
             Location: location,
             city,
@@ -115,7 +98,7 @@ export const Seats = () => {
         ];
       });
     },
-    [setSeat, vipRow, Poster]
+    [setSeat, vipRow]
   );
 
   // Nhóm ghế theo hàng
@@ -134,7 +117,7 @@ export const Seats = () => {
       <div className="pt-28 px-4 md:px-16 flex flex-col items-center space-y-10">
         {/* Thông tin phim */}
         <section className="flex flex-col md:flex-row items-center gap-6 bg-neutral-900 p-6 rounded-2xl shadow-md w-full max-w-4xl">
-          <img className="w-40 rounded-xl shadow" src={Poster} alt="" />
+          <img className="w-40 rounded-xl shadow" src={cinema[0]?.poster || ""} alt="" />
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-amber-400">
               {decodedTitle}
@@ -144,13 +127,12 @@ export const Seats = () => {
                 📅 {seatDates} | ⏰ {seat[0].time}
               </p>
             )}
-            {currentTheater && currentRoom && (
               <div className="text-sm text-gray-400 space-y-1">
-                <p>🏢 Rạp: {currentTheater.name}</p>
-                <p>🏠 Phòng: {currentRoom.name}</p>
-                <p>📍 Địa chỉ: {currentTheater.address}</p>
+                <p>🏢 Rạp: {cinema[0]?.theatername || ""}</p>
+                <p>🏠 Phòng: {seat[0]?.roomId || ""}</p>
+                <p>📍 Địa chỉ: {cinema[0]?.theateraddress || ""}</p>
               </div>
-            )}
+
           </div>
         </section>
 
@@ -174,12 +156,12 @@ export const Seats = () => {
                 seat={seat}
                 selected={selected}
                 vipRow={vipRow}
-                currentRoom={currentRoom}
+                currentRoom={seats[0]?.id}
                 decodedTitle={decodedTitle}
                 seatDates={seatDates}
-                currentTheater={currentTheater}
+                currentTheater={cinema[0]}
                 handleClick={toggleSeat}
-                ids={ids}
+                ids={seats[0]?.id || ""}
               />
             </div>
           ))}
