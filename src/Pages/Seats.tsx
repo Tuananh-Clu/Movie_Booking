@@ -46,7 +46,7 @@ export const Seats = () => {
     const fetchSeat = async () => {
       try {
         const { data } = await axios.get(
-          `https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${decodedTitle}&roomid=${seat[0].roomId}&date=${seat[0].date}&time=${seat[0].time}`
+          `https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${decodedTitle}&roomid=${room}&date=${seat[0].date}&time=${seat[0].time}`
         );
         setSeats(data);
       } catch (error) {
