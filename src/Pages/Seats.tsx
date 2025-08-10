@@ -156,7 +156,7 @@ export const Seats = () => {
                 seat={seat}
                 selected={selected}
                 vipRow={vipRow}
-                currentRoom={seats[0]?.id}
+                currentRoom={room}
                 decodedTitle={decodedTitle}
                 seatDates={seatDates}
                 currentTheater={cinema[0]}
