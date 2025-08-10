@@ -42,7 +42,7 @@ export const Ticket = () => {
           },
         }
       );
-    console.log(storeDataBase?.tickets.flat())
+    console.log( storeDataBase?.tickets.slice(1,storeDataBase.tickets.length).flat())
       console.log("succeessad");
       return response;
     } catch (error) {
