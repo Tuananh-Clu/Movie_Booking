@@ -41,14 +41,13 @@ export const SeatM = React.memo(
     return (
       <div className="grid grid-cols-10 gap-2">
         {rowSeats.map((item, index) => {
-          const isOrdered = String(item.isSelected) === "true";
           const isSelectedNow =
             selected.includes(item.id) &&
             seatSet.has(`${item.id}${currentRoom}${decodedTitle}`);
           const isVip = vipRow.includes(item.id.charAt(0));
 
           let baseColor = "bg-green-500"; 
-          if (isOrdered) {
+          if (item.isOrdered == "true") {
             baseColor = "bg-red-600";
           } else if (isSelectedNow) {
             baseColor = "bg-yellow-400";
@@ -64,9 +63,9 @@ export const SeatM = React.memo(
                 onClick={() =>
                   handleClick(
                     item.id,
-                    String(item.isSelected),
+                    item.isOrdered || item.isSelected || "false",
                     seatDates[1] ?? "",
-                    currentRoom|| ids || "",
+                    currentRoom || ids || "",
                     item.price,
                     decodedTitle,
                     selected.length + 1,
