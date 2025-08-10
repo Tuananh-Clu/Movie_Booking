@@ -43,6 +43,7 @@ export const Payment = () => {
     image: item.image || sharedInfo.image,
     Location: item.Location || sharedInfo.Location,
     city: item.city || sharedInfo.city,
+    roomId: item.roomId || sharedInfo.roomId,
   }));
 
   const FetchUser = async () => {
