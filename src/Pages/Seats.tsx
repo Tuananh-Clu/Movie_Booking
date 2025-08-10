@@ -4,34 +4,36 @@ import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { SeatsContext } from "../config/filterSeat";
 import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
 import axios from "axios";
-import {type SeatProp, type Cinema } from "../types/type";
+import { type SeatProp, type Cinema } from "../types/type";
 import { SeatM } from "../components/SeatsComponents/SeatM";
 
 export const Seats = () => {
   const { room, title } = useParams();
   const decodedTitle = title ? decodeURIComponent(title) : "";
+
   const { seat, setSeat } = useContext(SeatsContext);
   const [selected, setSelected] = useState<string[]>([]);
   const [cinema, setCinema] = useState<Cinema[]>([]);
-  const [seats,setSeats]=useState<SeatProp[]>([]);
+  const [seats, setSeats] = useState<SeatProp[]>([]);
 
   const vipRow = ["D", "E", "F"];
   const regularRow = ["A", "B", "C", "D", "E", "F"];
 
+  // Lấy thông tin rạp, phòng, suất chiếu hiện tại
   const { currentTheater, currentRoom, currentShowtime } = useMemo(() => {
     const theater = cinema.find((theater) =>
       theater.rooms.some((r) => r.id === room)
     );
-    
+
     const roomData = theater?.rooms.find((r) => r.id === room);
     const showtime = roomData?.showtimes.find(
       (showtime) => showtime.movie.title === decodedTitle
     );
-    
+
     return {
       currentTheater: theater,
       currentRoom: roomData,
-      currentShowtime: showtime
+      currentShowtime: showtime,
     };
   }, [cinema, room, decodedTitle]);
 
@@ -42,94 +44,102 @@ export const Seats = () => {
   const Poster = currentShowtime?.movie.poster;
   const ids = currentRoom?.id.toString();
 
+  // Fetch danh sách rạp
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get("https://backendformoviebooking-1.onrender.com/api/Cinema");
-        setCinema(response.data);
+        const { data } = await axios.get(
+          "https://backendformoviebooking-1.onrender.com/api/Cinema"
+        );
+        setCinema(data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
       }
     };
     fetchCinemas();
-  }, []); 
+  }, []);
+
+  // Fetch danh sách ghế khi đủ dữ liệu
   useEffect(() => {
+    if (!seat[0] || !title) return;
+
     const fetchSeat = async () => {
       try {
-        const response = await axios.get(`https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${title}&roomid=${seat[0]?.roomId}&date=${seat[0]?.date}&time=${seat[0]?.time}`);
-        setSeats(response.data);
+        const { data } = await axios.get(
+          `https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${decodedTitle}&roomid=${seat[0].roomId}&date=${seat[0].date}&time=${seat[0].time}`
+        );
+        setSeats(data);
       } catch (error) {
-        console.error("Lỗi khi fetch dữ liệu Cinema:", error);
+        console.error("Lỗi khi fetch ghế:", error);
       }
     };
+
     fetchSeat();
-  }, []); 
+  }, [seat, title]);
 
+  // Toggle chọn ghế
+  const toggleSeat = useCallback(
+    (
+      id: string,
+      isOrdered: string,
+      date: string,
+      roomId: string,
+      price: number,
+      movieTitle: string,
+      quantity: number,
+      location: string,
+      city: string
+    ) => {
+      if (isOrdered === "true") return;
 
+      setSelected((prev) =>
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      );
 
-  const toggleSeat = useCallback((
-    id: string,
-    isOrdered: string,
-    date: string,
-    room: string,
-    price: number,
-    title: string,
-    quantity: number,
-    location: string,
-    city: string
-  ) => {
-    if (isOrdered === "true") return;
+      setSeat((prev) => {
+        const exists = prev.some((item) => item.id === id);
+        if (exists) {
+          return prev.filter((item) => item.id !== id);
+        }
 
-    setSelected((prevSelected) => {
-      const isCurrentlySelected = prevSelected.includes(id);
-      return isCurrentlySelected 
-        ? prevSelected.filter((item) => item !== id)
-        : [...prevSelected, id];
-    });
+        return [
+          ...prev,
+          {
+            isSelected: isOrdered,
+            id,
+            movieTitle,
+            time: date,
+            roomId,
+            price,
+            quantity,
+            image: Poster,
+            seatType: vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
+            Location: location,
+            city,
+          },
+        ];
+      });
+    },
+    [setSeat, vipRow, Poster]
+  );
 
-    setSeat((prevSeat) => {
-      const exists = prevSeat.some((item) => item.id === id);
-      
-      if (exists) {
-        return prevSeat.filter((item) => item.id !== id);
-      }
-      
-      return [
-        ...prevSeat,
-        {
-          isSelected: isOrdered,
-          id: id,
-          movieTitle: title,
-          time: date,
-          roomId: room,
-          price: price,
-          quantity: quantity,
-          image: Poster,
-          seatType: vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
-          Location: location,
-          city: city,
-        },
-      ];
-    });
-  }, [setSeat, vipRow, Poster]);
-
+  // Nhóm ghế theo hàng
   const seatRows = useMemo(() => {
-    return regularRow.map((rowLabel) => {
-      const rowSeats =seats.filter((s) => s.id.startsWith(rowLabel));
-      return { rowLabel, rowSeats };
-    }).filter(({ rowSeats }) => rowSeats && rowSeats.length > 0);
-  }, [regularRow, currentShowtime]);
+    return regularRow
+      .map((rowLabel) => ({
+        rowLabel,
+        rowSeats: seats.filter((s) => s.id.startsWith(rowLabel)),
+      }))
+      .filter(({ rowSeats }) => rowSeats.length > 0);
+  }, [regularRow, seats]);
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans">
       <Navbar />
       <div className="pt-28 px-4 md:px-16 flex flex-col items-center space-y-10">
+        {/* Thông tin phim */}
         <section className="flex flex-col md:flex-row items-center gap-6 bg-neutral-900 p-6 rounded-2xl shadow-md w-full max-w-4xl">
-          <img
-            className="w-40 rounded-xl shadow"
-            src={Poster}
-            alt=""
-          />
+          <img className="w-40 rounded-xl shadow" src={Poster} alt="" />
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-amber-400">
               {decodedTitle}
@@ -149,10 +159,12 @@ export const Seats = () => {
           </div>
         </section>
 
+        {/* Màn hình */}
         <div className="bg-gray-300 text-black font-bold text-center w-full md:w-1/2 mx-auto py-3 rounded-2xl shadow-inner">
           MÀN HÌNH
         </div>
 
+        {/* Ghế */}
         <div className="w-full flex flex-col items-center gap-5 max-w-5xl">
           {seatRows.map(({ rowLabel, rowSeats }) => (
             <div
@@ -163,13 +175,13 @@ export const Seats = () => {
                 {rowLabel}
               </span>
               <SeatM
-                rowSeats={rowSeats as any}
+                rowSeats={rowSeats}
                 seat={seat}
                 selected={selected}
                 vipRow={vipRow}
                 currentRoom={currentRoom}
                 decodedTitle={decodedTitle}
-                seatDates={seatDates ?? ""}
+                seatDates={seatDates}
                 currentTheater={currentTheater}
                 handleClick={toggleSeat}
                 ids={ids}
@@ -178,6 +190,7 @@ export const Seats = () => {
           ))}
         </div>
 
+        {/* Legend */}
         <div className="flex justify-center gap-4 text-sm mt-8 flex-wrap bg-neutral-800 p-4 rounded-xl">
           <Legend color="bg-green-500" label="Còn trống" />
           <Legend color="bg-yellow-400" label="Đang chọn" />
@@ -185,6 +198,7 @@ export const Seats = () => {
         </div>
       </div>
 
+      {/* Total price */}
       <div className="sticky bottom-0 w-full bg-neutral-900 p-4 shadow-lg z-50">
         <TotalPrice />
       </div>
