@@ -163,7 +163,7 @@ export const AddPhim = () => {
                       setMovies({
                         id: String(item.id),
                         title: item.original_title,
-                        poster: item.poster_path,
+                        poster: IMG_PATH+item.poster_path,
                         duration: detail.data.runtime || 0,
                       });
                     } catch (err) {
