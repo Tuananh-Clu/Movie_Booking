@@ -31,7 +31,8 @@ export const FilterContext = createContext<FilterContextType>({
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [filter, setFilter] = useState<Filter>({ name: "", location: "" });
     const [allCinemas, setAllCinemas] = useState<Cinema[]>([]);
-  const [filteredSearch, setFilteredSearch] = useState<TheaterFullTypeFill[]>([]);
+    const [filterTheater, setFilterTheater] = useState<TheaterFullTypeFill[]>([]);
+  const [filteredSearch, setFilteredSearch] = useState<TheaterFullTypeFill[]>(filterTheater);
   const Filters=async()=>{
     try{
       var response=await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`,allCinemas)
@@ -52,7 +53,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     const fetchCinemas = async () => {
       try {
         const response = await axios.get<TheaterFullTypeFill[]>("https://backendformoviebooking-1.onrender.com/api/Cinema/GetTheater");
-        setFilteredSearch(response.data);
+        setFilterTheater(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
 ;
