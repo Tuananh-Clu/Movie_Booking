@@ -76,7 +76,7 @@ export const Ticket = () => {
             const date = ticketGroup.slice(1, 2).map((item) => item.time);
             const rows = ticketGroup.map((item) => item.id.charAt(0)).join(" ");
             const seats = ticketGroup.map((item) => item.id).join(" ");
-            const theater = ticket?.roomId?.charAt(6);
+            const theater = ticket?.roomId?.charAt(5);
 
             return (
               <div
