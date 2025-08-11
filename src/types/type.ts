@@ -137,4 +137,5 @@ export type TheaterFullTypeFill = {
   name: string;
   address: string;
   image: string;
+  city:string
 }

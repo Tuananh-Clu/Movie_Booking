@@ -32,7 +32,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 
   const Filters = async () => {
     try {
-      const response = await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`, allCinemas);
+      const response = await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`, filterTheater);
       setFilteredSearch(response.data);
     } catch (error) {
       console.log(error);
