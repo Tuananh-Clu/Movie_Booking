@@ -141,5 +141,5 @@ export type TheaterFullTypeFill = {
 }
 export type BookingType={
   name:string,
-  room:Room[]
+  rooms:Room[]
 }
