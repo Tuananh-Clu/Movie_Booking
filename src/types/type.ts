@@ -132,3 +132,9 @@ export type infoTheater={
   city:string,
 
 }
+export type TheaterFullTypeFill = {
+  id: string;
+  name: string;
+  address: string;
+  image: string;
+}
