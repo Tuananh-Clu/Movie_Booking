@@ -233,7 +233,7 @@ export const AddPhim = () => {
               required
             >
               <option value="">-- Chọn phòng --</option>
-              {selectedCinema?.room.map((room) => (
+              {selectedCinema?.rooms.map((room) => (
                 <option key={room.id} value={room.id}>
                   {room.id}
                 </option>
