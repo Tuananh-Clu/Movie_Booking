@@ -45,7 +45,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setFilteredSearch(filterTheater);
     }
-  },[filter.name] ); 
+  }, ); 
 
   useEffect(() => {
     const fetchCinemas = async () => {
