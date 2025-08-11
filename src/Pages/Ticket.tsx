@@ -34,7 +34,7 @@ export const Ticket = () => {
       console.log(token);
       const response = await axios.post(
         "https://backendformoviebooking-1.onrender.com/api/Cinema/Update",
-        storeDataBase?.tickets.slice(1,storeDataBase.tickets.length).flat(),
+        storeDataBase?.tickets.flat(),
         {
           headers: {
             Authorization: `Bearer ${token}`,
