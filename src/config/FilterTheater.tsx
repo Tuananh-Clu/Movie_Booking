@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import axios from "axios";
-import type {  TheaterFullTypeFill } from "../types/type";
+import type {  Cinema, TheaterFullTypeFill } from "../types/type";
 
 
 interface Filter {
@@ -13,6 +13,7 @@ interface FilterContextType {
   filter: Filter;
   setFilter: React.Dispatch<React.SetStateAction<Filter>>;
   filteredSearch: any[];
+  allCinemas: Cinema[];
 
   Filters:()=>void
 }
@@ -22,12 +23,14 @@ export const FilterContext = createContext<FilterContextType>({
   filter: { name: "", location: "" },
   setFilter: () => {},
   filteredSearch: [],
+  allCinemas: [],
   Filters:()=>{}
 });
 
 
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [filter, setFilter] = useState<Filter>({ name: "", location: "" });
+    const [allCinemas, setAllCinemas] = useState<Cinema[]>([]);
   const [filteredSearch, setFilteredSearch] = useState<TheaterFullTypeFill[]>([]);
   const Filters=async()=>{
     try{
@@ -59,9 +62,24 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     fetchCinemas();
 
   }, []);
+  
+  useEffect(() => {
+    const fetchCinemas = async () => {
+      try {
+        const response = await axios.get<Cinema[]>("https://backendformoviebooking-1.onrender.com/api/Cinema");
+        setAllCinemas(response.data);
+      } catch (error) {
+        console.error("Lỗi khi fetch dữ liệu Cinema:", error);
+      }
+    };
+
+    fetchCinemas();
+
+  }, []);
+
 
   return (
-    <FilterContext.Provider value={{ filter, setFilter, filteredSearch,Filters }}>
+    <FilterContext.Provider value={{ filter, setFilter, filteredSearch,Filters,allCinemas }}>
       {children}
     </FilterContext.Provider>
   );
