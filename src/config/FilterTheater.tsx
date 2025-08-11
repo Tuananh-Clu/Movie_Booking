@@ -34,7 +34,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [filteredSearch, setFilteredSearch] = useState<TheaterFullTypeFill[]>([]);
   const Filters=async()=>{
     try{
-      var response=await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`,filteredSearch)
+      var response=await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`,allCinemas)
       setFilteredSearch(response.data);
     }
     catch(error){
