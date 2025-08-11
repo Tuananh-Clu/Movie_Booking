@@ -46,6 +46,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     if(filter.name){
          Filters() 
     }
+    setFilteredSearch(filterTheater);
 
   },[])
 
