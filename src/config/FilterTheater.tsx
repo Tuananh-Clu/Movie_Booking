@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import axios from "axios";
-import type { Cinema, TheaterFullTypeFill } from "../types/type";
+import type { BookingType,TheaterFullTypeFill } from "../types/type";
 
 interface Filter {
   name: string; 
@@ -12,7 +12,7 @@ interface FilterContextType {
   filter: Filter;
   setFilter: React.Dispatch<React.SetStateAction<Filter>>;
   filteredSearch: TheaterFullTypeFill[]; // Fixed type consistency
-  allCinemas: Cinema[];
+  allCinemas: BookingType[];
   Filters: () => void;
 }
 
@@ -26,7 +26,7 @@ export const FilterContext = createContext<FilterContextType>({
 
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [filter, setFilter] = useState<Filter>({ name: "", location: "" });
-  const [allCinemas, setAllCinemas] = useState<Cinema[]>([]);
+  const [allCinemas, setAllCinemas] = useState<BookingType[]>([]);
   const [filterTheater, setFilterTheater] = useState<TheaterFullTypeFill[]>([]);
   const [filteredSearch, setFilteredSearch] = useState<TheaterFullTypeFill[]>([]);
 
@@ -64,7 +64,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get<Cinema[]>("https://backendformoviebooking-1.onrender.com/api/Cinema");
+        const response = await axios.get<BookingType[]>("https://backendformoviebooking-production.up.railway.app/api/Cinema/GetInfoBookingData");
         setAllCinemas(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);

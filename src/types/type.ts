@@ -139,3 +139,7 @@ export type TheaterFullTypeFill = {
   image: string;
   city:string
 }
+export type BookingType={
+  name:string,
+  room:Room[]
+}

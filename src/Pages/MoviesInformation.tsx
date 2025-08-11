@@ -7,10 +7,10 @@ import { Actors } from "../components/Moviesinformation Components/Actors";
 import { DaySelect } from "../components/Moviesinformation Components/DaySelect";
 import { Recommend } from "../components/Moviesinformation Components/Recommend";
 import { Footer } from "../components/Footer";
-import axios from "axios";
+import axios from "axios";``
 
 export const MoviesInformation = () => {
-  const IMG_PATH = "https://image.tmdb.org/t/p/original";
+  const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
   const { id } = useParams<string>() || {};
 
   const [MainMovies, setMainMovies] = useState<MovieApi[]>([]);
