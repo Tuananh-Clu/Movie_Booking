@@ -267,7 +267,7 @@ export const AddPhim = () => {
               onChange={(e) => setDay(e.target.value)}
               className="w-full p-3 rounded-xl bg-gray-700 text-white outline-none"
               disabled={isSubmitting}
-              min={new Date().toISOString().split("T")[0]} // KHÔNG CHO CHỌN NGÀY QUÁ KHỨ
+              min={new Date().toISOString().split("T")[0]} 
               required
             />
           </div>

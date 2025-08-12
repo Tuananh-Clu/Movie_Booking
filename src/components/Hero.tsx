@@ -34,6 +34,7 @@ const Hero = () => {
       setHeroTitle(title);
       setHeroDescription(description);
       setCurrentMovieId(id);
+      console.log(currentMovieId)
     },
     []
   );
@@ -55,30 +56,25 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-0" />
 
       {/* Nội dung trái */}
-      <div className="absolute md:top-1/4 top-80 md:left-20 z-10 md:w-[30%] text-white space-y-2 md:space-y-6 backdrop-blur-md bg-black/40 p-8 rounded-2xl shadow-2xl">
-        <h1 className="md:text-5xl text-2xl font-extrabold leading-tight drop-shadow-md">
-          {heroTitle}
-        </h1>
+      <div className="absolute md:top-1/4 top-80  md:left-20  z-10  md:w-[30%]  text-white space-y-2 md:space-y-6 backdrop-blur-md bg-black/40 p-8 rounded-2xl shadow-2xl">
+        <h1 className="md:text-5xl text-2xl font-extrabold leading-tight drop-shadow-md">{heroTitle}</h1>
 
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex gap-3">
           <span className="px-3 py-1 bg-red-500 text-sm rounded-2xl">Hành Động</span>
           <span className="px-3 py-1 bg-yellow-400 text-black text-sm rounded-2xl">Hot Hit 2024!</span>
           <span className="px-3 py-1 bg-white text-black text-sm rounded-2xl">2H 43P</span>
         </div>
 
-        <p className="text-sm leading-relaxed opacity-90 line-clamp-4">
-          {heroDescription}
-        </p>
+        <p className="text-sm  leading-relaxed opacity-90">{heroDescription}</p>
 
         <button
-          onClick={() => navigate(`/Movies/${currentMovieId}`)}
-          className="bg-red-600 hover:bg-red-700 transition-all md:px-6 md:py-3 px-3 py-2 rounded-xl text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+          onClick={() => navigate(`/Movies/${heroTitle}`)}
+          className="bg-red-600 hover:bg-red-700 transition-all md:px-6 md:py-3 px-3 py-2 rounded-xl text-white font-semibold shadow-lg"
         >
           🎟️ Đặt Vé Ngay
         </button>
       </div>
-
-      <div className="absolute md:bottom-30 bottom-10 max-sm:left-5 md:right-10 w-[500px] max-w-[90%] z-10">
+      <div className="absolute md:bottom-30 bottom-10 max-sm:left-5 md:right-10  w-[500px] max-w-[90%] z-10">
         <HeroSlider movie={heroMovies} onChange={handleMovieChange} />
       </div>
     </div>

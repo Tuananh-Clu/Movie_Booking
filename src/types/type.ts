@@ -20,8 +20,14 @@ export interface MovieCards {
 type Choice = "now_playing" | "upcomming" | "popular";
 
 export interface Actor {
-  Name: string;
-  Profile: string;
+  adult:string;
+  name:string;
+  profile_path:string;
+  character:string;
+}
+export interface ActorApi {
+  id: string;
+  cast: Actor[];
 }
 export type combos = {
   name: string;
