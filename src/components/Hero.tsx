@@ -48,7 +48,6 @@ const Hero = () => {
         const response = await axios(
           `https://api.themoviedb.org/3/genre/movie/list?api_key=f0ab50cc5acff8fa95bb6bda373e8aa9&language=vi`
         );
-        console.log(response.data.genres);
         setGenreId(response.data.genres);
       } catch (error) {
         console.error("Error fetching movie data:", error);

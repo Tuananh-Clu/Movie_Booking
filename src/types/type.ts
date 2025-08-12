@@ -154,3 +154,9 @@ export type genres={
   id: number;
   name: string;
 }
+export type doanhthu = {
+  name:string
+  quantity: number;
+  totalPrice: number;
+  avune:number[];
+}
