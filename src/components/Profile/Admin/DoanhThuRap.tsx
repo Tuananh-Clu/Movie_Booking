@@ -6,7 +6,9 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  BarController,
   BarElement,
+  LineController,
   LineElement,
   PointElement,
   Title,
@@ -18,11 +20,12 @@ import {
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'react-chartjs-2';
 
-// Đăng ký tất cả module + plugin datalabels
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  BarController,  
   BarElement,
+  LineController,  
   LineElement,
   PointElement,
   Title,
