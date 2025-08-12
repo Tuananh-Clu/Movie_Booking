@@ -26,7 +26,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
 
     fetchCinemas();
 
-  }, []);
+  }, [title]);
 
   
   const navigate = useNavigate();
