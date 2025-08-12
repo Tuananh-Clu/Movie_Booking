@@ -6,13 +6,10 @@ import { HeroSlider } from "./Home Components/HeroSlider";
 
 const Hero = () => {
   const [heroMovies, setHeroMovies] = useState<MovieApi[]>([]);
-  const [backgroundImage, setBackgroundImage] = useState(
-    "https://image.tmdb.org/t/p/original/tfw5LKySp7uEYJ3CUuD4TKx3s8y.jpg"
+  const [backgroundImage, setBackgroundImage] = useState(String(heroMovies.map(movie => movie.backdrop_path))
   );
   const [heroTitle, setHeroTitle] = useState("JOHN WICK 4");
-  const [heroDescription, setHeroDescription] = useState(
-    "John Wick: Chapter 4 kết thúc với việc John bị bắn ở vòng thứ ba của cuộc đấu tay đôi và dường như đã chết trên bậc thềm của nhà thờ Sacré Coeur khi nhìn thấy hình ảnh người vợ quá cố."
-  );
+  const [heroDescription, setHeroDescription] = useState(String(heroMovies.map(movie => movie.overview)));
   const [currentMovieId, setCurrentMovieId] = useState(0);
 
   const navigate = useNavigate();
