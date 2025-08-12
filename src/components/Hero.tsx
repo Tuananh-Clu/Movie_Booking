@@ -11,7 +11,6 @@ const Hero = () => {
   const [heroTitle, setHeroTitle] = useState<string>("");
   const [heroDescription, setHeroDescription] = useState<string>("");
   const [currentMovieId, setCurrentMovieId] = useState<number>(0);
-  const [typeId, setTypeId] = useState<number[] | null>([]);
   const [genreId, setGenreId] = useState<genres[]>([]);
   const [typeName, setTypeName] = useState<string[]>([]);
 
@@ -44,40 +43,28 @@ const Hero = () => {
     []
   );
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios(
-          `https://api.themoviedb.org/3/search/movie?api_key=f0ab50cc5acff8fa95bb6bda373e8aa9&query=${heroTitle}`
-        );
-        setTypeId(response.data.results.map((item: { id: number }) => item.id));
-      } catch (error) {
-        console.error("Error fetching movie data:", error);
-      }
-    };
-    fetchData();
-  }, [heroTitle]);
-  useEffect(() => {
     const fetchGenre = async () => {
       try {
         const response = await axios(
           `https://api.themoviedb.org/3/genre/movie/list?api_key=f0ab50cc5acff8fa95bb6bda373e8aa9&language=vi`
         );
-        setGenreId(response.data.genres.map((item: { id: number }) => item.id));
+        console.log(response.data.genres);
+        setGenreId(response.data.genres);
       } catch (error) {
         console.error("Error fetching movie data:", error);
       }
     };
     fetchGenre();
-  }, [heroTitle]);
+  }, []);
+  const movieType = heroMovies.find((movie) => movie.id === currentMovieId);
   const fetchTypeName = () => {
-    typeId?.map((id) => {
-      const genre = genreId.find((g) => g.id === id);
-      setTypeName(prev=>[...prev, genre ? genre.name : "Unknown Genre"]);
-    });
+    const genre = genreId.find(
+      (g) => g.id == movieType?.genre_ids.slice(0, 1)[0]
+    );
+    return setTypeName(genre ? [genre.name] : []);
   };
   useEffect(() => {
-    fetchTypeName;
-    console.log(typeName);
+    fetchTypeName();
   }, [fetchTypeName]);
 
   if (heroMovies.length === 0) {
@@ -104,7 +91,10 @@ const Hero = () => {
         <div className="flex gap-3">
           {typeName.length > 0 ? (
             typeName.map((name, index) => (
-              <span key={index} className="px-3 py-1 bg-red-500 text-sm rounded-2xl">
+              <span
+                key={index}
+                className="px-3 py-1 bg-red-500 text-sm rounded-2xl"
+              >
                 {name}
               </span>
             ))
