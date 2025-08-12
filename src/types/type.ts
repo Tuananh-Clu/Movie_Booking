@@ -149,3 +149,7 @@ export type BookingType={
   name:string,
   rooms:Room[]
 }
+export type genres={
+  id: number;
+  name: string;
+}

@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { ListMovieByType } from "../services/tmdb";
-import { type MovieApi } from "../types/type";
+import { type genres, type MovieApi } from "../types/type";
 import { HeroSlider } from "./Home Components/HeroSlider";
+import axios from "axios";
 
 const Hero = () => {
   const [heroMovies, setHeroMovies] = useState<MovieApi[]>([]);
@@ -10,6 +11,9 @@ const Hero = () => {
   const [heroTitle, setHeroTitle] = useState<string>("");
   const [heroDescription, setHeroDescription] = useState<string>("");
   const [currentMovieId, setCurrentMovieId] = useState<number>(0);
+  const [typeId, setTypeId] = useState<number[] | null>([]);
+  const [genreId, setGenreId] = useState<genres[]>([]);
+  const [typeName, setTypeName] = useState<string[]>([]);
 
   const navigate = useNavigate();
 
@@ -17,11 +21,12 @@ const Hero = () => {
     ListMovieByType("popular", setHeroMovies, 1);
   }, []);
 
-  // Set initial hero data when movies are loaded
   useEffect(() => {
     if (heroMovies.length > 0 && !backgroundImage) {
       const firstMovie = heroMovies[0];
-      setBackgroundImage(`https://image.tmdb.org/t/p/original${firstMovie.backdrop_path}`);
+      setBackgroundImage(
+        `https://image.tmdb.org/t/p/original${firstMovie.backdrop_path}`
+      );
       setHeroTitle(firstMovie.original_title);
       setHeroDescription(firstMovie.overview || "");
       setCurrentMovieId(firstMovie.id);
@@ -34,12 +39,47 @@ const Hero = () => {
       setHeroTitle(title);
       setHeroDescription(description);
       setCurrentMovieId(id);
-      console.log(currentMovieId)
+      console.log(currentMovieId);
     },
     []
   );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios(
+          `https://api.themoviedb.org/3/search/movie?api_key=f0ab50cc5acff8fa95bb6bda373e8aa9&query=${heroTitle}`
+        );
+        setTypeId(response.data.results.map((item: { id: number }) => item.id));
+      } catch (error) {
+        console.error("Error fetching movie data:", error);
+      }
+    };
+    fetchData();
+  }, [heroTitle]);
+  useEffect(() => {
+    const fetchGenre = async () => {
+      try {
+        const response = await axios(
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=f0ab50cc5acff8fa95bb6bda373e8aa9&language=vi`
+        );
+        setGenreId(response.data.genres.map((item: { id: number }) => item.id));
+      } catch (error) {
+        console.error("Error fetching movie data:", error);
+      }
+    };
+    fetchGenre();
+  }, [heroTitle]);
+  const fetchTypeName = () => {
+    typeId?.map((id) => {
+      const genre = genreId.find((g) => g.id === id);
+      setTypeName(prev=>[...prev, genre ? genre.name : "Unknown Genre"]);
+    });
+  };
+  useEffect(() => {
+    fetchTypeName;
+    console.log(typeName);
+  }, [fetchTypeName]);
 
-  // Show loading state if no movies loaded yet
   if (heroMovies.length === 0) {
     return (
       <div className="relative w-full h-screen bg-gray-900 flex items-center justify-center">
@@ -57,12 +97,22 @@ const Hero = () => {
 
       {/* Nội dung trái */}
       <div className="absolute md:top-1/4 top-80  md:left-20  z-10  md:w-[30%]  text-white space-y-2 md:space-y-6 backdrop-blur-md bg-black/40 p-8 rounded-2xl shadow-2xl">
-        <h1 className="md:text-5xl text-2xl font-extrabold leading-tight drop-shadow-md">{heroTitle}</h1>
+        <h1 className="md:text-5xl text-2xl font-extrabold leading-tight drop-shadow-md">
+          {heroTitle}
+        </h1>
 
         <div className="flex gap-3">
-          <span className="px-3 py-1 bg-red-500 text-sm rounded-2xl">Hành Động</span>
-          <span className="px-3 py-1 bg-yellow-400 text-black text-sm rounded-2xl">Hot Hit 2024!</span>
-          <span className="px-3 py-1 bg-white text-black text-sm rounded-2xl">2H 43P</span>
+          {typeName.length > 0 ? (
+            typeName.map((name, index) => (
+              <span key={index} className="px-3 py-1 bg-red-500 text-sm rounded-2xl">
+                {name}
+              </span>
+            ))
+          ) : (
+            <span className="px-3 py-1 bg-red-500 text-sm rounded-2xl">
+              Unknown Genre
+            </span>
+          )}
         </div>
 
         <p className="text-sm  leading-relaxed opacity-90">{heroDescription}</p>

@@ -121,7 +121,9 @@ export const MoviesInformation = () => {
 
       {/* Các section phụ */}
       <div className="relative z-10 ">
-        <Actors movieName={String(id)} />
+      <div className="mt-32 px-10 md:px-10">
+                <Actors movieName={String(id)} />
+      </div>
         <div ref={daySelect} className="mt-60 scroll-px-40 w-full ">
           <DaySelect title={id} />
         </div>

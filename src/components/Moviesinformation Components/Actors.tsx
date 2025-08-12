@@ -80,7 +80,7 @@ export const Actors = ({ movieName }: { movieName: string }) => {
       <h1 className='text-2xl font-bold'>Your Favourite Cast</h1>
       <div className='flex flex-wrap gap-4'>
         {actorList.length > 0 ? (
-          actorList.map((item, index) => (
+          actorList.slice(0, 9).map((item, index) => (
             <div key={ index} className='flex flex-col gap-3'>
               <img 
                 className='w-40 h-50 rounded-2xl object-cover' 
