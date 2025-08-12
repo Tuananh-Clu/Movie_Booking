@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import type { doanhthu } from '../../../types/type';
-import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,9 +8,10 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 import type { ChartOptions } from 'chart.js';
+import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -33,22 +33,24 @@ export const DoanhThuRap = () => {
 
   const labels = datas.map(data => data.name);
 
-  const data = {
+  const data:any = {
     labels,
     datasets: [
       {
-        label: 'Số Lượng Vé',
+         type: "bar",
+        label: "Số vé bán",
         data: datas.map(data => data.quantity),
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
+        backgroundColor: "rgba(54, 162, 235, 0.7)", 
       },
       {
-        label: 'Doanh Thu (VNĐ)',
+       type: "line",
+        label: "Doanh thu",
         data: datas.map(data => data.totalPrice),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
+        borderColor: "rgba(255, 99, 132, 0.7)", 
+        backgroundColor: "rgba(255, 99, 132, 0.4)",
+        fill: false,
+        tension: 0.3,
+        pointRadius: 5,
       },
     ],
   };
@@ -66,7 +68,7 @@ export const DoanhThuRap = () => {
     <div>
       <h1>Doanh Thu Rạp Theo Các Tháng</h1>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <Bar data={data} options={options} />
+        <Chart type='bar' data={data} options={options} />
       </div>
     </div>
   );
