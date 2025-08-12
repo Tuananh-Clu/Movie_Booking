@@ -9,9 +9,9 @@ export interface MenuProps {
 
 export const Menu:React.FC<MenuProps> = ({ setState }) => {
   const [searchBar, setSearchBar] = useState("");
+  const data=Theaterlist as any[];
   const {setFilter}=useContext(FilterContext);
-  const uniqueCities = [...new Set(Theaterlist.map((item) => item.city))];
-
+  const uniqueCities = [...new Set(data.map((item) => item.city))];
   const filterSearch = uniqueCities.filter((item) =>
     item.toLowerCase().includes(searchBar.toLowerCase())
   );
