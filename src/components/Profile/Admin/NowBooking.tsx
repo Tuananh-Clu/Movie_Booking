@@ -70,7 +70,7 @@ export const NowBooking = () => {
               <div>
                 {dataMovies?.map((item, index) => (
                   <div key={index} className="border-b border-gray-300 py-2">
-                    <h3 className="font-semibold">{item?.title}</h3>
+                    <h3 className="font-semibold">{item?.name}</h3>
                     <p className="text-sm text-gray-600">{item?.times}</p>
                   </div>
                 ))}
