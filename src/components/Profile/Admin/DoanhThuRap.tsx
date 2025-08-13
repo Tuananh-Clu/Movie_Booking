@@ -21,7 +21,7 @@ import {
 } from 'chart.js';
 
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { PolarArea } from 'react-chartjs-2';
+import { Pie, PolarArea } from 'react-chartjs-2';
 
 ChartJS.register(
    ArcElement,
@@ -82,16 +82,37 @@ const options:any = {
   responsive: true,
   plugins: {
     legend: { position: 'right' },
-    title: { display: true, text: 'Polar Area Chart Example' },
+    title: { display: true, text: 'Doanh Thu Của Rạp Theo Tháng' },
   },
 };
+const dat:any = {
+    labels,
+    datasets: [
+      {
+        label: 'Số lượng vé',
+        data: datas.map((d) => d.quantity),
+         backgroundColor: scale,
+         hoverBackgroundColor: hove,
+        },
+    ],
+  };
+  
+const option:any = {
+  responsive: true,
+  plugins: {
+    legend: { position: 'right' },
+    title: { display: true, text: 'Số Lượng Vé Đã Bán' },
+  },
+};
+
 
   
 
   return (
-    <div
+    <div>
+       <div
       style={{
-        maxWidth: 1200,
+        maxWidth: 900,
         margin: '0 auto',
         padding: 25,
         backgroundColor: '#fff',
@@ -101,7 +122,11 @@ const options:any = {
         color: '#222',
       }}
     >
-      <PolarArea data={data} options={options} />
+      <div>
+              <PolarArea data={data} options={options} />
+              <Pie data={dat} options={option} />
+      </div>
+    </div>
     </div>
   );
 };
