@@ -107,14 +107,15 @@ export const NowBooking = () => {
                       {item?.times && item.times.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-1">
                           {item.times.map((time:string, idx:number) => (
+  
                             <span
-                            onClick={()=>Delete({title:item?.name,time:time,name:item?.name})}
+                            onClick={()=>Delete({title:item?.title,time:time,name:item?.name})}
                               key={idx}
                               className="text-sm bg-gray-300 cursor-pointer  text-blue-700 px-2 py-1 rounded-full"
                             >
                               {time}
-                            </span>
-                          ))}
+                              
+                            </span> ))}
                         </div>
                       )}
                     </div>
