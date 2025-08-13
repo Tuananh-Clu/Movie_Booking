@@ -8,7 +8,6 @@ import { NowBooking } from "../components/Profile/Admin/NowBooking";
 import { DoanhThuRap } from "../components/Profile/Admin/DoanhThuRap";
 import { ListPhim } from "../components/Profile/Admin/ListPhim";
 import { AddPhim } from "../components/Profile/Admin/AddPhim";
-import { DanhSachPhimYeuThich } from "../components/Profile/User/DanhSachPhimYeuThich";
 
 export const Profile = () => {
   const { getToken } = useAuth();
@@ -25,44 +24,33 @@ export const Profile = () => {
     const fetchAll = async () => {
       try {
         const token = await getToken();
-        const userRes = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const allUser = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser"
-        );
-        const ticketRes = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/Client/GetQuantityTicket"
-        );
-        const revenueRes = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/Client/GetDoanhthuTicket"
-        );
+        const [userRes, allUser, ticketRes, revenueRes] = await Promise.all([
+          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetUser", { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser"),
+          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetQuantityTicket"),
+          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetDoanhthuTicket"),
+        ]);
 
         setUserData(userRes.data);
         setUserLength(allUser.data.length);
         setTicket(ticketRes.data);
         setDoanhThu(revenueRes.data);
       } catch (err) {
-        console.log("Lỗi lấy dữ liệu:", err);
+        console.error("Lỗi lấy dữ liệu:", err);
       }
     };
-
     fetchAll();
   }, []);
 
+  // Admin: render content theo click
   const renderContent = () => {
     switch (clickState) {
       case "DashBoard":
         return (
-          <div>
+          <>
             <DashBoard quantity={userLength} ticket={ticket} doanhthu={doanhThu} />
             <NowBooking />
-          </div>
+          </>
         );
       case "Doanh Thu":
         return <DoanhThuRap />;
@@ -75,54 +63,64 @@ export const Profile = () => {
     }
   };
 
-  return (
-    <div className="bg-gray-600 min-h-screen w-full">
-      <Navbar />
-      {userData?.role=="Admin"?
-      <div className="pt-40 px-10 md:px-20 flex w-full flex-col md:flex-row gap-5">
-        {/* Sidebar */}
-        <div className="bg-gray-400/70 p-5 flex w-2/8 flex-col items-center rounded-2xl min-w-[220px]">
-          <img
-            className="w-32 h-32 rounded-full object-cover"
-            src={user?.imageUrl}
-            alt="Avatar"
-          />
-          <h1 className="text-white mt-3 text-xl font-bold text-center">
-            {user?.fullName}
-          </h1>
-          <p className="text-white text-sm">{userData?.role}</p>
-
-          <div className="w-full h-0.5 mt-3 bg-white"></div>
-
-          <ul className="mt-5 w-full flex flex-col gap-4 text-white">
-            {[
-              { label: "DashBoard", value: "DashBoard" },
-              { label: "Doanh Thu", value: "Doanh Thu" },
-              { label: "Quản Lý Phim", value: "Danh Sach" },
-              { label: "Tạo Suất Chiếu", value: "Phim" },
-            ].map((item) => (
+  // Sidebar component
+  const Sidebar = () => {
+    if (userData?.role === "Admin") {
+      const items = [
+        { label: "DashBoard", value: "DashBoard" },
+        { label: "Doanh Thu", value: "Doanh Thu" },
+        { label: "Quản Lý Phim", value: "Danh Sach" },
+        { label: "Tạo Suất Chiếu", value: "Phim" },
+      ];
+      return (
+        <div className="bg-gradient-to-b from-gray-800 to-gray-700 p-6 rounded-3xl flex flex-col items-center min-w-[250px] shadow-lg">
+          <img className="w-32 h-32 rounded-full object-cover border-4 border-white" src={user?.imageUrl} alt="Avatar" />
+          <h2 className="mt-4 text-white text-xl font-bold text-center">{user?.fullName}</h2>
+          <p className="text-gray-300">{userData?.role}</p>
+          <hr className="w-full my-4 border-gray-400" />
+          <ul className="w-full flex flex-col gap-3">
+            {items.map((item) => (
               <li
                 key={item.value}
                 onClick={() => setClickState(item.value)}
-                className={`${
-                  clickState === item.value
-                    ? "bg-white text-black"
-                    : "bg-black text-white"
-                } px-6 py-3 rounded-2xl text-center cursor-pointer hover:bg-gray-500 transition`}
+                className={`cursor-pointer px-4 py-2 rounded-xl text-center font-medium transition-all ${
+                  clickState === item.value ? "bg-white text-black shadow-md" : "bg-gray-600 text-white hover:bg-gray-500"
+                }`}
               >
                 {item.label}
               </li>
             ))}
           </ul>
         </div>
-
-        <div className="bg-gray-400/70 p-5 w-6/8 rounded-2xl min-h-[600px]">
-          {renderContent()}
+      );
+    } else {
+      const items = ["Mã Giảm Giá", "Phim Yêu Thích", "Thông Tin Tài Khoản"];
+      return (
+        <div className="bg-gray-900/80 p-6 flex flex-col items-center rounded-3xl min-w-[250px] shadow-lg">
+          <img className="w-32 h-32 rounded-full object-cover border-4 border-red-500" src={user?.imageUrl} alt="Avatar" />
+          <h2 className="mt-4 text-white text-xl font-bold text-center">{user?.fullName}</h2>
+          <p className="text-gray-300">{userData?.role}</p>
+          <ul className="mt-6 flex flex-col gap-3 w-full">
+            {items.map((item) => (
+              <li key={item} className="text-white text-center p-3 rounded-xl hover:bg-white hover:text-red-600 cursor-pointer transition-all shadow-sm">
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>:
-       <DanhSachPhimYeuThich/>
-      }
-    </div>
+      );
+    }
+  };
 
+  return (
+    <div className="bg-gray-600 min-h-screen w-full">
+      <Navbar />
+      <div className="pt-32 px-6 md:px-20 flex flex-col md:flex-row gap-6">
+        <Sidebar />
+        <div className={`flex-1 rounded-3xl min-h-[600px] p-6 ${userData?.role === "Admin" ? "bg-gray-100/10 backdrop-blur-md shadow-inner" : "bg-gray-800/30 backdrop-blur-md shadow-inner"}`}>
+          {userData?.role === "Admin" ? renderContent() : null}
+        </div>
+      </div>
+    </div>
   );
 };
