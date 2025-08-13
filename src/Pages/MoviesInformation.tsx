@@ -129,7 +129,7 @@ export const MoviesInformation = () => {
                   if (movie) {
                    handleToggleFavorite(movie);
                   }
-                }} className="fa-solid fa-heart text-white p-3 bg-black/60"></i>
+                }} className={`fa-solid fa-heart fa-2xl ${toggleFavorite?"bg-red-500":"bg-amber-50"} text-white rounded-2xl p-3 bg-black/60`}></i>
 
                 </div>
               </div>
