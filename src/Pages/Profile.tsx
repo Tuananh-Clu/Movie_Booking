@@ -1,7 +1,7 @@
 import { Navbar } from "../components/Navbar";
 import axios from "axios";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import type { Database } from "../types/type";
 import { DashBoard } from "../components/Profile/Admin/DashBoard";
 import { NowBooking } from "../components/Profile/Admin/NowBooking";
