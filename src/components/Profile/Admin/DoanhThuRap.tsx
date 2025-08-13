@@ -109,16 +109,14 @@ const option:any = {
   
 
 return (
-  <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md font-sans text-gray-800">
+  <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-md font-sans text-gray-800">
     <div className="flex flex-wrap gap-6 justify-between">
       
-      <div className="flex-1 min-w-[480px]">
-        <h3 className="text-center text-lg font-semibold mb-4">Doanh Thu Của Rạp Theo Tháng</h3>
+      <div className="flex-1 min-w-[680px]">
         <PolarArea data={data} options={options} />
       </div>
       
       <div className="flex-1 min-w-[480px]">
-        <h3 className="text-center text-lg font-semibold mb-4">Số Lượng Vé Đã Bán</h3>
         <Pie data={dat} options={option} />
       </div>
       

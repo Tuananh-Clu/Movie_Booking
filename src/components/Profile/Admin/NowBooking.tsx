@@ -4,6 +4,8 @@ import type { Movies } from "../../../types/type";
 
 export const NowBooking = () => {
   const [dataMovie, setDataMovie] = useState<Movies[]>([]);
+  const [dataMovies, setDataMovies] = useState<any[]>([]);
+  const [popUp,setPopUp] = useState(false); 
 
   const fetchData = async () => {
     try {
@@ -19,6 +21,18 @@ export const NowBooking = () => {
   useEffect(() => {
     fetchData();
   }, []);
+   const fetchInfo = async ({title}:{title:string}) => {
+    try {
+      const response = await axios.get(
+        `https://backendformoviebooking-production.up.railway.app/api/Cinema/GetShowTimeById?movieTitle=${encodeURIComponent(title)}`
+      );
+      setDataMovies(response.data);
+    } catch (error) {
+      console.error("Lỗi tải dữ liệu phim:", error);
+    }
+    setPopUp(true);
+  };
+
 
   return (
     <div className="mt-10 px-4 md:px-10">
@@ -34,6 +48,7 @@ export const NowBooking = () => {
               className="bg-gray-900 hover:bg-gray-800 transition-all duration-300 rounded-xl overflow-hidden shadow-lg border border-gray-700"
             >
               <img
+                onClick={() => fetchInfo({ title: item?.title })}
                 src={item?.poster}
                 alt={item?.title}
                 className="w-full h-64 object-cover"
@@ -46,6 +61,29 @@ export const NowBooking = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div>
+        {popUp && (
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
+              <h2 className="text-lg font-semibold mb-4">Thông Tin Lịch Chiếu</h2>
+              <div>
+                {dataMovies?.map((item, index) => (
+                  <div key={index} className="border-b border-gray-300 py-2">
+                    <h3 className="font-semibold">{item?.title}</h3>
+                    <p className="text-sm text-gray-600">{item?.times}</p>
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={() => setPopUp(false)}
+                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
