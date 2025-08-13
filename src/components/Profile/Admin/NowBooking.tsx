@@ -34,11 +34,26 @@ export const NowBooking = () => {
     }
     setPopUp(true);
   };
+  const Delete = async ({ title,time,name }: { title: string,time:string,name:string }) => {
+    try {
+      const response = await axios.get(
+        `https://backendformoviebooking-production.up.railway.app/api/Cinema/DeleteShowTime?movieId=${encodeURIComponent(
+          title)}&movietheater=${encodeURIComponent(name)}&time=${time}`
+      );
+      setDataMovies(response.data);
+    } catch (error) {
+      console.error("Lỗi tải dữ liệu phim:", error);
+    }
+    setPopUp(true);
+  };
 
   return (
     <div className="mt-10 px-4 md:px-10">
       <h1 className="text-white text-3xl font-bold mb-8 text-center">
         🎬 Danh Sách Phim Đang Chiếu
+      </h1>
+      <h1 className="text-white text-2xl font-bold mb-4 text-center">
+        Click Để Hiện Suất Chiếu Của Từng Rạp
       </h1>
 
       <div className="max-h-[700px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 hide-scrollbar scrollbar-track-gray-900 p-2">
@@ -95,8 +110,9 @@ export const NowBooking = () => {
                         <div className="flex flex-wrap gap-2 mt-1">
                           {item.times.map((time:string, idx:number) => (
                             <span
+                            onClick={()=>Delete({title:item?.name,time:time,name:item?.name})}
                               key={idx}
-                              className="text-sm bg-blue-100 text-blue-700 px-2 py-1 rounded-full"
+                              className="text-sm bg-gray-300  text-blue-700 px-2 py-1 rounded-full"
                             >
                               {time}
                             </span>
