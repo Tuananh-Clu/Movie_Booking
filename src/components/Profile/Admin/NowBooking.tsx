@@ -36,15 +36,13 @@ export const NowBooking = () => {
   };
   const Delete = async ({ title,time,name }: { title: string,time:string,name:string }) => {
     try {
-      const response = await axios.delete(
+       await axios.delete(
         `https://backendformoviebooking-production.up.railway.app/api/Cinema/DeleteShowTime?movieId=${encodeURIComponent(
-          title)}&movietheater=${encodeURIComponent(name)}&time=${time}`
+          title)}&movietheater=${encodeURIComponent(name)}&time=${encodeURIComponent(time)}`
       );
-      setDataMovies(response.data);
     } catch (error) {
       console.error("Lỗi tải dữ liệu phim:", error);
     }
-    setPopUp(true);
   };
 
   return (
@@ -143,3 +141,4 @@ export const NowBooking = () => {
     </div>
   );
 };
+

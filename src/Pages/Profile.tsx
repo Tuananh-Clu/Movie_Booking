@@ -8,6 +8,7 @@ import { NowBooking } from "../components/Profile/Admin/NowBooking";
 import { DoanhThuRap } from "../components/Profile/Admin/DoanhThuRap";
 import { ListPhim } from "../components/Profile/Admin/ListPhim";
 import { AddPhim } from "../components/Profile/Admin/AddPhim";
+import { DanhSachPhimYeuThich } from "../components/Profile/User/DanhSachPhimYeuThich";
 
 export const Profile = () => {
   const { getToken } = useAuth();
@@ -77,6 +78,7 @@ export const Profile = () => {
   return (
     <div className="bg-gray-600 min-h-screen w-full">
       <Navbar />
+      {userData?.role=="Admin"?
       <div className="pt-40 px-10 md:px-20 flex w-full flex-col md:flex-row gap-5">
         {/* Sidebar */}
         <div className="bg-gray-400/70 p-5 flex w-2/8 flex-col items-center rounded-2xl min-w-[220px]">
@@ -117,7 +119,10 @@ export const Profile = () => {
         <div className="bg-gray-400/70 p-5 w-6/8 rounded-2xl min-h-[600px]">
           {renderContent()}
         </div>
-      </div>
+      </div>:
+       <DanhSachPhimYeuThich/>
+      }
     </div>
+
   );
 };
