@@ -27,7 +27,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ movie, onChange }) => {
           <img
             className="rounded-2xl hover:border-2 hover:border-white"
             src={IMG_PATH + item.backdrop_path}
-            alt={item.tittle || "movie image"}
+            alt={item.title || "movie image"}
           />
         </div>
       ))}
