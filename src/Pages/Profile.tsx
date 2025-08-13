@@ -113,11 +113,11 @@ export const Profile = () => {
   };
 
   return (
-    <div className="bg-gray-600 min-h-screen w-6/8">
+    <div className="bg-gray-600 min-h-screen w-full">
       <Navbar />
       <div className="pt-32 px-6 md:px-20 flex flex-col md:flex-row gap-6">
         <Sidebar />
-        <div className={`flex-1 rounded-3xl min-h-[600px] p-6 ${userData?.role === "Admin" ? "bg-gray-100/10 backdrop-blur-md shadow-inner" : "bg-gray-800/30 backdrop-blur-md shadow-inner"}`}>
+        <div className={`flex-1 rounded-3xl w-6/8 min-h-[600px] p-6 ${userData?.role === "Admin" ? "bg-gray-100/10 backdrop-blur-md shadow-inner" : "bg-gray-800/30 backdrop-blur-md shadow-inner"}`}>
           {userData?.role === "Admin" ? renderContent() : null}
         </div>
       </div>
