@@ -36,7 +36,7 @@ export const NowBooking = () => {
   };
   const Delete = async ({ title,time,name }: { title: string,time:string,name:string }) => {
     try {
-      const response = await axios.get(
+      const response = await axios.delete(
         `https://backendformoviebooking-production.up.railway.app/api/Cinema/DeleteShowTime?movieId=${encodeURIComponent(
           title)}&movietheater=${encodeURIComponent(name)}&time=${time}`
       );
@@ -112,7 +112,7 @@ export const NowBooking = () => {
                             <span
                             onClick={()=>Delete({title:item?.name,time:time,name:item?.name})}
                               key={idx}
-                              className="text-sm bg-gray-300  text-blue-700 px-2 py-1 rounded-full"
+                              className="text-sm bg-gray-300 cursor-pointer  text-blue-700 px-2 py-1 rounded-full"
                             >
                               {time}
                             </span>
