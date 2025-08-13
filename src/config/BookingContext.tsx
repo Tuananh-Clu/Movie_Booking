@@ -1,12 +1,11 @@
 import React, {
   createContext,
-  useEffect,
+ 
   useState,
   type ReactNode,
 } from "react";
 import type { MovieApi, Movies, SeatProp } from "../types/type";
-import axios from "axios";
-import { useAuth} from "@clerk/clerk-react";
+
 
 type Booking = {
   movie: Movies;
