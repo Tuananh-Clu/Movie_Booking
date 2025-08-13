@@ -1,10 +1,12 @@
 import React, {
   createContext,
- 
+ useEffect,
   useState,
   type ReactNode,
 } from "react";
 import type { MovieApi, Movies, SeatProp } from "../types/type";
+import { useAuth } from "@clerk/clerk-react";
+import axios from "axios";
 
 
 type Booking = {
@@ -42,9 +44,29 @@ export const BookingContext = createContext<BookingContextType>({
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
 
 
-
   const [bookingData, setBookingData] = useState<Booking | null>(null);
   const [favoriteMovies, setFavoriteMovies] = useState<MovieApi[]>([]);
+    const { getToken } = useAuth();
+   const fetchMovie = async () => {
+    try {
+      const token = await getToken();
+      const response = await axios.post(
+        "https://backendformoviebooking-production.up.railway.app/api/Client/GetFavoriteMovies",
+        favoriteMovies,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Movies fetched successfully:", response.data);
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    }
+  };
+  useEffect(() => {
+    fetchMovie();
+  });
  
   return (
     <BookingContext.Provider
