@@ -1,7 +1,7 @@
 import { Navbar } from "../components/Navbar";
 import axios from "axios";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import type { Database } from "../types/type";
 import { DashBoard } from "../components/Profile/Admin/DashBoard";
 import { NowBooking } from "../components/Profile/Admin/NowBooking";
@@ -22,7 +22,7 @@ export const Profile = () => {
   const [ticket, setTicket] = useState(0);
   const [doanhThu, setDoanhThu] = useState(0);
 
-  const [clickState, setClickState] = useState("DashBoard");
+  const [clickState, setClickState] = useState(userData?.role === "Admin" ? "DashBoard" : "DashBoardUser");
 
   useEffect(() => {
     const fetchAll = async () => {
