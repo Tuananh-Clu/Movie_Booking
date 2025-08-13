@@ -1,13 +1,12 @@
 import React, {
   createContext,
- useEffect,
+  useEffect,
   useState,
   type ReactNode,
 } from "react";
-import type { MovieApi, Movies, SeatProp } from "../types/type";
-import { useAuth } from "@clerk/clerk-react";
+import type { Movies, SeatProp } from "../types/type";
 import axios from "axios";
-
+import { useAuth} from "@clerk/clerk-react";
 
 type Booking = {
   movie: Movies;
@@ -18,9 +17,9 @@ type Booking = {
 
 type BookingContextType = {
   bookingData: Booking | null;
-  favoriteMovies: MovieApi[];
+  favoriteMovies: Movies[];
   setBookingData: React.Dispatch<React.SetStateAction<Booking | null>>;
-  setFavoriteMovies: React.Dispatch<React.SetStateAction<MovieApi[]>>;
+  setFavoriteMovies: React.Dispatch<React.SetStateAction<Movies[]>>;
 };
 
 export const BookingContext = createContext<BookingContextType>({
@@ -44,9 +43,10 @@ export const BookingContext = createContext<BookingContextType>({
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
 
 
+
   const [bookingData, setBookingData] = useState<Booking | null>(null);
-  const [favoriteMovies, setFavoriteMovies] = useState<MovieApi[]>([]);
-    const { getToken } = useAuth();
+  const [favoriteMovies, setFavoriteMovies] = useState<Movies[]>([]);
+   const { getToken } = useAuth();
    const fetchMovie = async () => {
     try {
       const token = await getToken();
@@ -64,9 +64,9 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error fetching movies:", error);
     }
   };
-  useEffect(() => {
+  useEffect(()=>{
     fetchMovie();
-  });
+  })
  
   return (
     <BookingContext.Provider

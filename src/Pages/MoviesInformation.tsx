@@ -1,14 +1,14 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import type { MovieApi } from "../types/type";
+import type { MovieApi, Movies } from "../types/type";
 import { ListMovieByType } from "../services/tmdb";
 import { Navbar } from "../components/Navbar";
 import { Actors } from "../components/Moviesinformation Components/Actors";
 import { DaySelect } from "../components/Moviesinformation Components/DaySelect";
 import { Recommend } from "../components/Moviesinformation Components/Recommend";
 import { Footer } from "../components/Footer";
-import axios from "axios";import { BookingContext } from "../config/BookingContext";
-``
+import axios from "axios";
+import { BookingContext } from "../config/BookingContext";
 
 export const MoviesInformation = () => {
   const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
@@ -18,6 +18,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
   const [ComingSoon, setComingSoon] = useState<MovieApi[]>([]);
   const [posterLoaded, setPosterLoaded] = useState(false);
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+  const [movier, setMovier] = useState<Movies | null>(null);
 
   const [toggleFavorite, setToggleFavorite] = useState(false);
 
@@ -33,11 +34,20 @@ const {setFavoriteMovies}=useContext(BookingContext);
     }
   };
   const handleToggleFavorite = (movie: MovieApi) => {
+    setMovier({
+      id: String(movie.id),
+      title: movie.original_title,
+      poster: movie.poster_path,
+      duration: movie.vote_count,
+    });
+
     setToggleFavorite((prev) => !prev);
     if (toggleFavorite) {
-      setFavoriteMovies((prev) => prev.filter((item) => item.id !== movie.id));
+      setFavoriteMovies((prev) => prev.filter((item) => String(item.id) !== String(movie.id)));
     } else {
-      setFavoriteMovies((prev) => [...prev, movie]);
+      if (movier) {
+        setFavoriteMovies((prev) => [...prev, movier]);
+      }
     }
   };
   useEffect(() => {
