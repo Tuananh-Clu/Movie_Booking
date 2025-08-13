@@ -5,7 +5,7 @@ import type { Movies } from "../../../types/type";
 export const NowBooking = () => {
   const [dataMovie, setDataMovie] = useState<Movies[]>([]);
   const [dataMovies, setDataMovies] = useState<any[]>([]);
-  const [popUp,setPopUp] = useState(false); 
+  const [popUp, setPopUp] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -21,10 +21,12 @@ export const NowBooking = () => {
   useEffect(() => {
     fetchData();
   }, []);
-   const fetchInfo = async ({title}:{title:string}) => {
+  const fetchInfo = async ({ title }: { title: string }) => {
     try {
       const response = await axios.get(
-        `https://backendformoviebooking-production.up.railway.app/api/Cinema/GetShowTimeById?movieTitle=${encodeURIComponent(title)}`
+        `https://backendformoviebooking-production.up.railway.app/api/Cinema/GetShowTimeById?movieTitle=${encodeURIComponent(
+          title
+        )}`
       );
       setDataMovies(response.data);
     } catch (error) {
@@ -32,7 +34,6 @@ export const NowBooking = () => {
     }
     setPopUp(true);
   };
-
 
   return (
     <div className="mt-10 px-4 md:px-10">
@@ -64,22 +65,61 @@ export const NowBooking = () => {
       </div>
       <div>
         {popUp && (
-          <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
-              <h2 className="text-lg font-semibold mb-4">Thông Tin Lịch Chiếu</h2>
-              <div className=" flex flex-col gap-2">
-                {dataMovies?.map((item, index) => (
-                  <div key={index} className="border-b border-gray-300 py-2">
-                    <h3 className="font-semibold">{item?.name}</h3>
-                  </div>
-                ))}
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fadeIn">
+            <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full mx-4 transform transition-transform duration-300 scale-100">
+              {/* Header */}
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Thông Tin Lịch Chiếu
+                </h2>
+                <button
+                  onClick={() => setPopUp(false)}
+                  className="text-gray-500 hover:text-gray-700 text-lg font-bold"
+                >
+                  ✕
+                </button>
               </div>
-              <button
-                onClick={() => setPopUp(false)}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-              >
-                Đóng
-              </button>
+
+      
+              <div className="flex flex-col gap-3 max-h-96 overflow-y-auto">
+                {dataMovies?.length > 0 ? (
+                  dataMovies.map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-50 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow duration-200"
+                    >
+                      <h3 className="font-semibold text-gray-700">
+                        {item?.name}
+                      </h3>
+                      {item?.times && item.times.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          {item.times.map((time:string, idx:number) => (
+                            <span
+                              key={idx}
+                              className="text-sm bg-blue-100 text-blue-700 px-2 py-1 rounded-full"
+                            >
+                              {time}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-center">
+                    Chưa có lịch chiếu
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-4 flex justify-center">
+                <button
+                  onClick={() => setPopUp(false)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200"
+                >
+                  Đóng
+                </button>
+              </div>
             </div>
           </div>
         )}
