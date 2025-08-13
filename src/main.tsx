@@ -15,8 +15,9 @@ if (!PUBLISHABLE_KEY) {
 }
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BookingProvider>
+    
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl={"/"}>
+    <BookingProvider>
     <NewProvider>
     <SeatsProvider>
     <FilterProvider>
@@ -29,8 +30,8 @@ createRoot(document.getElementById('root')!).render(
     </FilterProvider>
     </SeatsProvider>
     </NewProvider>
-    
-    </ClerkProvider>
     </BookingProvider>
+    </ClerkProvider>
+    
   </StrictMode>,
 )
