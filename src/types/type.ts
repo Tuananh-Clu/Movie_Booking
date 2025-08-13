@@ -1,16 +1,21 @@
 import type { Store } from "../config/filterSeat";
 
 export interface MovieApi {
+  adult: boolean;
   id: number;
+  original_language: string;
   original_title: string;
   overview: string;
-  tittle: string;
- genre_ids: number[];
+  title: string;
+  genre_ids: number[];
+  popularity: number;
   poster_path: string;
   backdrop_path: string;
   release_date: string;
   vote_average: number;
   type: Choice[];
+  video:boolean;
+  vote_count: number;
 }
 export interface MovieCards {
   id: number;

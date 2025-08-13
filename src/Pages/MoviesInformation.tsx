@@ -36,9 +36,9 @@ export const MoviesInformation = () => {
   const handleToggleFavorite = (movie: MovieApi) => {
     setToggleFavorite((prev) => !prev);
     if (toggleFavorite) {
-      setFavoriteMovies((prev) => prev.filter((item) => item.id !== movie.id));
+      setFavoriteMovies(movies => movie.id!== movie.id ? movies : movie);
     } else {
-      setFavoriteMovies((prev) => [...prev, movie]);
+      setFavoriteMovies(movie);
     }
   };
   useEffect(() => {
@@ -129,7 +129,7 @@ export const MoviesInformation = () => {
                   if (movie) {
                    handleToggleFavorite(movie);
                   }
-                }} className={`fa-solid fa-heart fa-2xl ${toggleFavorite?"bg-red-500":"bg-amber-50"} text-white rounded-2xl p-3 bg-black/60`}></i>
+                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":"text-white"}  rounded-2xl p-4 bg-black/60`}></i>
 
                 </div>
               </div>
