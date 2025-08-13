@@ -56,6 +56,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
         {
           headers: {
             authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
           },
         }
       );
