@@ -8,6 +8,10 @@ import { NowBooking } from "../components/Profile/Admin/NowBooking";
 import { DoanhThuRap } from "../components/Profile/Admin/DoanhThuRap";
 import { ListPhim } from "../components/Profile/Admin/ListPhim";
 import { AddPhim } from "../components/Profile/Admin/AddPhim";
+import { InfoUser } from "../components/Profile/User/InfoUser";
+import { DanhSachPhimYeuThich } from "../components/Profile/User/DanhSachPhimYeuThich";
+import { MaGiamGia } from "../components/Profile/User/MaGiamGia";
+import { DashBoardUser } from "../components/Profile/User/DashBoardUser";
 
 export const Profile = () => {
   const { getToken } = useAuth();
@@ -58,10 +62,19 @@ export const Profile = () => {
         return <ListPhim />;
       case "Phim":
         return <AddPhim />;
+      case "Thông Tin Tài Khoản":
+        return <InfoUser />;
+        case "Phim Yêu Thích":
+          return <DanhSachPhimYeuThich/>
+          case "Mã Giảm Giá":
+            return <MaGiamGia/>
+            case "DashBoardUser":
+              return <DashBoardUser/>
       default:
         return null;
     }
   };
+
 
   // Sidebar component
   const Sidebar = () => {
@@ -94,7 +107,7 @@ export const Profile = () => {
         </div>
       );
     } else {
-      const items = ["Mã Giảm Giá", "Phim Yêu Thích", "Thông Tin Tài Khoản"];
+      const items = ["DashBoard","Mã Giảm Giá", "Phim Yêu Thích", "Thông Tin Tài Khoản"];
       return (
         <div className="bg-gray-900/80 p-6 flex flex-col items-center rounded-3xl min-w-[250px] shadow-lg">
           <img className="w-32 h-32 rounded-full object-cover border-4 border-red-500" src={user?.imageUrl} alt="Avatar" />
@@ -102,7 +115,7 @@ export const Profile = () => {
           <p className="text-gray-300">{userData?.role}</p>
           <ul className="mt-6 flex flex-col gap-3 w-full">
             {items.map((item) => (
-              <li key={item} className="text-white text-center p-3 rounded-xl hover:bg-white hover:text-red-600 cursor-pointer transition-all shadow-sm">
+              <li onClick={() => setClickState(item)} key={item} className="text-white text-center p-3 rounded-xl hover:bg-white hover:text-red-600 cursor-pointer transition-all shadow-sm">
                 {item}
               </li>
             ))}
