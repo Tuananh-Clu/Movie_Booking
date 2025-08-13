@@ -8,7 +8,6 @@ import { NowBooking } from "../components/Profile/Admin/NowBooking";
 import { DoanhThuRap } from "../components/Profile/Admin/DoanhThuRap";
 import { ListPhim } from "../components/Profile/Admin/ListPhim";
 import { AddPhim } from "../components/Profile/Admin/AddPhim";
-import { InfoUser } from "../components/Profile/User/InfoUser";
 import { DanhSachPhimYeuThich } from "../components/Profile/User/DanhSachPhimYeuThich";
 import { MaGiamGia } from "../components/Profile/User/MaGiamGia";
 import { DashBoardUser } from "../components/Profile/User/DashBoardUser";
@@ -62,8 +61,7 @@ export const Profile = () => {
         return <ListPhim />;
       case "Phim":
         return <AddPhim />;
-      case "Thông Tin Tài Khoản":
-        return <InfoUser />;
+     
         case "Phim Yêu Thích":
           return <DanhSachPhimYeuThich/>
           case "Mã Giảm Giá":
@@ -107,7 +105,7 @@ export const Profile = () => {
         </div>
       );
     } else {
-      const items = ["DashBoard","Mã Giảm Giá", "Phim Yêu Thích", "Thông Tin Tài Khoản"];
+      const items = ["DashBoard","Mã Giảm Giá", "Phim Yêu Thích"];
       return (
         <div className="bg-gray-900/80 p-6 flex flex-col items-center rounded-3xl min-w-[250px] shadow-lg">
           <img className="w-32 h-32 rounded-full object-cover border-4 border-red-500" src={user?.imageUrl} alt="Avatar" />
@@ -131,7 +129,7 @@ export const Profile = () => {
       <div className="pt-32 px-6 md:px-20 flex flex-col md:flex-row gap-6">
         <Sidebar />
         <div className={`flex-1 rounded-3xl w-6/8 min-h-[600px] p-6 ${userData?.role === "Admin" ? "bg-gray-100/10 backdrop-blur-md shadow-inner" : "bg-gray-800/30 backdrop-blur-md shadow-inner"}`}>
-          {userData?.role === "Admin" ? renderContent() : userData?.role === "User" ? renderContent() : <div className="text-white text-center">Bạn không có quyền truy cập vào trang này.</div>}
+          {userData?.role === "Admin" ? renderContent() : userData?.role === "User" ? renderContent() :renderContent()}
         </div>
       </div>
     </div>

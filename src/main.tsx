@@ -8,7 +8,6 @@ import { SeatsProvider } from './config/filterSeat.tsx'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { NewProvider } from './config/new.tsx'
 import { BookingProvider } from './config/BookingContext.tsx'
-// Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!PUBLISHABLE_KEY) {
@@ -16,8 +15,8 @@ if (!PUBLISHABLE_KEY) {
 }
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl={"/"}>
     <BookingProvider>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl={"/"}>
     <NewProvider>
     <SeatsProvider>
     <FilterProvider>
@@ -30,7 +29,8 @@ createRoot(document.getElementById('root')!).render(
     </FilterProvider>
     </SeatsProvider>
     </NewProvider>
-    </BookingProvider>
+    
     </ClerkProvider>
+    </BookingProvider>
   </StrictMode>,
 )

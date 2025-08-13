@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import type { MovieApi } from "../types/type";
 import { ListMovieByType } from "../services/tmdb";
@@ -7,7 +7,8 @@ import { Actors } from "../components/Moviesinformation Components/Actors";
 import { DaySelect } from "../components/Moviesinformation Components/DaySelect";
 import { Recommend } from "../components/Moviesinformation Components/Recommend";
 import { Footer } from "../components/Footer";
-import axios from "axios";``
+import axios from "axios";import { BookingContext } from "../config/BookingContext";
+``
 
 export const MoviesInformation = () => {
   const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
@@ -17,6 +18,9 @@ export const MoviesInformation = () => {
   const [ComingSoon, setComingSoon] = useState<MovieApi[]>([]);
   const [posterLoaded, setPosterLoaded] = useState(false);
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+  const {setFavoriteMovies}=useContext(BookingContext);
+
+  const [toggleFavorite, setToggleFavorite] = useState(false);
 
   const isLoading = !(posterLoaded && backgroundLoaded);
   const daySelect = useRef<HTMLDivElement | null>(null);
@@ -27,6 +31,14 @@ export const MoviesInformation = () => {
     }
     catch(error){
       console.log(error)
+    }
+  };
+  const handleToggleFavorite = (movie: MovieApi) => {
+    setToggleFavorite((prev) => !prev);
+    if (toggleFavorite) {
+      setFavoriteMovies((prev) => prev.filter((item) => item.id !== movie.id));
+    } else {
+      setFavoriteMovies((prev) => [...prev, movie]);
     }
   };
   useEffect(() => {
@@ -101,8 +113,8 @@ export const MoviesInformation = () => {
                   <i className="fa-solid fa-heart text-red-500" />
                   {movie.vote_average}
                 </p>
-
-                <button
+                <div className="flex flex-row items-center gap-4">
+                   <button
                   onClick={() => {
                     daySelect.current?.scrollIntoView({
                       behavior: "smooth",
@@ -113,6 +125,13 @@ export const MoviesInformation = () => {
                 >
                   Đặt Vé Ngay
                 </button>
+                <i onClick={() => {
+                  if (movie) {
+                   handleToggleFavorite(movie);
+                  }
+                }} className="fa-solid fa-heart text-white p-3 bg-black/60"></i>
+
+                </div>
               </div>
             </div>
           </div>
