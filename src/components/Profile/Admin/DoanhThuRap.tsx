@@ -7,6 +7,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+   ArcElement,
    RadialLinearScale,
   BarController,
   BarElement,
@@ -23,6 +24,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { PolarArea } from 'react-chartjs-2';
 
 ChartJS.register(
+   ArcElement,
    RadialLinearScale,
   CategoryScale,
   LinearScale,
