@@ -51,7 +51,7 @@ export const NowBooking = () => {
                 onClick={() => fetchInfo({ title: item?.title })}
                 src={item?.poster}
                 alt={item?.title}
-                className="w-full h-64 object-cover"
+                className="w-full h-64 object-cover cursor-pointer hover:scale-105 transition-transform duration-300"
               />
               <div className="p-4">
                 <h2 className="text-white font-semibold text-base md:text-lg line-clamp-2 h-[48px]">
@@ -64,14 +64,13 @@ export const NowBooking = () => {
       </div>
       <div>
         {popUp && (
-          <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
               <h2 className="text-lg font-semibold mb-4">Thông Tin Lịch Chiếu</h2>
-              <div>
+              <div className=" flex flex-col gap-2">
                 {dataMovies?.map((item, index) => (
                   <div key={index} className="border-b border-gray-300 py-2">
                     <h3 className="font-semibold">{item?.name}</h3>
-                    <p className="text-sm text-gray-600">{item?.times}</p>
                   </div>
                 ))}
               </div>
