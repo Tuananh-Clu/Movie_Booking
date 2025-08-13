@@ -59,7 +59,7 @@ export const DoanhThuRap = () => {
   if (loading) return <p style={{ textAlign: 'center' }}>Đang tải dữ liệu...</p>;
   if (!datas.length) return <p style={{ textAlign: 'center' }}>Không có dữ liệu để hiển thị.</p>;
   const scale = chroma.scale(['#00bcd4', '#ff4081']).mode('lch').colors(datas.length);
-  const hove=scale.map((color)=>chroma(color).brighten(1).hex());  
+  const hove=scale.map((color:string)=>chroma(color).brighten(1).hex());  
   const labels = datas.map((d) => d.name);
 
   const data:any = {
