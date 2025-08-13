@@ -108,25 +108,22 @@ const option:any = {
 
   
 
-  return (
-    <div>
-       <div
-      style={{
-        maxWidth: 900,
-        margin: '0 auto',
-        padding: 25,
-        backgroundColor: '#fff',
-        borderRadius: 14,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-        fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
-        color: '#222',
-      }}
-    >
-      <div>
-              <PolarArea data={data} options={options} />
-              <Pie data={dat} options={option} />
+return (
+  <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md font-sans text-gray-800">
+    <div className="flex flex-wrap gap-6 justify-between">
+      
+      <div className="flex-1 min-w-[280px]">
+        <h3 className="text-center text-lg font-semibold mb-4">Doanh Thu Của Rạp Theo Tháng</h3>
+        <PolarArea data={data} options={options} />
       </div>
+      
+      <div className="flex-1 min-w-[280px]">
+        <h3 className="text-center text-lg font-semibold mb-4">Số Lượng Vé Đã Bán</h3>
+        <Pie data={dat} options={option} />
+      </div>
+      
     </div>
-    </div>
-  );
+  </div>
+);
+
 };
