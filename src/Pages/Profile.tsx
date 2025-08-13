@@ -78,7 +78,7 @@ export const Profile = () => {
           <h2 className="mt-4 text-white text-xl font-bold text-center">{user?.fullName}</h2>
           <p className="text-gray-300">{userData?.role}</p>
           <hr className="w-full my-4 border-gray-400" />
-          <ul className="w-full flex flex-col gap-3">
+          <ul className="w-6/8 flex flex-col gap-3">
             {items.map((item) => (
               <li
                 key={item.value}
