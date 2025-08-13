@@ -13,12 +13,11 @@ import axios from "axios";import { BookingContext } from "../config/BookingConte
 export const MoviesInformation = () => {
   const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
   const { id } = useParams<string>() || {};
-
+const {setFavoriteMovies}=useContext(BookingContext);
   const [MainMovies, setMainMovies] = useState<MovieApi[]>([]);
   const [ComingSoon, setComingSoon] = useState<MovieApi[]>([]);
   const [posterLoaded, setPosterLoaded] = useState(false);
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
-  const {setFavoriteMovies}=useContext(BookingContext);
 
   const [toggleFavorite, setToggleFavorite] = useState(false);
 
@@ -36,9 +35,9 @@ export const MoviesInformation = () => {
   const handleToggleFavorite = (movie: MovieApi) => {
     setToggleFavorite((prev) => !prev);
     if (toggleFavorite) {
-      setFavoriteMovies(movies => movie.id!== movie.id ? movies : movie);
+      setFavoriteMovies((prev) => prev.filter((item) => item.id !== movie.id));
     } else {
-      setFavoriteMovies(movie);
+      setFavoriteMovies((prev) => [...prev, movie]);
     }
   };
   useEffect(() => {
