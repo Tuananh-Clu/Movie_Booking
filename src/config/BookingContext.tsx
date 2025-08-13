@@ -38,14 +38,16 @@ export const BookingContext = createContext<BookingContextType>({
   favoriteMovies: [],
   setFavoriteMovies: () => {},
 });
-const { getToken } = useAuth();
-const token = await getToken();
+
 
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
+  const { getToken } = useAuth();
+
   const [bookingData, setBookingData] = useState<Booking | null>(null);
   const [favoriteMovies, setFavoriteMovies] = useState<MovieApi[]>([]);
   const fetchMovie = async () => {
     try {
+      const token = await getToken();
       const response = await axios.post(
         "https://backendformoviebooking-production.up.railway.app/api/Client/GetFavoriteMovies",
         favoriteMovies,
