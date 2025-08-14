@@ -41,9 +41,6 @@ export const BookingContext = createContext<BookingContextType>({
 
 
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
-
-
-
   const [bookingData, setBookingData] = useState<Booking | null>(null);
   const [favoriteMovies, setFavoriteMovies] = useState<Movies[]>([]);
    const { getToken } = useAuth();
@@ -69,7 +66,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
   };
   useEffect(()=>{
     fetchMovie();
-  })
+  },[favoriteMovies])
  
   return (
     <BookingContext.Provider
