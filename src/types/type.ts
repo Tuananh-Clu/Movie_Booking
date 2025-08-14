@@ -76,7 +76,7 @@ export interface Database{
   email:string,
   role:string
 tickets:Store[][],
-yeuThich:Movies[]
+YeuThich:Movies[]
 }
 // types.ts
 export interface SeatProp {

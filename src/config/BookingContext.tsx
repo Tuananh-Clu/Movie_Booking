@@ -49,7 +49,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
       const token = await getToken();
       const response = await axios.post(
         "https://backendformoviebooking-production.up.railway.app/api/Client/GetFavoriteMovies",
-        favoriteMovies.slice(1,favoriteMovies.length),
+        favoriteMovies,
         {
           headers: {
             authorization: `Bearer ${token}`,
