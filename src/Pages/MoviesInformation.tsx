@@ -43,6 +43,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
 
     setToggleFavorite((prev) => !prev);
     if (toggleFavorite) {
+      console.log("movie", movier);
       setFavoriteMovies((prev) => prev.filter((item) => String(item.id) !== String(movie.id)));
     } else {
       if (movier) {
@@ -138,7 +139,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
                   if (movie) {
                    handleToggleFavorite(movie);
                   }
-                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":"text-white"}  rounded-2xl p-4 bg-black/60`}></i>
+                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
 
                 </div>
               </div>
