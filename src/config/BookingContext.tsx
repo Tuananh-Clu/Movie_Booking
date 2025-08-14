@@ -60,7 +60,9 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
           },
         }
       );
+      console.log(token);
       console.log("Movies fetched successfully:", response.data);
+
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
