@@ -18,10 +18,9 @@ const {setFavoriteMovies}=useContext(BookingContext);
   const [ComingSoon, setComingSoon] = useState<MovieApi[]>([]);
   const [posterLoaded, setPosterLoaded] = useState(false);
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
-  const [movier, setMovier] = useState<Movies[] | null>([]);
-
+  
   const [toggleFavorite, setToggleFavorite] = useState(false);
-
+  
   const isLoading = !(posterLoaded && backgroundLoaded);
   const daySelect = useRef<HTMLDivElement | null>(null);
   const fetchDataManyPage = async () => {
@@ -34,21 +33,19 @@ const {setFavoriteMovies}=useContext(BookingContext);
     }
   };
   const handleToggleFavorite = (movie: MovieApi) => {
-    setMovier([{
+    const movieData: Movies = {
       id: String(movie.id),
       title: movie.original_title,
       poster: movie.poster_path,
       duration: movie.vote_count,
-    }]);
-
-    setToggleFavorite((prev) => !prev);
+    };
+  
     if (toggleFavorite) {
-      console.log("movie", movier);
       setFavoriteMovies((prev) => prev.filter((item) => String(item.id) !== String(movie.id)));
+      setToggleFavorite(false);
     } else {
-      if (movier) {
-        setFavoriteMovies((prev) => [...prev, ...movier]);
-      }
+      setFavoriteMovies((prev) => [...prev, movieData]);
+      setToggleFavorite(true);
     }
   };
   useEffect(() => {
