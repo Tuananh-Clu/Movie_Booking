@@ -18,7 +18,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
   const [ComingSoon, setComingSoon] = useState<MovieApi[]>([]);
   const [posterLoaded, setPosterLoaded] = useState(false);
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
-  const [movier, setMovier] = useState<Movies | null>(null);
+  const [movier, setMovier] = useState<Movies[] | null>([]);
 
   const [toggleFavorite, setToggleFavorite] = useState(false);
 
@@ -34,19 +34,19 @@ const {setFavoriteMovies}=useContext(BookingContext);
     }
   };
   const handleToggleFavorite = (movie: MovieApi) => {
-    setMovier({
+    setMovier([{
       id: String(movie.id),
       title: movie.original_title,
       poster: movie.poster_path,
       duration: movie.vote_count,
-    });
+    }]);
 
     setToggleFavorite((prev) => !prev);
     if (toggleFavorite) {
       setFavoriteMovies((prev) => prev.filter((item) => String(item.id) !== String(movie.id)));
     } else {
       if (movier) {
-        setFavoriteMovies((prev) => [...prev, movier]);
+        setFavoriteMovies((prev) => [...prev, ...movier]);
       }
     }
   };
