@@ -51,7 +51,7 @@ export const Payment = () => {
       const token = await getToken();
       console.log(token);
       const response = await axios.post(
-        "https://backendformoviebooking-1.onrender.com/api/Client/Up",
+        "https://backendformoviebooking-production.up.railway.app/api/Client/Up",
         store,
         {
           headers: {

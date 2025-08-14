@@ -19,7 +19,7 @@ export const Search = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://backendformoviebooking-1.onrender.com/api/StorageMovie/ShowAll"
+        "https://backendformoviebooking-production.up.railway.app/api/StorageMovie/ShowAll"
       );
       setMovies(response.data);
     } catch (error) {

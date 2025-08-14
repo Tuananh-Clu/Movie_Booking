@@ -28,10 +28,10 @@ export const Profile = () => {
       try {
         const token = await getToken();
         const [userRes, allUser, ticketRes, revenueRes] = await Promise.all([
-          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetUser", { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetAllUser"),
-          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetQuantityTicket"),
-          axios.get("https://backendformoviebooking-1.onrender.com/api/Client/GetDoanhthuTicket"),
+          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetUser", { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetAllUser"),
+          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTicket"),
+          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetDoanhthuTicket"),
         ]);
 
         setUserData(userRes.data);

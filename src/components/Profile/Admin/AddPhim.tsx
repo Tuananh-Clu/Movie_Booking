@@ -34,7 +34,7 @@ export const AddPhim = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://backendformoviebooking-1.onrender.com/api/MovieNowPlaying/Show"
+          "https://backendformoviebooking-production.up.railway.app/api/MovieNowPlaying/Show"
         );
         setMoviesPlaying(response.data);
       } catch (error) {
@@ -60,7 +60,7 @@ export const AddPhim = () => {
 
   const uploadToServer = async (dataToSend: any) => {
     try {
-      const response = await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/AddShowTime?movieId=${
+      const response = await axios.post(`https://backendformoviebooking-production.up.railway.app/api/Cinema/AddShowTime?movieId=${
         encodeURIComponent(
        selectValue)}&roomId=${selectedRoom}`, dataToSend, {
         headers: {

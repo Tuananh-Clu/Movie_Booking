@@ -25,7 +25,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
   const daySelect = useRef<HTMLDivElement | null>(null);
   const fetchDataManyPage = async () => {
     try{
-      const response=await axios.get("https://backendformoviebooking-1.onrender.com/api/StorageMovie/ShowAll");
+      const response=await axios.get("https://backendformoviebooking-production.up.railway.app/api/StorageMovie/ShowAll");
       setMainMovies(response.data);
     }
     catch(error){

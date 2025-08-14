@@ -10,7 +10,7 @@ export const NowBooking = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://backendformoviebooking-1.onrender.com/api/Cinema/MovieBooking"
+        "https://backendformoviebooking-production.up.railway.app/api/Cinema/MovieBooking"
       );
       setDataMovie(response.data);
     } catch (error) {

@@ -10,7 +10,7 @@ export const MainArticle = () => {
   const displayArticle=SelectArticle.enclosure?.link===""?firstArticle:SelectArticle;
 const fetchAllMovieNews=async()=>{
     try{
-      const response=await axios("https://backendformoviebooking-1.onrender.com/api/Article/Show")
+      const response=await axios("https://backendformoviebooking-production.up.railway.app/api/Article/Show")
       setArticle(response.data);
     }
     catch(error){

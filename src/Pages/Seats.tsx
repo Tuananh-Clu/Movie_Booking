@@ -29,7 +29,7 @@ export const Seats = () => {
     const fetchSeat = async () => {
       try {
         const { data } = await axios.get(
-          `https://backendformoviebooking-1.onrender.com/api/Cinema/GetSeat?movieid=${decodedTitle}&roomid=${room}&ngay=${seat[0].date}&time=${seat[0].time}`
+          `https://backendformoviebooking-production.up.railway.app/api/Cinema/GetSeat?movieid=${decodedTitle}&roomid=${room}&ngay=${seat[0].date}&time=${seat[0].time}`
         );
         setSeats(data);
       } catch (error) {
@@ -43,7 +43,7 @@ export const Seats = () => {
     const fetchCinemas = async () => {
       try {
         const { data } = await axios.get(
-          `https://backendformoviebooking-1.onrender.com/api/Cinema/LayThongTinRap?location=${seat[0].Location}&room=${room}&title=${decodedTitle}`
+          `https://backendformoviebooking-production.up.railway.app/api/Cinema/LayThongTinRap?location=${seat[0].Location}&room=${room}&title=${decodedTitle}`
         );
         setCinema(data);
       } catch (error) {

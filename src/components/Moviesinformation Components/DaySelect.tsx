@@ -15,7 +15,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
    useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get(`https://backendformoviebooking-1.onrender.com/api/Cinema/GetDanhSachChieu?movieid=${encodeURIComponent(title as string)}`);
+        const response = await axios.get(`https://backendformoviebooking-production.up.railway.app/api/Cinema/GetDanhSachChieu?movieid=${encodeURIComponent(title as string)}`);
         SetDay(response.data)
         console.log(response.data)
       } catch (error) {

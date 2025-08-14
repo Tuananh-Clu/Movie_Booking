@@ -10,7 +10,7 @@ export const ListPhim = () => {
   const fetchDataReport = async () => {
     try {
       const response = await axios(
-        "https://backendformoviebooking-1.onrender.com/api/Cinema/GetSoLuongVeBan"
+        "https://backendformoviebooking-production.up.railway.app/api/Cinema/GetSoLuongVeBan"
       );
       setTickets(response.data);
     } catch (err) {

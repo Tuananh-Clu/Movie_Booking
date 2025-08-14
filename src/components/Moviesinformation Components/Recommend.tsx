@@ -12,7 +12,7 @@ export const Recommend = () => {
 
  const fetchDataManyPage = async () => {
 try{
-  const response=await axios("https://backendformoviebooking-1.onrender.com/api/StorageMovie/ShowAll")
+  const response=await axios("https://backendformoviebooking-production.up.railway.app/api/StorageMovie/ShowAll")
  setCurrentMovies(response.data);
 }
 catch{

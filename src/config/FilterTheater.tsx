@@ -32,7 +32,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 
   const Filters = async () => {
     try {
-      const response = await axios.post(`https://backendformoviebooking-1.onrender.com/api/Cinema/Filter_movie?movie=${filter.name}`, filterTheater);
+      const response = await axios.post(`https://backendformoviebooking-production.up.railway.app/api/Cinema/Filter_movie?movie=${filter.name}`, filterTheater);
       setFilteredSearch(response.data);
     } catch (error) {
       console.log(error);
@@ -50,7 +50,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get<TheaterFullTypeFill[]>("https://backendformoviebooking-1.onrender.com/api/Cinema/GetTheater");
+        const response = await axios.get<TheaterFullTypeFill[]>("https://backendformoviebooking-production.up.railway.app/api/Cinema/GetTheater");
         setFilterTheater(response.data);
         setFilteredSearch(response.data);
       } catch (error) {

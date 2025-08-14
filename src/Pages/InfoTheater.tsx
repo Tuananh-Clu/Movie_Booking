@@ -16,7 +16,7 @@ export const InfoTheater = () => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get<TheaterType[]>(`https://backendformoviebooking-1.onrender.com/api/Cinema/GetTheaterById?id=${id}`);
+        const response = await axios.get<TheaterType[]>(`https://backendformoviebooking-production.up.railway.app/api/Cinema/GetTheaterById?id=${id}`);
         setTheaterData(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);
