@@ -17,7 +17,7 @@ export const Ticket = () => {
     try {
       const token = await getToken();
       const response = await axios(
-        "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
+        "https://backendformoviebooking-production.up.railway.app/GetUser",
         {
           headers: {
             Authorization: `Bearer ${token} `,
