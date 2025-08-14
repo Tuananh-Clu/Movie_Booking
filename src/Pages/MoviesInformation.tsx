@@ -32,6 +32,10 @@ const {setFavoriteMovies}=useContext(BookingContext);
       console.log(error)
     }
   };
+    useEffect(() => {
+    fetchDataManyPage();
+    ListMovieByType("upcoming", setComingSoon, 1);
+  }, []);
   const handleToggleFavorite = (movie: MovieApi) => {
     const movieData: Movies = {
       id: String(movie.id),
@@ -48,10 +52,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
       setToggleFavorite(true);
     }
   };
-  useEffect(() => {
-    fetchDataManyPage();
-    ListMovieByType("upcoming", setComingSoon, 1);
-  }, []);
+
 
   const movieFromNowPlaying = MainMovies.find(
     (item) => item.original_title.toString() === id
