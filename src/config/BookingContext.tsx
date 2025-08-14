@@ -18,6 +18,7 @@ type Booking = {
 type BookingContextType = {
   bookingData: Booking | null;
   favoriteMovies: Movies[];
+  tokens: string;
   setBookingData: React.Dispatch<React.SetStateAction<Booking | null>>;
   setFavoriteMovies: React.Dispatch<React.SetStateAction<Movies[]>>;
 };
@@ -37,27 +38,30 @@ export const BookingContext = createContext<BookingContextType>({
   setBookingData: () => {},
   favoriteMovies: [],
   setFavoriteMovies: () => {},
+  tokens: "",
 });
 
 
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
   const [bookingData, setBookingData] = useState<Booking | null>(null);
   const [favoriteMovies, setFavoriteMovies] = useState<Movies[]>([]);
+  const [tokens,setTokens]=useState<string>("");
    const { getToken } = useAuth();
    const fetchMovie = async () => {
     try {
-      const token = await getToken();
+      const tokensa = await getToken();
+      setTokens(tokensa ?? "");
       const response = await axios.post(
         "https://backendformoviebooking-production.up.railway.app/api/Client/GetFavoriteMovies",
         favoriteMovies,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            authorization: `Bearer ${tokens}`,
             "Content-Type": "application/json"
           },
         }
       );
-      console.log(token);
+      console.log(tokens);
       console.log("Movies fetched successfully:", response.data);
       console.log("Favorite movies:", favoriteMovies);
 
@@ -71,7 +75,7 @@ export const BookingProvider = ({ children }: { children: ReactNode }) => {
  
   return (
     <BookingContext.Provider
-      value={{ bookingData, setBookingData, favoriteMovies, setFavoriteMovies }}
+      value={{ bookingData, setBookingData, favoriteMovies, setFavoriteMovies,tokens }}
     >
       {children}
     </BookingContext.Provider>

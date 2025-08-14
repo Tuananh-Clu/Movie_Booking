@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { type Seat } from "../config/filterSeat";
 import { ViewTickets } from "../components/TicketsComponents/ViewTickets";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import type { Database } from "../types/type";
+import { BookingContext } from "../config/BookingContext";
 
 export const Ticket = () => {
   const { getToken } = useAuth();
   const [activePopupIndex, setActivePopupIndex] = useState<number | null>(null);
   const [storeDataBase, setStoreDataBase] = useState<Database>();
+  const {tokens}=useContext(BookingContext);
 
   const fetchData = async () => {
     try {
@@ -18,11 +20,12 @@ export const Ticket = () => {
         "https://backendformoviebooking-1.onrender.com/api/Client/GetUser",
         {
           headers: {
-            Authorization: `Bearer ${token} `,
+            Authorization: `Bearer ${tokens} `,
             "Content-Type": "application/json",
           },
         }
       );
+      console.log(token);
       setStoreDataBase(response.data);
     } catch (error) {
       console.log(error);
@@ -37,7 +40,7 @@ export const Ticket = () => {
         storeDataBase?.tickets.flat(),
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${tokens}`,
             "Content-Type": "application/json",
           },
         }
