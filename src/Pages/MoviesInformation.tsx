@@ -57,6 +57,10 @@ const {setFavoriteMovies}=useContext(BookingContext);
         setToggleFavorite(true);
       }
     },[movies])
+    useEffect(()=>{
+      console.log(movie.original_title);
+      console.log(movies.map(item=>item.title));
+    })
   };
   const {getToken}=useAuth();
     const [movies, setMovies] = useState<Movies[]>([]);
