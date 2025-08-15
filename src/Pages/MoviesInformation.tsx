@@ -71,8 +71,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
       }
     }
     fetchData();
-  },)
-  const isFavoriteUserIn=movies.some(a=>a.title.trim().toLowerCase()===movie?.original_title.trim().toLowerCase());
+  },[])
 
   const movieFromNowPlaying = MainMovies.find(
     (item) => item.original_title.toString() === id
@@ -81,6 +80,13 @@ const {setFavoriteMovies}=useContext(BookingContext);
     (item) => item.original_title.toString() === id
   );
   const movie = movieFromNowPlaying || movieFromComingSoon;
+  const isFavourite=movie?
+  movies.some((item) => item.title.trim().toLowerCase() === movie.original_title.trim().toLowerCase()):false;
+  useEffect(() => {
+    if(movie&&movies.length>0){
+      setToggleFavorite(isFavourite);
+    }
+  }, [movie, movies]);
 
   return (
     <>
@@ -157,7 +163,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
                   if (movie) {
                    handleToggleFavorite(movie);
                   }
-                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":isFavoriteUserIn?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
+                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite||isFavourite?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
 
                 </div>
               </div>
