@@ -9,6 +9,7 @@ import { Recommend } from "../components/Moviesinformation Components/Recommend"
 import { Footer } from "../components/Footer";
 import axios from "axios";
 import { BookingContext } from "../config/BookingContext";
+import { useAuth } from "@clerk/clerk-react";
 
 export const MoviesInformation = () => {
   const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
@@ -52,7 +53,25 @@ const {setFavoriteMovies}=useContext(BookingContext);
       setToggleFavorite(true);
     }
   };
-
+  const {getToken}=useAuth();
+    const [movies, setMovies] = useState<Movies[]>([]);
+  useEffect(()=>{
+    const fetchData = async () => {
+      try{
+         const token=await getToken();
+        const response=await axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetFavouriteMovieByUser", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setMovies(response.data);
+      }
+      catch (error) {
+        console.log("Error fetching favourite movies:", error);
+      }
+    }
+    fetchData();
+  },)
 
   const movieFromNowPlaying = MainMovies.find(
     (item) => item.original_title.toString() === id
@@ -137,7 +156,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
                   if (movie) {
                    handleToggleFavorite(movie);
                   }
-                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
+                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite||movies.map(item=>item.title===movie.title?"text-red-600":"text-white")}  rounded-2xl p-4`}></i>
 
                 </div>
               </div>
