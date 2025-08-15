@@ -52,6 +52,11 @@ const {setFavoriteMovies}=useContext(BookingContext);
       setFavoriteMovies((prev) => [...prev, movieData]);
       setToggleFavorite(true);
     }
+    useEffect(()=>{
+      if(movies.find(item=>item.title===movie.original_title)){
+        setToggleFavorite(true);
+      }
+    },[movies])
   };
   const {getToken}=useAuth();
     const [movies, setMovies] = useState<Movies[]>([]);
@@ -155,9 +160,6 @@ const {setFavoriteMovies}=useContext(BookingContext);
                 <i onClick={() => {
                   if (movie) {
                    handleToggleFavorite(movie);
-                  }
-                  if(movies.find(item=>item.title===movie.original_title)){
-                    setToggleFavorite(true);
                   }
                 }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
 
