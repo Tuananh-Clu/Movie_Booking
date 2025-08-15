@@ -48,7 +48,7 @@ export const DanhSachPhimYeuThich = () => {
                   alt={movie.title}
                   className="w-full aspect-[2/3] object-cover transition-transform duration-300 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-end">
+                <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-end">
                   <div className="p-3 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                     <h3 className="text-white font-semibold text-sm line-clamp-2">
                       {movie.title}
