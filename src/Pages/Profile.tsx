@@ -105,7 +105,7 @@ export const Profile = () => {
         </div>
       );
     } else {
-      const items = ["DashBoard","Mã Giảm Giá", "Phim Yêu Thích"];
+      const items = ["DashBoardUser","Mã Giảm Giá", "Phim Yêu Thích"];
       return (
         <div className="bg-gray-900/80 p-6 flex flex-col items-center rounded-3xl min-w-[250px] shadow-lg">
           <img className="w-32 h-32 rounded-full object-cover border-4 border-red-500" src={user?.imageUrl} alt="Avatar" />
