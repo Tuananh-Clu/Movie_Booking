@@ -18,6 +18,7 @@ export const DanhSachPhimYeuThich = () => {
           }
         });
         setMovies(response.data);
+        console.log(response.data);
       }
       catch (error) {
         console.log("Error fetching favourite movies:", error);
