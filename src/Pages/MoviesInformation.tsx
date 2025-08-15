@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import type { MovieApi, Movies } from "../types/type";
+import type {  MovieApi, Movies } from "../types/type";
 import { ListMovieByType } from "../services/tmdb";
 import { Navbar } from "../components/Navbar";
 import { Actors } from "../components/Moviesinformation Components/Actors";
@@ -52,15 +52,6 @@ const {setFavoriteMovies}=useContext(BookingContext);
       setFavoriteMovies((prev) => [...prev, movieData]);
       setToggleFavorite(true);
     }
-    useEffect(()=>{
-      if(movies.find(item=>item.title===movie.original_title)){
-        setToggleFavorite(true);
-      }
-    },[movies])
-    useEffect(()=>{
-      console.log(movie.original_title);
-      console.log(movies.map(item=>item.title));
-    })
   };
   const {getToken}=useAuth();
     const [movies, setMovies] = useState<Movies[]>([]);
@@ -81,6 +72,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
     }
     fetchData();
   },)
+  const isFavoriteUserIn=movies.some(a=>a.title.trim().toLowerCase()===movie?.original_title.trim().toLowerCase());
 
   const movieFromNowPlaying = MainMovies.find(
     (item) => item.original_title.toString() === id
@@ -165,7 +157,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
                   if (movie) {
                    handleToggleFavorite(movie);
                   }
-                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
+                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite?"text-red-600":isFavoriteUserIn?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
 
                 </div>
               </div>
