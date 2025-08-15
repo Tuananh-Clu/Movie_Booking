@@ -44,7 +44,7 @@ export const DanhSachPhimYeuThich = () => {
             >
               <div className="relative overflow-hidden rounded-lg shadow-lg">
                 <img 
-                  src={`${IMG_PATH}${movie.poster}`}
+                  src={IMG_PATH+movie.poster}
                   alt={movie.title}
                   className="w-full aspect-[2/3] object-cover transition-transform duration-300 group-hover:scale-110"
                 />
