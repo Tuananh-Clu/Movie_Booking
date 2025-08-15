@@ -26,23 +26,40 @@ export const DanhSachPhimYeuThich = () => {
     }
     fetchData();
   },[])
-  return (
-    <div>
-        <h2 className="text-xl font-bold text-white">Danh Sách Phim Yêu Thích</h2>
-        <ul>
-          {movies.map((movie) => {
-            return(
-              <li key={movie.id} className="py-2 border-b border-gray-300">
-                <div className="flex items-center">
-                  <img src={IMG_PATH+movie.poster} alt={movie.title} className="w-16 h-16 mr-4" />
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">{movie.title}</h3>
+    return (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold text-white mb-6">Danh Sách Phim Yêu Thích</h2>
+      
+      {movies.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-400 text-lg">Bạn chưa có phim yêu thích nào</p>
+          <p className="text-gray-500 mt-2">Hãy thêm một số phim vào danh sách yêu thích của bạn!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+          {movies.map((movie) => (
+            <div 
+              key={movie.id} 
+              className="group cursor-pointer transform transition-all duration-300 hover:scale-105 hover:z-10"
+            >
+              <div className="relative overflow-hidden rounded-lg shadow-lg">
+                <img 
+                  src={`${IMG_PATH}${movie.poster}`}
+                  alt={movie.title}
+                  className="w-full aspect-[2/3] object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-end">
+                  <div className="p-3 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 className="text-white font-semibold text-sm line-clamp-2">
+                      {movie.title}
+                    </h3>
                   </div>
                 </div>
-              </li>
-            )
-          })}
-        </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-  )
+  );
 }
