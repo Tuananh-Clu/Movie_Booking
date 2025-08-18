@@ -53,7 +53,7 @@ export const DashBoardUser = () => {
       }
     };
 
-    fetchUserData();
+      fetchUserData();
   }, [getToken]);
 
   const dashboard = [
@@ -113,10 +113,10 @@ export const DashBoardUser = () => {
             <div className="flex flex-col text-2xs font-bold ">
               <h1>{item.title}</h1>
               <h1>{item.count}</h1>
-            </div>
+              </div>
             <div className={`${item.bgColor} p-2 rounded-full`}>
-              {item.icon}
-            </div>
+                {item.icon}
+              </div>
           </li>
         ))}
       </ul>
@@ -137,20 +137,20 @@ export const DashBoardUser = () => {
           <div className="flex justify-between text-sm mb-1">
             <span>Progress to {membershipTier.nextTier}</span>
             <span>{membershipTier.pointsNeeded} points needed</span>
-          </div>
+            </div>
           <div className="bg-white bg-opacity-20 rounded-full h-3">
             <div className="bg-white rounded-full h-3 w-3/4"></div>
           </div>
         </div>
         <div className="space-y-1">
           <p className="text-xs text-yellow-100 font-medium">Your Benefits:</p>
-          {membershipTier.benefits.map((benefit, i) => (
+            {membershipTier.benefits.map((benefit, i) => (
             <p key={i} className="text-xs text-yellow-100">
               • {benefit}
-            </p>
-          ))}
+              </p>
+            ))}
+          </div>
         </div>
-      </div>
 
       {/* Suggested Movies */}
       <div className="mt-5">
@@ -162,7 +162,7 @@ export const DashBoardUser = () => {
               className="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition-colors"
             >
               <h2 className="text-lg font-semibold text-white">
-                Bộ Phim {index + 1}
+                  Bộ Phim {index + 1}
               </h2>
               <p className="text-sm text-gray-300">Mô tả ngắn về bộ phim.</p>
             </div>
