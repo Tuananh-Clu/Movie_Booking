@@ -3,13 +3,7 @@ import axios from "axios";
 import { Calendar, Ticket, Heart, Star, Award, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const membershipTier = {
-  current: "Gold",
-  points: 2340,
-  nextTier: "Platinum",
-  pointsNeeded: 660,
-  benefits: ["10% discount", "Free popcorn upgrade", "Priority booking"],
-};
+
 
 export const DashBoardUser = () => {
   const { user } = useUser();
@@ -29,7 +23,7 @@ export const DashBoardUser = () => {
 
         const [watchedRes, ticketRes, pointRes] = await Promise.all([
           axios.get(
-            "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityMovieWatchedByUserId",
+            "https://backendformoviebooking-production.up.railway.app/api/Client/GetMovieByUserId",
             { headers: { Authorization: `Bearer ${token}` } }
           ),
           axios.get(
@@ -43,11 +37,12 @@ export const DashBoardUser = () => {
         ]);
 
         setStats({
-          watchedMovies: watchedRes.data ?? 0,
+          watchedMovies: watchedRes.data ,
           tickets: ticketRes.data ?? 0,
           points: pointRes.data ?? 0,
           favCinemas: 5,
         });
+        console.log(token);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -82,6 +77,81 @@ export const DashBoardUser = () => {
       bgColor: "bg-red-500",
     },
   ];
+  const membershipTier = {
+  current:
+    stats.points < 1000
+      ? "Bronze"
+      : stats.points < 2000
+      ? "Silver"
+      : stats.points < 3000
+      ? "Gold"
+      : stats.points < 4000
+      ? "Platinum"
+      : stats.points < 5000
+      ? "Diamond"
+      : "VIP",
+  points: stats.points,
+  nextTier:
+    stats.points < 1000
+      ? "Silver"
+      : stats.points < 2000
+      ? "Gold"
+      : stats.points < 3000
+      ? "Platinum"
+      : stats.points < 4000
+      ? "Diamond"
+      : stats.points < 5000
+      ? "VIP"
+      : "VIP",
+  pointsNeeded:
+    stats.points < 1000
+      ? 1000 - stats.points
+      : stats.points < 2000
+      ? 2000 - stats.points
+      : stats.points < 3000
+      ? 3000 - stats.points
+      : stats.points < 4000
+      ? 4000 - stats.points
+      : stats.points < 5000
+      ? 5000 - stats.points
+      : 6000 - stats.points,
+  benefits:
+    stats.points < 1000
+      ? ["5% Giảm Giá", "Miễn Phí Nước Nhỏ"]
+      : stats.points < 2000
+      ? ["10% Giảm Giá", "Miễn Phí Nâng Cấp Bắp Nước", "Priority booking"]
+      : stats.points < 3000
+      ? ["15% Giảm Giá", "Miễn Phí Bắp Rang Lớn", "Truy Cập Phòng Chờ VIP"]
+      : stats.points < 4000
+      ? ["20% Giảm Giá", "Miễn Phí Nước Lớn", "Xem Phim Đặc Biệt"]
+      : stats.points < 5000
+      ? ["25% Giảm Giá", "Ghế VIP Miễn Phí", "Dịch Vụ Cá Nhân"]
+      : ["30% Giảm Giá", "Trải Nghiệm VIP Miễn Phí", "Sự Kiện Đặc Biệt"],
+  bgColor:
+    stats.points < 1000
+      ? "bg-gray-500"
+      : stats.points < 2000
+      ? "bg-yellow-500"
+      : stats.points < 3000
+      ? "bg-orange-500"
+      : stats.points < 4000
+      ? "bg-purple-500"
+      : stats.points < 5000
+      ? "bg-blue-500"
+      : "bg-green-500",
+};
+const percentBar =
+  membershipTier.current === "Bronze"
+    ? 1000
+    : membershipTier.current === "Silver"
+    ? 2000
+    : membershipTier.current === "Gold"
+    ? 3000
+    : membershipTier.current === "Platinum"
+    ? 4000
+    : membershipTier.current === "Diamond"
+    ? 5000
+    : 6000;
 
   return (
     <div className=" ">
@@ -122,7 +192,7 @@ export const DashBoardUser = () => {
       </ul>
 
       {/* Membership */}
-      <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl p-6 mt-4 text-white">
+      <div className={`rounded-2xl p-6 mt-4 text-white ${membershipTier.bgColor}`} >
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Membership</h3>
           <Award className="w-5 h-5" />
@@ -130,16 +200,16 @@ export const DashBoardUser = () => {
         <div className="mb-4">
           <p className="text-2xl font-bold">{membershipTier.current}</p>
           <p className="text-yellow-100 text-sm">
-            {membershipTier.points} points earned
+            {membershipTier.points} Điểm Đã Nhận
           </p>
         </div>
         <div className="mb-4">
           <div className="flex justify-between text-sm mb-1">
-            <span>Progress to {membershipTier.nextTier}</span>
-            <span>{membershipTier.pointsNeeded} points needed</span>
+            <span>Tiến Độ Tới {membershipTier.nextTier}</span>
+            <span>Cần {membershipTier.pointsNeeded} Để Lên Cấp</span>
             </div>
           <div className="bg-white bg-opacity-20 rounded-full h-3">
-            <div className="bg-white rounded-full h-3 w-3/4"></div>
+            <div className="bg-violet-400 rounded-full h-3 " style={{width:`${stats.points/percentBar * 100}%`}}></div>
           </div>
         </div>
         <div className="space-y-1">
@@ -152,7 +222,6 @@ export const DashBoardUser = () => {
           </div>
         </div>
 
-      {/* Suggested Movies */}
       <div className="mt-5">
         <h1 className="text-2xl font-bold text-white">Phim Đề Xuất</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
