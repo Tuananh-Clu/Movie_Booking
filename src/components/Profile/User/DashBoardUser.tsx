@@ -1,5 +1,8 @@
-import { useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import axios from "axios";
 import { Calendar, Ticket, Heart, Star, Award, Eye } from "lucide-react";
+import { useEffect, useState } from "react";
+
 const membershipTier = {
   current: "Gold",
   points: 2340,
@@ -9,38 +12,82 @@ const membershipTier = {
 };
 
 export const DashBoardUser = () => {
+  const { user } = useUser();
+  const { getToken } = useAuth();
+
+  const [stats, setStats] = useState({
+    watchedMovies: 0,
+    tickets: 0,
+    points: 0,
+    favCinemas: 0,
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await getToken();
+
+        const [watchedRes, ticketRes, pointRes] = await Promise.all([
+          axios.get(
+            "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityMovieWatchedByUserId",
+            { headers: { Authorization: `Bearer ${token}` } }
+          ),
+          axios.get(
+            "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTIcketBuyByUserId",
+            { headers: { Authorization: `Bearer ${token}` } }
+          ),
+          axios.get(
+            "https://backendformoviebooking-production.up.railway.app/api/Client/GetPointId",
+            { headers: { Authorization: `Bearer ${token}` } }
+          ),
+        ]);
+
+        setStats({
+          watchedMovies: watchedRes.data ?? 0,
+          tickets: ticketRes.data ?? 0,
+          points: pointRes.data ?? 0,
+          favCinemas: 5, // giả định (bạn có thể fetch từ API khác)
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [getToken]);
+
   const dashboard = [
     {
       title: "Phim Đã Xem",
-      count: 47,
+      count: stats.watchedMovies,
       icon: <Eye className="w-5 h-5" />,
       bgColor: "bg-pink-500",
     },
     {
       title: "Tổng Vé Đã Mua",
-      count: 12,
+      count: stats.tickets,
       icon: <Ticket className="w-5 h-5" />,
       bgColor: "bg-blue-500",
     },
     {
       title: "Điểm Tích Lũy",
-      count: 100,
+      count: stats.points,
       icon: <Star className="w-5 h-5" />,
       bgColor: "bg-yellow-500",
     },
     {
       title: "Rạp Phim Yêu Thích",
-      count: 5,
+      count: stats.favCinemas,
       icon: <Heart className="w-5 h-5" />,
       bgColor: "bg-red-500",
     },
   ];
-  const { user } = useUser();
+
   return (
     <div className=" ">
       <div className=" font-bold bg-gradient-to-tr from-transparent via-pink-400 to-cyan-200 text-white p-5 rounded-2xl">
         <div>
-          <h1 className="text-2xl">Xin chào,{user?.lastName}🎬</h1>
+          <h1 className="text-2xl">Xin chào, {user?.lastName} 🎬</h1>
           <p className="text-xs">
             Bạn Đang Có 2 Bộ Phim Sắp Chiếu Và 3 Bộ Phim Được Đề Xuất
           </p>
@@ -73,6 +120,8 @@ export const DashBoardUser = () => {
           </li>
         ))}
       </ul>
+
+      {/* Membership */}
       <div className="bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl p-6 mt-4 text-white">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Membership</h3>
@@ -102,10 +151,11 @@ export const DashBoardUser = () => {
           ))}
         </div>
       </div>
+
+      {/* Suggested Movies */}
       <div className="mt-5">
         <h1 className="text-2xl font-bold text-white">Phim Đề Xuất</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
-          {/* Example movie cards */}
           {Array.from({ length: 6 }).map((_, index) => (
             <div
               key={index}
