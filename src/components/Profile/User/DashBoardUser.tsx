@@ -46,7 +46,7 @@ export const DashBoardUser = () => {
           watchedMovies: watchedRes.data ?? 0,
           tickets: ticketRes.data ?? 0,
           points: pointRes.data ?? 0,
-          favCinemas: 5, // giả định (bạn có thể fetch từ API khác)
+          favCinemas: 5,
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
