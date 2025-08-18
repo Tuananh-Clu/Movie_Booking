@@ -42,7 +42,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
       id: String(movie.id),
       title: movie.original_title,
       poster: movie.poster_path,
-      duration: movie.vote_count,
+      duration: movie.vote_average,
     };
   
     if (toggleFavorite) {

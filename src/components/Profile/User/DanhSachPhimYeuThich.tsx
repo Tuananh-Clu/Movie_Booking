@@ -45,7 +45,7 @@ export const DanhSachPhimYeuThich = () => {
       }
     };
     fetchData();
-  }, [Edit]);
+  }, [handleClickDelete, getToken]);
 
   return (
     <div className="p-4">

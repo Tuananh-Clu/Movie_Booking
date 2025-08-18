@@ -21,7 +21,7 @@ export const Profile = () => {
   const [ticket, setTicket] = useState(0);
   const [doanhThu, setDoanhThu] = useState(0);
 
-  const [clickState, setClickState] = useState(userData?.role === "Admin" ? "DashBoard" : "DashBoardUser");
+  const [clickState, setClickState] = useState(userData?.role === "Admin" ? "DashBoard" : "Overview");
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -66,7 +66,7 @@ export const Profile = () => {
           return <DanhSachPhimYeuThich/>
           case "Mã Giảm Giá":
             return <MaGiamGia/>
-            case "DashBoardUser":
+            case "Overview":
               return <DashBoardUser/>
       default:
         return null;
