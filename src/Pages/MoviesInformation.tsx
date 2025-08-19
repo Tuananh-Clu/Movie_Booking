@@ -52,6 +52,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
       setFavoriteMovies((prev) => [...prev, movieData]);
       setToggleFavorite(true);
     }
+    console.log("Toggle favorite for movie:", movieData);
   };
   const {getToken}=useAuth();
     const [movies, setMovies] = useState<Movies[]>([]);
