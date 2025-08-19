@@ -29,7 +29,7 @@ function App() {
       role:user?.firstName?.includes("A")?"Admin":"User"
     };
     console.log("👉 Gửi body:", body);
-    await axios.post("https://backendformoviebooking-1.onrender.com/api/Client/AddUser", body, {
+    await axios.post("https://backendformoviebooking-production.up.railway.app/api/Client/AddUser", body, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

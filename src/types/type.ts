@@ -75,7 +75,6 @@ export interface Database{
   name:string,
   email:string,
   role:string,
-  point:number,
 tickets:Store[][],
 yeuThich:Movies[]
 }
