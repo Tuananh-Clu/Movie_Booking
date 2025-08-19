@@ -17,39 +17,73 @@ export const DashBoardUser = () => {
   });
 
   useEffect(() => {
-    const fetchUserData = async () => {
+  const fetchUserData = async () => {
+    if (!user) return;
+
+
+
+
+    try {
+      // Lấy token rõ ràng template
+      const token = await getToken();
+      console.log("Token:", token);
+
+      // Tạo header chuẩn
+      const headers = { 
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      };
+
+      // Gọi từng API riêng
+      let watchedMovies = 0;
+      let tickets = 0;
+      let points = 0;
+
       try {
-        const token = await getToken();
-
-        const [watchedRes, ticketRes, pointRes] = await Promise.all([
-          axios.get(
-            "https://backendformoviebooking-production.up.railway.app/api/Client/GetMovieByUserId",
-            { headers: { Authorization: `Bearer ${token}` } }
-          ),
-          axios.get(
-            "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTIcketBuyByUserId",
-            { headers: { Authorization: `Bearer ${token}` } }
-          ),
-          axios.get(
-            "https://backendformoviebooking-production.up.railway.app/api/Client/GetPointId",
-            { headers: { Authorization: `Bearer ${token}` } }
-          ),
-        ]);
-
-        setStats({
-          watchedMovies: watchedRes.data ,
-          tickets: ticketRes.data ?? 0,
-          points: pointRes.data ?? 0,
-          favCinemas: 5,
-        });
-        console.log(token);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+        const res = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetMovieByUserId",
+          { headers }
+        );
+        watchedMovies = res.data ?? 0;
+      } catch (err) {
+        console.error("Error fetching watched movies:", err);
       }
-    };
 
-      fetchUserData();
-  }, [getToken]);
+      try {
+        const res = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTIcketBuyByUserId",
+          { headers }
+        );
+        tickets = res.data ?? 0;
+      } catch (err) {
+        console.error("Error fetching tickets:", err);
+      }
+
+      try {
+        const res = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetPointId",
+          { headers }
+        );
+        points = res.data ?? 0;
+      } catch (err) {
+        console.error("Error fetching points:", err);
+      }
+
+      // Cập nhật state
+      setStats({
+        watchedMovies,
+        tickets,
+        points,
+        favCinemas: 5, // giữ giá trị cứng nếu cần
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  fetchUserData();
+}, [user, getToken]);
+
 
   const dashboard = [
     {

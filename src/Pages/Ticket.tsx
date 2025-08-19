@@ -14,13 +14,13 @@ export const Ticket = () => {
 
 
   const fetchData = async () => {
+    const token = await getToken();
     try {
-      const token = await getToken();
       const response = await axios(
         "https://backendformoviebooking-production.up.railway.app/api/Client/GetUser",
         {
           headers: {
-            Authorization: `Bearer ${token} `,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
@@ -29,6 +29,7 @@ export const Ticket = () => {
       setStoreDataBase(response.data);
     } catch (error) {
       console.log(error);
+      console.log(token);
     }
   };
   const UpdateTicket = async () => {
