@@ -87,7 +87,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
             key={index}
             className="min-w-[250px] bg-gray-900 text-white p-4 rounded-2xl shadow-lg flex-shrink-0 border border-white/10"
           >
-            <div className="text-red-400 font-bold mb-2">{item.date}</div>
+            <div className={`font-bold mb-2 text-[--color-brand-pink]`}>{item.date}</div>
             <div className="text-lg font-semibold">{item.movieTitle}</div>
             <div className="text-sm text-gray-300">
               <p>{item.cinemaName}</p>
