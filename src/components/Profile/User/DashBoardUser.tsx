@@ -83,7 +83,7 @@ export const DashBoardUser = () => {
       bgColor: "bg-pink-400/80",
     },
     {
-      title: "Rạp Phim Yêu Thích",
+      title: "Khu Vực Thường Xuyên Đặt",
       count: stats.favCinemas,
       icon: <Heart className="w-5 h-5" />,
       bgColor: "bg-cyan-400/80",

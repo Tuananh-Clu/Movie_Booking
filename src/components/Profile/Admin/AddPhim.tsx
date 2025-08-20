@@ -16,6 +16,7 @@ export const AddPhim = () => {
   const [day, setDay] = useState<string>("");
   const [movies, setMovies] = useState<Movies>();
   const [seatNum, setSeatNum] = useState<number>(0);
+  const [prices, setPrices] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const slider = useRef<HTMLDivElement>(null);
@@ -27,8 +28,12 @@ export const AddPhim = () => {
   );
 
   const slicedSeats = useMemo<SeatProp[]>(() => {
-    return seat.slice(0, seatNum);
-  }, [seatNum]);
+    const dea = seat.slice(0, seatNum);
+    return dea.map((item) => {
+      item.price = prices;
+      return item;
+    });
+  }, [seatNum, prices]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,15 +104,18 @@ export const AddPhim = () => {
       alert("Vui lòng nhập số ghế.");
       return;
     }
+    if (prices <= 0) {
+      alert("Vui lòng nhập giá vé hợp lệ.");
+      return;
+    }
 
-    setIsSubmitting(true);
 
     try {
       const completeBookingData = {
         date: day,
         times: timeLine, 
         movie: movies,
-        seats: slicedSeats
+        seats: slicedSeats,
       };
 
       console.log(completeBookingData);
@@ -122,6 +130,7 @@ export const AddPhim = () => {
       setTimeLine([]);
       setMovies(undefined);
       setSeatNum(0);
+      setPrices(0);
     } catch (error) {
       alert("❌ Có lỗi xảy ra khi tạo lịch chiếu. Vui lòng thử lại!");
       console.error("Submit error:", error);
@@ -321,6 +330,8 @@ export const AddPhim = () => {
             <input
               type="number"
               placeholder="VD: 75000"
+              value={prices}
+              onChange={(e) => setPrices(Number(e.target.value))}
               min={10000}
               className="w-full p-3 rounded-xl bg-white/5 ring-1 ring-white/10 outline-none"
               disabled={isSubmitting}
