@@ -2,7 +2,7 @@ import Logo from "../assets/2040698.png";
 
 export const Footer = () => {
   return (
-    <footer className="w-full bg-gradient-to-t from-black via-zinc-900 to-black text-white px-6 pt-34 pb-8 ">
+    <footer className="w-full text-white px-6 pt-34 pb-8 bg-gradient-to-t from-[--color-brand-pink]/10 via-transparent to-[--color-brand-cyan]/10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
 
         {/* Logo + Socials */}
@@ -15,11 +15,11 @@ export const Footer = () => {
             Ứng dụng đặt vé xem phim trực tuyến mọi lúc mọi nơi.
           </p>
           <div className="flex gap-4 text-2xl mt-2">
-            <a href="#"><i className="fa-brands fa-facebook hover:text-blue-500 transition" /></a>
-            <a href="#"><i className="fa-brands fa-instagram hover:text-pink-500 transition" /></a>
-            <a href="#"><i className="fa-brands fa-twitch hover:text-purple-400 transition" /></a>
+            <a href="#"><i className="fa-brands fa-facebook hover:text-[--color-brand-cyan] transition" /></a>
+            <a href="#"><i className="fa-brands fa-instagram hover:text-[--color-brand-pink] transition" /></a>
+            <a href="#"><i className="fa-brands fa-twitch hover:text-[--color-brand-cyan] transition" /></a>
             <a href="#"><i className="fa-brands fa-x-twitter hover:text-gray-300 transition" /></a>
-            <a href="#"><i className="fa-brands fa-youtube hover:text-red-500 transition" /></a>
+            <a href="#"><i className="fa-brands fa-youtube hover:text-[--color-brand-pink] transition" /></a>
           </div>
         </div>
 
@@ -47,7 +47,7 @@ export const Footer = () => {
       </div>
 
       {/* Bottom copyright */}
-      <div className="text-center text-xs text-gray-500 mt-12 border-t border-zinc-700 pt-4">
+      <div className="text-center text-xs text-gray-500 mt-12 border-t border-white/10 pt-4">
         © {new Date().getFullYear()} AP CINEMA. All rights reserved.
       </div>
     </footer>

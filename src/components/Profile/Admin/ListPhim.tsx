@@ -25,7 +25,7 @@ export const ListPhim = () => {
   }, []);
 
   return (
-    <div className="p-6 bg-gray-900 min-h-screen text-white">
+    <div className="p-6 text-white">
       <div className="flex items-center gap-3 mb-6">
         <img src={ticket} alt="ticket" className="w-12 h-12" />
         <h1 className="text-3xl font-bold">Doanh Số Bán Vé Theo Phim</h1>
@@ -36,9 +36,9 @@ export const ListPhim = () => {
 
       {!loading && !error && (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-center rounded-md overflow-hidden">
+          <table className="w-full border-collapse text-center rounded-md overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur">
             <thead>
-              <tr className="bg-gray-700 text-white">
+              <tr className="text-white bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan]">
                 <th className="px-4 py-3 border border-gray-600">ID</th>
                 <th className="px-4 py-3 border border-gray-600">Poster</th>
                 <th className="px-4 py-3 border border-gray-600">Tên Phim</th>
@@ -50,21 +50,21 @@ export const ListPhim = () => {
               {tickets.map((item, index) => (
                 <tr
                   key={index}
-                  className="hover:bg-gray-800 transition duration-150"
+                  className="hover:bg-white/10 transition duration-150"
                 >
-                  <td className="px-4 py-2 border border-gray-700">{item.movieId}</td>
-                  <td className="px-4 py-2 border border-gray-700">
+                  <td className="px-4 py-2 border border-white/10">{item.movieId}</td>
+                  <td className="px-4 py-2 border border-white/10">
                     <img
                       src={item.poster}
                       alt={item.title}
                       className="w-16 h-auto mx-auto rounded"
                     />
                   </td>
-                  <td className="px-4 py-2 border border-gray-700 font-semibold">
+                  <td className="px-4 py-2 border border-white/10 font-semibold">
                     {item.title}
                   </td>
-                  <td className="px-4 py-2 border border-gray-700">{item.count}</td>
-                  <td className="px-4 py-2 border border-gray-700 text-green-400 font-medium">
+                  <td className="px-4 py-2 border border-white/10">{item.count}</td>
+                  <td className="px-4 py-2 border border-white/10 text-[--color-brand-cyan] font-medium">
                     {(item.count * 75000).toLocaleString("vi-VN")} ₫
                   </td>
                 </tr>

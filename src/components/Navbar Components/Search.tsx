@@ -36,7 +36,7 @@ export const Search = () => {
   return (
     <div className="fixed top-20 right-15 md:right-20 flex flex-col gap-2 w-96  z-50">
       {/* Search Input */}
-      <div className="bg-gray-900/70 px-3 py-2 rounded-2xl shadow-md">
+      <div className="px-3 py-2 rounded-2xl shadow-md bg-white/5 ring-1 ring-white/10 backdrop-blur">
         <input
           placeholder="🔍 Nhập tên phim..."
           className="border-none outline-none w-full bg-transparent text-white placeholder-gray-400"
@@ -48,19 +48,19 @@ export const Search = () => {
 
       {/* Search Results */}
       <div
-        className="overflow-y-auto h-[400px] hide-scrollbar scroll-smooth bg-gray-900 rounded-2xl text-white custom-scroll"
+        className="overflow-y-auto h-[400px] hide-scrollbar scroll-smooth rounded-2xl text-white custom-scroll bg-white/5 ring-1 ring-white/10 backdrop-blur"
         style={{
           WebkitOverflowScrolling: "touch",
           overscrollBehavior: "contain",
         }}
       >
         {filterValueSearch.length > 0 ? (
-          <ul className="divide-y divide-gray-800">
+          <ul className="divide-y divide-white/10">
             {filterValueSearch.map((item) => (
               <li
                 onClick={() => navigate(`/Movies/${item.original_title}`)}
                 key={item.id}
-                className="flex items-center gap-3 p-3 hover:bg-gray-800 transition"
+                className="flex items-center gap-3 p-3 transition hover:bg-white/10"
               >
                 <img
                   loading="lazy"
@@ -72,13 +72,13 @@ export const Search = () => {
                   <h1 className="text-base font-medium">
                     {item.original_title}
                   </h1>
-                  <p className="text-sm text-gray-400">{item.release_date}</p>
+                  <p className="text-sm text-gray-300">{item.release_date}</p>
                 </div>
               </li>
             ))}
           </ul>
         ) : (
-          <div className="p-3 text-center text-gray-400">Không có phim nào</div>
+          <div className="p-3 text-center text-gray-300">Không có phim nào</div>
         )}
       </div>
     </div>

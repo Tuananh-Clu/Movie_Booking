@@ -21,7 +21,17 @@ export const Profile = () => {
   const [ticket, setTicket] = useState(0);
   const [doanhThu, setDoanhThu] = useState(0);
 
-  const [clickState, setClickState] = useState(userData?.role === "Admin" ? "DashBoard" : "Overview");
+  const [clickState, setClickState] = useState("");
+
+  useEffect(() => {
+    if (userData?.role === "Admin") {
+      setClickState("DashBoard");
+    } else if (userData?.role === "User") {
+      setClickState("Overview");
+    } else {
+      setClickState("DashBoard");
+    }
+  }, [userData]);
 
   useEffect(() => {
     const fetchAll = async () => {

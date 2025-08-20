@@ -112,14 +112,14 @@ export const Seats = () => {
   }, [regularRow, seats]);
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white font-sans">
+    <div className="min-h-screen text-white font-sans bg-gradient-to-br from-black via-neutral-900 to-black">
       <Navbar />
       <div className="pt-28 px-4 md:px-16 flex flex-col items-center space-y-10">
         {/* Thông tin phim */}
-        <section className="flex flex-col md:flex-row items-center gap-6 bg-neutral-900 p-6 rounded-2xl shadow-md w-full max-w-4xl">
+        <section className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-2xl w-full max-w-4xl bg-white/5 backdrop-blur ring-1 ring-white/10">
           <img className="w-40 rounded-xl shadow" src={cinema[0]?.poster || ""} alt="" />
           <div className="space-y-2">
-            <h1 className="text-4xl font-bold text-amber-400">
+            <h1 className="text-4xl font-bold text-[--color-brand-pink]">
               {decodedTitle}
             </h1>
             {seat.length > 0 && (
@@ -137,7 +137,7 @@ export const Seats = () => {
         </section>
 
         {/* Màn hình */}
-        <div className="bg-gray-300 text-black font-bold text-center w-full md:w-1/2 mx-auto py-3 rounded-2xl shadow-inner">
+        <div className="bg-white/10 ring-1 ring-white/10 text-white font-bold text-center w-full md:w-1/2 mx-auto py-3 rounded-2xl shadow-inner">
           MÀN HÌNH
         </div>
 
@@ -168,7 +168,7 @@ export const Seats = () => {
         </div>
 
         {/* Legend */}
-        <div className="flex justify-center gap-4 text-sm mt-8 flex-wrap bg-neutral-800 p-4 rounded-xl">
+        <div className="flex justify-center gap-4 text-sm mt-8 flex-wrap p-4 rounded-xl bg-white/5 backdrop-blur ring-1 ring-white/10">
           <Legend color="bg-green-500" label="Còn trống" />
           <Legend color="bg-yellow-400" label="Đang chọn" />
           <Legend color="bg-red-600" label="Đã đặt" />
@@ -176,7 +176,7 @@ export const Seats = () => {
       </div>
 
       {/* Total price */}
-      <div className="sticky bottom-0 w-full bg-neutral-900 p-4 shadow-lg z-50">
+      <div className="sticky bottom-0 w-full p-4 shadow-lg z-50 bg-white/5 backdrop-blur ring-1 ring-white/10">
         <TotalPrice />
       </div>
     </div>

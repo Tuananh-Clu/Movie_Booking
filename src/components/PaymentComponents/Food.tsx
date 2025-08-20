@@ -32,26 +32,26 @@ export const Food: React.FC<FoodProps> = ({ combo, setState, combototal }) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-2xl shadow-xl p-6 text-gray-900">
-      <h2 className="text-2xl font-bold mb-4 border-b pb-2">🍿 Bắp - Nước</h2>
+    <div className="w-full rounded-2xl shadow-xl p-6 text-white bg-white/5 backdrop-blur ring-1 ring-white/10">
+      <h2 className="text-2xl font-bold mb-4 border-b pb-2 border-white/10">🍿 Bắp - Nước</h2>
       <div className="flex flex-col gap-4">
         {combo.map((item, idx) => (
-          <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl shadow">
+          <div key={idx} className="flex items-center justify-between p-4 rounded-xl ring-1 ring-white/10 bg-white/5">
             <div className="flex flex-col">
               <span className="font-semibold">{item.name}</span>
-              <span className="text-gray-500">{item.price.toLocaleString()}đ</span>
+              <span className="text-gray-300">{item.price.toLocaleString()}đ</span>
             </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => handleMinus(idx)}
-                className="w-8 h-8 rounded-full bg-gray-200 text-lg font-bold flex items-center justify-center hover:bg-gray-300"
+                className="w-8 h-8 rounded-full text-lg font-bold flex items-center justify-center bg-[--color-brand-pink] text-white hover:opacity-90"
               >
                 -
               </button>
               <span className="w-6 text-center">{item.quantity}</span>
               <button
                 onClick={() => handlePlus(idx)}
-                className="w-8 h-8 rounded-full bg-gray-200 text-lg font-bold flex items-center justify-center hover:bg-gray-300"
+                className="w-8 h-8 rounded-full text-lg font-bold flex items-center justify-center bg-[--color-brand-cyan] text-white hover:opacity-90"
               >
                 +
               </button>
@@ -60,9 +60,9 @@ export const Food: React.FC<FoodProps> = ({ combo, setState, combototal }) => {
         ))}
       </div>
 
-      <div className="border-t mt-6 pt-4 flex justify-between text-lg font-semibold">
+      <div className="border-t border-white/10 mt-6 pt-4 flex justify-between text-lg font-semibold">
         <span>Tổng cộng:</span>
-        <span className="text-red-500">{combototal.toLocaleString()}đ</span>
+        <span className="text-[--color-brand-pink]">{combototal.toLocaleString()}đ</span>
       </div>
     </div>
   );

@@ -14,9 +14,9 @@ export const OptionPayment = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => handleClick("Cash")}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border  border-gray-300 ${
-                    method === "Cash" ? "bg-cyan-400 text-white" : "bg-red-400"
-                  } hover:bg-gray-100 transition`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border ring-1 ring-white/10 bg-white/5 backdrop-blur ${
+                    method === "Cash" ? "outline outline-2 outline-[--color-brand-cyan]" : ""
+                  } transition`}
                 >
                   <img
                     src=" https://cdn-icons-png.flaticon.com/512/3135/3135706.png"
@@ -27,9 +27,9 @@ export const OptionPayment = () => {
                 </button>
                 <button
                   onClick={() => handleClick("MOMO")}
-                  className={`flex items-center gap-2 px-4 py-2  rounded-xl border ${
-                    method === "MOMO" ? "bg-cyan-400 text-white" : "bg-red-400"
-                  } border-gray-300 hover:bg-gray-100 transition`}
+                  className={`flex items-center gap-2 px-4 py-2  rounded-xl border ring-1 ring-white/10 bg-white/5 backdrop-blur ${
+                    method === "MOMO" ? "outline outline-2 outline-[--color-brand-cyan]" : ""
+                  } transition`}
                 >
                   <img
                     src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png "
@@ -40,11 +40,11 @@ export const OptionPayment = () => {
                 </button>
                 <button
                   onClick={() => handleClick("Paypal")}
-                  className={`flex items-center gap-2 px-4 py-2  rounded-xl border ${
+                  className={`flex items-center gap-2 px-4 py-2  rounded-xl border ring-1 ring-white/10 bg-white/5 backdrop-blur ${
                     method === "Paypal"
-                      ? "bg-cyan-400 text-white"
-                      : "bg-red-400"
-                  } border-gray-300 hover:bg-gray-100 transition`}
+                      ? "outline outline-2 outline-[--color-brand-cyan]"
+                      : ""
+                  } transition`}
                 >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/633/633611.png"
@@ -57,7 +57,7 @@ export const OptionPayment = () => {
               {method === "MOMO" ? (
                 <div className="text-center mt-10 flex flex-col gap-2">
                   <h1>Chuyển Đến Trang Thanh Toán Của Momo</h1>
-                  <button className="bg-red-500 p-3 rounded-2xl ">
+                  <button className="px-5 py-3 rounded-2xl text-white bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan] hover:opacity-90">
                     Đến Ngay
                   </button>
                 </div>
@@ -71,18 +71,18 @@ export const OptionPayment = () => {
                     <input
                       type="text"
                       placeholder="Tên Chủ Tài Khoản"
-                      className="w-80 p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-80 p-3 rounded-xl bg-white/5 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-[--color-brand-cyan] text-white placeholder-gray-400"
                     />
 
                     <input
                       type="text"
                       placeholder="Số Tài Khoản / Email PayPal"
-                      className="w-80 p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-80 p-3 rounded-xl bg-white/5 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-[--color-brand-cyan] text-white placeholder-gray-400"
                     />
 
                     <button
                       onClick={() => buttonPay.current?.scrollIntoView()}
-                      className="bg-blue-500 text-white p-3 rounded-2xl hover:bg-blue-600 transition-colors"
+                      className="px-5 py-3 rounded-2xl text-white bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan] hover:opacity-90"
                     >
                       Xác Nhận Thanh Toán
                     </button>

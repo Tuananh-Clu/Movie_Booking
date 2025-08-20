@@ -25,16 +25,16 @@ export const News = () => {
   }, [article]);
 
   return (
-    <div  className="bg-gradient-to-br from-cyan-200 via-neutral-200 to-pink-300">
+    <div  className="bg-gradient-to-br from-black via-neutral-900 to-black">
       <Navbar />
-      <div className="text-black  pt-30 md:px-20 px-10">
+      <div className="text-white  pt-30 md:px-20 px-10">
         <h1 className="text-3xl text-shadow-2xs mb-5 font-bold">News</h1>
         <div className="flex flex-col md:flex-row justify-between gap-3">
           <div className="md:w-4/7">
             {" "}
             <MainArticle  />
           </div>
-          <div className="md:w-3/7 md:mt-0 mt-10">
+          <div className="md:w-3/7  md:mt-0 mt-10">
            <AnotherArticle/>
           </div>
         </div>

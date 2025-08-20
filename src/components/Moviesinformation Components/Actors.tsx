@@ -77,11 +77,11 @@ export const Actors = ({ movieName }: { movieName: string }) => {
 
   return (
     <div className='mt-20 md:px-30 px-10 flex flex-col gap-5'>
-      <h1 className='text-2xl font-bold'>Your Favourite Cast</h1>
+      <h1 className='text-2xl font-bold text-white'>Your Favourite Cast</h1>
       <div className='flex flex-wrap gap-4'>
         {actorList.length > 0 ? (
           actorList.slice(0, 9).map((item, index) => (
-            <div key={ index} className='flex flex-col gap-3'>
+            <div key={ index} className='flex flex-col gap-3 p-3 rounded-2xl bg-white/5 backdrop-blur ring-1 ring-white/10'>
               <img 
                 className='w-40 h-50 rounded-2xl object-cover' 
                 src={item.profile_path ? IMG_PATH + item.profile_path : '/placeholder-actor.jpg'} 
@@ -90,9 +90,9 @@ export const Actors = ({ movieName }: { movieName: string }) => {
                   e.currentTarget.src = '/placeholder-actor.jpg';
                 }}
               />
-              <h1 className='text-xs font-bold text-center max-w-[160px] truncate'>{item.name}</h1>
+              <h1 className='text-xs font-bold text-center max-w-[160px] truncate text-white'>{item.name}</h1>
               {item.character && (
-                <p className='text-xs text-gray-600 text-center max-w-[160px] truncate'>
+                <p className='text-xs text-gray-700 text-center max-w-[160px] truncate'>
                   as {item.character}
                 </p>
               )}

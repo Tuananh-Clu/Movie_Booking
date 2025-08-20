@@ -21,7 +21,7 @@ export const MovieCard: React.FC<MovieCards> = ({ id, poster_pathh, original_tit
       <div className="absolute bottom-0 p-10 text-white z-10">
         <h2 className="text-3xl font-bold">{original_tittle}</h2>
         <p className="text-sm text-gray-300">Mã phim: {id}</p>
-        <button  className="mt-2 cursor-pointer px-4 py-1 bg-red-600 rounded hover:bg-red-700 text-sm">
+        <button  className="mt-2 cursor-pointer px-4 py-1 rounded text-sm text-white bg-gradient-to-r" style={{ backgroundImage: "linear-gradient(to right, var(--color-brand-pink), var(--color-brand-cyan))" }} hover:opacity-90>
           Đặt vé Ngay
         </button>
       </div>

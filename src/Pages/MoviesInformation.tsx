@@ -130,7 +130,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
             </div>
 
             {/* Info */}
-            <div className="ml-6 text-white max-w-xl">
+            <div className="ml-6 text-white max-w-xl ">
               <h1 className="md:text-5xl text-3xl font-bold leading-snug drop-shadow-md">
                 {movie.original_title}
               </h1>
@@ -145,7 +145,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
                 </p>
 
                 <p className="flex items-center gap-2">
-                  <i className="fa-solid fa-heart text-red-500" />
+                  <i className="fa-solid fa-heart text-red-400" />
                   {movie.vote_average}
                 </p>
                 <div className="flex flex-row items-center gap-4">
@@ -156,7 +156,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
                       block: "center",
                     });
                   }}
-                  className="mt-2 bg-red-600 hover:bg-red-700 transition-colors text-white py-2 px-6 w-fit rounded-2xl font-semibold"
+                  className="mt-2 transition-colors text-white py-2 px-6 w-fit rounded-2xl font-semibold  hover:opacity-90"style={{ backgroundImage: "linear-gradient(to right, var(--color-brand-pink), var(--color-brand-cyan))" }}
                 >
                   Đặt Vé Ngay
                 </button>
@@ -164,7 +164,9 @@ const {setFavoriteMovies}=useContext(BookingContext);
                   if (movie) {
                    handleToggleFavorite(movie);
                   }
-                }} className={`fa-solid fa-heart fa-xl ${toggleFavorite||isFavourite?"text-red-600":"text-white"}  rounded-2xl p-4`}></i>
+                  }}
+                  className={`fa-solid fa-heart fa-xl rounded-2xl p-4 ${toggleFavorite || isFavourite ? "text-red-500" : "text-white"}`}
+                ></i>
 
                 </div>
               </div>
@@ -174,8 +176,8 @@ const {setFavoriteMovies}=useContext(BookingContext);
       )}
 
       {/* Các section phụ */}
-      <div className="relative z-10 ">
-      <div className="mt-32 px-10 md:px-10">
+      <div className="relative z-10 bg-gradient-to-br from-black via-neutral-900 to-black ">
+      <div className="pt-32 px-10 md:px-10">
                 <Actors movieName={String(id)} />
       </div>
         <div ref={daySelect} className="mt-60 scroll-px-40 w-full ">

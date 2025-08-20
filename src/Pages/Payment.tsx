@@ -103,8 +103,8 @@ export const Payment = () => {
           <div className="md:col-span-1 flex flex-col gap-6">
             {/* Thông Tin Vé */}
             {seat[0] && (
-              <div className="bg-white rounded-2xl shadow-xl p-6 text-gray-900">
-                <h2 className="text-2xl font-bold border-b pb-3 mb-4">
+              <div className="rounded-2xl shadow-xl p-6 bg-white/5 backdrop-blur ring-1 ring-white/10">
+                <h2 className="text-2xl font-bold border-b border-white/10 pb-3 mb-4">
                   🎟️ Thông Tin Vé
                 </h2>
                 <div className="flex flex-col md:flex-row gap-6">
@@ -132,10 +132,9 @@ export const Payment = () => {
                         .slice(1)
                         .map(
                           (items) =>
-                            `${items.id} (${
-                              vipRow.includes(items.id.charAt(0))
-                                ? "VIP"
-                                : "Regular"
+                            `${items.id} (${vipRow.includes(items.id.charAt(0))
+                              ? "VIP"
+                              : "Regular"
                             })`
                         )
                         .join(", ")}
@@ -152,8 +151,8 @@ export const Payment = () => {
             )}
 
             {/* Đồ Ăn */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 text-gray-900">
-              <h2 className="text-2xl font-bold border-b pb-3 mb-4">
+            <div className="rounded-2xl shadow-xl p-6 bg-white/5 backdrop-blur ring-1 ring-white/10">
+              <h2 className="text-2xl font-bold border-b border-white/10 pb-3 mb-4">
                 🍿 Đồ ăn & Thức uống
               </h2>
               <Food combo={combo} setState={setCombo} combototal={comboTotal} />
@@ -161,7 +160,7 @@ export const Payment = () => {
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="bg-white rounded-2xl shadow-xl p-6 text-gray-900 flex flex-col gap-6">
+            <div className="rounded-2xl shadow-xl p-6 flex flex-col gap-6 bg-white/5 backdrop-blur ring-1 ring-white/10">
               <div className="w-full">
                 <InfoCustomer />
               </div>
@@ -170,19 +169,19 @@ export const Payment = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-6 text-gray-900">
-              <h2 className="text-xl font-bold border-b pb-3 mb-4">
+            <div className="rounded-2xl shadow-xl p-6 bg-white/5 backdrop-blur ring-1 ring-white/10">
+              <h2 className="text-xl font-bold border-b border-white/10 pb-3 mb-4">
                 💰 Thanh Toán
               </h2>
               <p className="text-xl font-semibold mb-4">
                 Tổng cộng:{" "}
-                <span className="text-[#E71A0F]">
+                <span className="text-[--color-brand-pink]">
                   {finalTotal.toLocaleString()} VNĐ
                 </span>
               </p>
               <button
                 ref={buttonPay}
-                className="w-full bg-[#E71A0F] hover:bg-[#C5120A] text-white py-3 text-lg rounded-full font-bold shadow transition"
+                className="w-full text-white py-3 text-lg rounded-full font-bold shadow transition bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan] hover:opacity-90"
                 onClick={successPay}
               >
                 🛒 Xác Nhận Thanh Toán

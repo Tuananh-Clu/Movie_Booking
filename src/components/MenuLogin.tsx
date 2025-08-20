@@ -38,7 +38,7 @@ if(isSignedIn){
 }
 },[isSignedIn])
   return (
-    <div className="flex flex-col items-start gap-4 p-4 border rounded-xl shadow-md">
+    <div className="flex flex-col items-start gap-4 p-4 rounded-xl shadow-md ring-1 ring-white/10 bg-white/5 backdrop-blur">
       {isSignedIn ? (
         <>
           <div className="flex items-center gap-4">
@@ -51,14 +51,14 @@ if(isSignedIn){
           </div>
 
           <SignOutButton>
-            <button className="bg-red-500 hover:bg-red-600 transition text-white px-4 py-2 rounded-lg">
+            <button className="bg-[--color-brand-pink] hover:opacity-90 transition text-white px-4 py-2 rounded-lg">
               Đăng Xuất
             </button>
           </SignOutButton>
         </>
       ) : (
         <SignInButton mode="modal">
-          <button className="bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-lg">
+          <button className="bg-[--color-brand-cyan] hover:opacity-90 transition text-white px-4 py-2 rounded-lg">
             Đăng Nhập / Đăng Ký
           </button>
         </SignInButton>

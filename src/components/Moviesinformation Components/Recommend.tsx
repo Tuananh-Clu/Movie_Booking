@@ -25,7 +25,8 @@ catch{
   }, []);
   return (
     <div className="mt-40 px-10 flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-black mb-6 border-l-4 border-red-500 pl-4">
+      <h2 className="text-2xl font-bold text-white mb-6 pl-4 inline-flex items-center gap-2">
+        <span className="inline-block w-2 h-6 rounded bg-gradient-to-b from-[--color-brand-pink] to-[--color-brand-cyan]"></span>
         🎬 Gợi Ý Có Thể Bạn Thích
       </h2>
 
@@ -41,7 +42,7 @@ catch{
           </div>
         ))}
       </div>
-      <button className="mt-20 bg-blue-500 rounded-2xl p-3  text-white cursor-pointer" onClick={()=>onClick()}>Xem Thêm</button>
+      <button className="mt-20 px-5 py-3 rounded-2xl text-white bg-gradient-to-r  hover:opacity-90 cursor-pointer" style={{ backgroundImage: "linear-gradient(to right, var(--color-brand-pink), var(--color-brand-cyan))" }} onClick={()=>onClick()}>Xem Thêm</button>
     </div>
   );
 };

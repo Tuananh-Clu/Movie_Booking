@@ -75,12 +75,12 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
     navigate(`/Theater/${roomId}/${encodeURIComponent(movieTitle)}`);
   }
   return (
-    <div className="w-full flex flex-col items-center justify-center mt-40 px-4">
-      <h2 className="text-black text-2xl font-semibold mb-4">
+    <div className="w-full flex flex-col items-center justify-center  to-black mt-40 px-4">
+      <h2 className="text-white text-2xl font-semibold mb-4">
         {Date.length > 0 ? "Lịch Chiếu Hiện Có" : "Không có lịch chiếu"}
       </h2>
       <div className="flex items-center cursor-pointer justify-between w-full max-w-5xl mb-4 gap-4">
-        <i onClick={()=>{LeftClick()}} className="fa-solid fa-2xl fa-circle-arrow-left"></i>
+        <i onClick={()=>{LeftClick()}} className="fa-solid text-white fa-2xl fa-circle-arrow-left"></i>
         <div ref={slider} className="flex flex-row  gap-4 overflow-x-hidden max-w-5xl w-full pb-2">
         {Day.map((item, index) => (
           <div
@@ -110,11 +110,11 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
         ))}
       </div>
 
-        <i onClick={()=>{RightClick()}} className="fa-solid fa-2xl cursor-pointer fa-circle-arrow-left fa-flip-horizontal"></i>
+        <i onClick={()=>{RightClick()}} className="fa-solid fa-2xl cursor-pointer text-white fa-circle-arrow-left fa-flip-horizontal"></i>
       </div>
       
       {Day.length > 0 && (
-        <button className="mt-6 bg-red-600 hover:bg-red-700 transition-colors px-8 py-3 rounded-xl text-white font-semibold">
+        <button className="mt-6 transition-colors px-8 py-3 rounded-xl text-white font-semibold bg-gradient-to-r  hover:opacity-90" style={{ backgroundImage: "linear-gradient(to right, var(--color-brand-pink), var(--color-brand-cyan))" }}>
           Đặt Ngay
         </button>
       )}

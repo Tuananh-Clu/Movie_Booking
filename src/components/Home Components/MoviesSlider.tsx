@@ -29,7 +29,7 @@ export const MoviesSlider:React.FC<Slider> = ({title,movies}) => {
 
   return (
     <div className="md:px-20 px-10 mt-10">
-            <h1 className="text-2xl font-bold mb-4 "> {title==="Phim Đang Chiếu Tại Rạp"?"🎬":<i className="fa-solid fa-clock"></i>}{" "}{title}</h1>
+            <h1 className="text-2xl font-bold mb-4 text-white"> {title==="Phim Đang Chiếu Tại Rạp"?"🎬":<i className="fa-solid fa-clock"></i>} {title}</h1>
             <div className="flex flex-row items-center gap-2  ">
              
               <div ref={slider} className="overflow-hidden rounded-2xl slider:hover ">

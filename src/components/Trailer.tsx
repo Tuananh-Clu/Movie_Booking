@@ -27,7 +27,7 @@ export const Trailer: React.FC<Video> = () => {
   ]);
   const [onClickTrailer, setOnClickTrailer] = useState("yNN2PoilSp4");
   return (
-    <div className="w-full items-center justify-center bg-black text-white pt-20 gap-5 flex flex-col mt-20">
+    <div className="w-full items-center justify-center text-white pt-20 gap-5 flex flex-col mt-20">
       <h1 className="text-3xl font-bold">TRAILERS</h1>
       <div className="w-full items-center flex flex-col  justify-center">
         <div className="w-full max-w-7xl aspect-video rounded-2xl overflow-hidden">
@@ -44,7 +44,7 @@ export const Trailer: React.FC<Video> = () => {
         </div>
 
       {/* Danh sách thumbnail */}
-      <div className="md:flex md:flex-row grid grid-cols-2 grid-rows-2  gap-3 bg-gray-800 rounded-2xl items-center justify-center p-5   mt-10 ">
+      <div className="md:flex md:flex-row grid grid-cols-2 grid-rows-2 gap-3 rounded-2xl items-center justify-center p-5 mt-10 bg-white/5 backdrop-blur ring-1 ring-white/10">
         {trailerlist.map((item, index) => (
               <div
                 key={index}

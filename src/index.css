@@ -1,4 +1,10 @@
 @import "tailwindcss";
+
+:root {
+  /* Brand theme colors for pink + cyan */
+  --color-brand-pink: oklch(0.75 0.19 340);
+  --color-brand-cyan: oklch(0.82 0.09 200);
+}
 body{
   scrollbar-width: none;         /* Firefox */
   -ms-overflow-style: none;     /* IE/Edge */

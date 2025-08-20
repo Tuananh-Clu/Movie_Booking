@@ -23,14 +23,14 @@ const handleClick=(item:string)=>{
   return (
     <>
       <div className="fixed inset-0 w-full bg-black/50 backdrop-blur-sm z-10"></div>
-      <div className="fixed top-1/2 left-1/2 z-1000 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-xl shadow-lg w-[400px]">
+      <div className="fixed top-1/2 left-1/2 z-1000 transform -translate-x-1/2 -translate-y-1/2 p-4 rounded-xl shadow-lg w-[400px] text-white bg-white/5 backdrop-blur ring-1 ring-white/10">
         <i
           onClick={() => {
             setState(false);
           }}
           className="fa-solid fa-x w-full flex items-end justify-end mb-5 cursor-pointer"
         ></i>
-        <div className="flex items-center gap-2 mb-4 border border-gray-300 rounded px-3 py-2">
+        <div className="flex items-center gap-2 mb-4 rounded px-3 py-2 bg-white/5 ring-1 ring-white/10">
           <input
             onChange={(e) => {
               setSearchBar(e.target.value);
@@ -38,16 +38,16 @@ const handleClick=(item:string)=>{
             value={searchBar}
             type="text"
             placeholder="Tìm rạp phim..."
-            className="flex-1 outline-none"
+            className="flex-1 outline-none bg-transparent text-white placeholder-gray-300"
           />
-          <i className="fa-solid fa-magnifying-glass text-gray-500"></i>
+          <i className="fa-solid fa-magnifying-glass text-gray-300"></i>
         </div>
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {filterSearch.map((item, index) => (
             <div
             onClick={()=>{handleClick(item)}}
               key={index}
-              className="p-3 border rounded hover:bg-gray-100 cursor-pointer"
+              className="p-3 rounded cursor-pointer bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
             >
               <h1 className="text-lg font-semibold">{item}</h1>
             </div>

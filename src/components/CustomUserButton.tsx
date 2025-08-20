@@ -12,8 +12,8 @@ export default function CustomUserButton() {
       appearance={{
         elements: {
           userButtonAvatarBox: "w-10 h-10",
-          userButtonPopoverCard: "bg-white shadow-lg border rounded-lg",
-          userButtonPopoverActionButton: "hover:bg-gray-50 transition-colors",
+          userButtonPopoverCard: "text-white bg-white/5 backdrop-blur ring-1 ring-white/10 shadow-lg border-0 rounded-lg",
+          userButtonPopoverActionButton: "hover:bg-white/10 transition-colors",
         },
       }}
     >

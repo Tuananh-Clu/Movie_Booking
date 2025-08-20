@@ -77,7 +77,7 @@ export const SeatM = React.memo(
                   cursor-pointer transition-all duration-200 ease-in-out shadow-md 
                   text-sm md:text-base font-semibold text-black
                   hover:scale-110 ${baseColor} 
-                  ${isVip ? "border-2 border-yellow-300" : "border border-gray-500"}`}
+                  ${isVip ? "ring-2 ring-[--color-brand-pink]" : "ring-1 ring-white/20"}`}
                 title={item.id}
               >
                 {item.id.slice(1)}

@@ -17,7 +17,7 @@ export const Theater = () => {
     Filters();
   });
   return (
-    <div className=" w-full flex    z-0 bg-gradient-to-br from-cyan-200 via-neutral-200 to-pink-300">
+    <div className=" w-full flex z-0 bg-gradient-to-br from-black via-neutral-900 to-black">
       <Navbar />
       <div className=" w-full ">
         <div className=" pt-40 h-full w-full md:px-20 px-10  flex flex-col  items-center justify-between">
@@ -28,7 +28,7 @@ export const Theater = () => {
           <div className="flex flex-row text-white gap-2">
             <span
               
-              className="flex flex-row items-center border gap-3 p-2 border-white rounded-2xl"
+              className="flex flex-row items-center gap-3 p-2 rounded-2xl ring-1 ring-white/10 bg-white/5 backdrop-blur"
             >
               <i onClick={() => {
                 setPopupMenu((prev) => !prev);
@@ -36,7 +36,7 @@ export const Theater = () => {
               {filter.name.length === 0 ? (
                 "Địa Điểm"
               ) : (
-                <h1 className="bg-red-400 p-2 rounded-2xl" onClick={()=>{setDefaultLocation()}}>{filter.name}</h1>
+                <h1 className="p-2 rounded-2xl text-white bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan]" onClick={()=>{setDefaultLocation()}}>{filter.name}</h1>
               )}
             </span>
           </div>

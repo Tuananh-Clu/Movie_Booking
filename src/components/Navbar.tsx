@@ -26,7 +26,7 @@ export const Navbar = () => {
   return (
     <div
       className={`fixed top-0 left-0 flex items-center justify-between px-10 lg:px-20 w-full z-50 transition-colors duration-300 ${
-        ChangeColorBar ? "bg-transparent" : "bg-black/90"
+        ChangeColorBar ? "bg-transparent" : "bg-black/70"
       } text-white py-4 backdrop-blur-md`}
     >
       <div
@@ -37,16 +37,16 @@ export const Navbar = () => {
         <h1 className="text-2xl font-bold tracking-wide">AP</h1>
       </div>
 
-      <ul className="hidden md:flex flex-row gap-4 items-center text-sm font-medium bg-black/30 px-6 py-2 rounded-2xl">
+      <ul className="hidden md:flex flex-row gap-4 items-center text-sm font-medium px-6 py-2 rounded-2xl ring-1 ring-white/10 bg-white/5 backdrop-blur">
         <li
           onClick={() => navigate("/")}
-          className="hover:text-red-400 cursor-pointer transition"
+          className="cursor-pointer transition hover:text-[--color-brand-pink]"
         >
           Home
         </li>
         <li
           onClick={() => navigate("/Theater")}
-          className="hover:text-red-400 cursor-pointer transition"
+          className="cursor-pointer transition hover:text-[--color-brand-pink]"
         >
           Theater
         </li>
@@ -54,13 +54,13 @@ export const Navbar = () => {
           onClick={() => {
             navigate("/Tickets");
           }}
-          className="hover:text-red-400 cursor-pointer transition"
+          className="cursor-pointer transition hover:text-[--color-brand-pink]"
         >
           Tickets
         </li>
         <li
           onClick={() => navigate("/News")}
-          className="hover:text-red-400  cursor-pointer transition"
+          className="cursor-pointer transition hover:text-[--color-brand-pink]"
         >
           News
         </li>
@@ -71,14 +71,14 @@ export const Navbar = () => {
           onClick={() => {
             setToggleSearch((prev) => !prev);
           }}
-          className="fa-solid fa-magnifying-glass text-xl cursor-pointer hover:text-yellow-400 transition"
+          className="fa-solid fa-magnifying-glass text-xl cursor-pointer transition hover:text-[--color-brand-cyan]"
         />
         <div className="block md:hidden">
           <i
             onClick={() => {
               setToggleMobileMenu((prev) => !prev);
             }}
-            className="fa-solid fa-bars text-xl  cursor-pointer hover:text-yellow-400 transition"
+            className="fa-solid fa-bars text-xl cursor-pointer transition hover:text-[--color-brand-cyan]"
           ></i>
         </div>
         {isSignedIn ? (
@@ -92,11 +92,11 @@ export const Navbar = () => {
           <>
             <i
               onClick={() => setToggleMenu((prev) => !prev)}
-              className="fa-solid fa-user text-xl cursor-pointer hover:text-blue-400 transition"
+              className="fa-solid fa-user text-xl cursor-pointer transition hover:text-[--color-brand-cyan]"
             />
 
             {toggleMenu && (
-              <div className="absolute right-0 top-12 bg-black/80 text-white p-4 rounded-xl  shadow-lg backdrop-blur-md">
+              <div className="absolute right-0 top-12 text-white p-4 rounded-xl shadow-lg backdrop-blur-md bg-white/5 ring-1 ring-white/10">
                 <MenuLogin />
               </div>
             )}

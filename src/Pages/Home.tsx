@@ -36,7 +36,7 @@ export const Home = () => {
 }, []);
 
   return (
-    <div className="h-auto">
+    <div className="h-auto bg-gradient-to-br from-black via-neutral-900 to-black">
       <Navbar />
       <Hero />
       {/*Phim Dang Chieu*/}

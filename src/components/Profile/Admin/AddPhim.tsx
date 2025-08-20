@@ -136,7 +136,7 @@ export const AddPhim = () => {
 
       {/* Movie Slider */}
       <div className="flex items-center gap-3 mb-8">
-        <button onClick={handleClickLeft} className="p-3 bg-black rounded-full">
+        <button onClick={handleClickLeft} className="p-3 rounded-full bg-white/5 ring-1 ring-white/10">
           <i className="fa-solid fa-arrow-left"></i>
         </button>
 
@@ -149,9 +149,9 @@ export const AddPhim = () => {
             .map((item, index) => (
               <div
                 key={index}
-                className={`min-w-[200px] snap-start bg-zinc-900 rounded-xl shadow-md hover:scale-105 transition-transform duration-200 ${
-                  movies?.id === String(item.id) ? "ring-2 ring-red-500" : ""
-                }`} // THÊM VISUAL FEEDBACK CHO PHIM ĐƯỢC CHỌN
+                className={`min-w-[200px] snap-start rounded-xl shadow-md hover:scale-105 transition-transform duration-200 bg-white/5 ring-1 ring-white/10 ${
+                  movies?.id === String(item.id) ? " outline-2 outline-[--color-brand-pink]" : ""
+                }`}
               >
                 <img
                   onClick={async () => {
@@ -186,15 +186,15 @@ export const AddPhim = () => {
 
         <button
           onClick={handleClickRight}
-          className="p-3 bg-black rounded-full"
+          className="p-3 rounded-full bg-white/5 ring-1 ring-white/10"
         >
           <i className="fa-solid fa-arrow-right"></i>
         </button>
       </div>
 
       {movies && (
-        <div className="mb-6 p-4 bg-green-900/20 border border-green-500 rounded-xl">
-          <p className="text-green-400">
+        <div className="mb-6 p-4 rounded-xl bg-white/5 ring-1 ring-white/10">
+          <p className="text-[--color-brand-cyan]">
             ✅ Đã chọn phim: <strong>{movies.title}</strong>
           </p>
         </div>
@@ -203,7 +203,7 @@ export const AddPhim = () => {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-800 p-6 rounded-2xl"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-2xl bg-white/5 backdrop-blur ring-1 ring-white/10"
       >
         {/* Left */}
         <div className="space-y-4">
@@ -212,7 +212,7 @@ export const AddPhim = () => {
             <select
               value={selectValue}
               onChange={(e) => setSelectValue(e.target.value)}
-              className="w-full p-3 rounded-xl bg-black text-white"
+              className="w-full p-3 rounded-xl  text-white bg-gray-800 ring-1 ring-white/10"
               disabled={isSubmitting}
             >
               {allCinemas.map((item) => (
@@ -228,7 +228,7 @@ export const AddPhim = () => {
             <select
               value={selectedRoom}
               onChange={(e) => setSelectedRoom(e.target.value)}
-              className="w-full p-3 rounded-xl bg-black text-white"
+              className="w-full p-3 rounded-xl bg-gray-800   ring-1 ring-white/10"
               disabled={isSubmitting}
               required
             >
@@ -250,7 +250,7 @@ export const AddPhim = () => {
               placeholder="VD: 60"
               value={seatNum}
               onChange={(e) => setSeatNum(Number(e.target.value))}
-              className="w-full p-3 rounded-xl bg-black text-white outline-none"
+              className="w-full p-3 rounded-xl bg-white/5 ring-1 ring-white/10 outline-none"
               disabled={isSubmitting}
               required
             />
@@ -265,7 +265,7 @@ export const AddPhim = () => {
               type="date"
               value={day}
               onChange={(e) => setDay(e.target.value)}
-              className="w-full p-3 rounded-xl bg-gray-700 text-white outline-none"
+              className="w-full p-3 rounded-xl bg-white/5 ring-1 ring-white/10 outline-none"
               disabled={isSubmitting}
               min={new Date().toISOString().split("T")[0]} 
               required
@@ -279,7 +279,7 @@ export const AddPhim = () => {
                 type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                className="w-full p-3 rounded-xl bg-black text-white outline-none"
+                className="w-full p-3 rounded-xl bg-white/5 ring-1 ring-white/10 outline-none"
                 disabled={isSubmitting}
               />
               <button
@@ -290,7 +290,7 @@ export const AddPhim = () => {
                     setTime("");
                   }
                 }}
-                className="bg-white text-black p-3 rounded-xl hover:bg-gray-200"
+                className="p-3 rounded-xl bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan] text-white hover:opacity-90"
                 disabled={isSubmitting || !time}
               >
                 Thêm
@@ -306,7 +306,7 @@ export const AddPhim = () => {
                   !isSubmitting &&
                   setTimeLine((prev) => prev.filter((_, i) => i !== index))
                 }
-                className={`bg-white text-black px-4 py-1 rounded-full text-sm font-semibold cursor-pointer hover:bg-red-400 transition ${
+                className={`px-4 py-1 rounded-full text-sm font-semibold cursor-pointer bg-white/10 hover:bg-white/20 transition ${
                   isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 title="Bấm để xoá"
@@ -322,7 +322,7 @@ export const AddPhim = () => {
               type="number"
               placeholder="VD: 75000"
               min={10000}
-              className="w-full p-3 rounded-xl bg-black text-white outline-none"
+              className="w-full p-3 rounded-xl bg-white/5 ring-1 ring-white/10 outline-none"
               disabled={isSubmitting}
             />
           </div>
@@ -331,11 +331,12 @@ export const AddPhim = () => {
         <div className="md:col-span-2 text-center mt-4">
           <button
             type="submit"
+             style={{ backgroundImage: "linear-gradient(to right, var(--color-brand-pink), var(--color-brand-cyan))" }}
             className={`px-6 py-3 rounded-xl font-bold transition-all ${
               isSubmitting
-                ? "bg-gray-600 cursor-not-allowed"
-                : "bg-red-600 hover:bg-red-700"
-            }`}
+                ? "bg-white/10 cursor-not-allowed"
+                : "bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan] hover:opacity-90"
+            }` }
             disabled={isSubmitting}
           >
             {isSubmitting ? "⏳ Đang tạo..." : "🎫 Tạo Lịch Chiếu"}
