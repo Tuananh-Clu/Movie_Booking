@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export const DashBoardUser = () => {
   const { user } = useUser();
-  const { getToken } = useAuth();
+  const { getToken } = useAuth({ template: "backend-api" });
 
   const [stats, setStats] = useState({
     watchedMovies: 0,
@@ -19,7 +19,7 @@ export const DashBoardUser = () => {
   useEffect(() => {
   const fetchUserData = async () => {
     try {
-      const token = await getToken({template:"backend-api"});
+      const token = await getToken({ template: "aspnet-core" });
       console.log("JWT Token:", token);
 
 
