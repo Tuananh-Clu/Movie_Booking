@@ -43,6 +43,15 @@ function App() {
       console.log("Gui thanh cong");
     }
   }, [isSignedIn]);
+  const fetchDataDelete = async () => {
+
+    await axios.delete("https://backendformoviebooking-production.up.railway.app/api/Cinema/DeleteSHowTimeOld",{}
+    );
+  };
+  useEffect(() => {
+    fetchDataDelete();
+  }, []);
+
   return (
     <>
       <ScrollToTop />

@@ -37,23 +37,25 @@ const {setFavoriteMovies}=useContext(BookingContext);
     fetchDataManyPage();
     ListMovieByType("upcoming", setComingSoon, 1);
   }, []);
-  const handleToggleFavorite = (movie: MovieApi) => {
+  const handleToggleFavorite =async (movie: MovieApi) => {
+
     const movieData: Movies = {
       id: String(movie.id),
       title: movie.original_title,
       poster: movie.poster_path,
-      duration: movie.vote_average,
+      duration: Math.round(movie.vote_average),
     };
   
     if (toggleFavorite) {
-      setFavoriteMovies((prev) => prev.filter((item) => String(item.id) !== String(movie.id)));
+      setFavoriteMovies((prev) => prev.filter((item) => String(item.id) !== String(movieData.id)));
       setToggleFavorite(false);
     } else {
       setFavoriteMovies((prev) => [...prev, movieData]);
       setToggleFavorite(true);
     }
     console.log("Toggle favorite for movie:", movieData);
-  };
+  }
+
   const {getToken}=useAuth();
     const [movies, setMovies] = useState<Movies[]>([]);
   useEffect(()=>{

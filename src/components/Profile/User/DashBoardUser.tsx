@@ -2,66 +2,84 @@ import { useAuth, useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { Calendar, Ticket, Heart, Star, Award, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
-
-
+import { PhimDaXem } from "./PhimDaXem";
+import { PhimSapChieu } from "./PhimSapChieu";
+import type { Movies } from "../../../types/type";
+import { useNavigate } from "react-router";
 
 export const DashBoardUser = () => {
   const { user } = useUser();
   const { getToken } = useAuth({ template: "backend-api" });
-
+  const Img_path = "https://image.tmdb.org/t/p/w500";
   const [stats, setStats] = useState({
     watchedMovies: 0,
     tickets: 0,
     points: 0,
     favCinemas: 0,
   });
+  const [dataDaXem, setDataDaXem] = useState<Movies[]>([]);
+  const [dataSapChieu, setDataSapChieu] = useState<Movies[]>([]);
+  const [recommendedMovies, setRecommendedMovies] = useState<any[]>([]);
+  const navigate=useNavigate();
 
   useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const token = await getToken({template:"aspnet-core"});
-      console.log("JWT Token:", token);
+    const fetchUserData = async () => {
+      try {
+        const token = await getToken({ template: "aspnet-core" });
+        console.log("JWT Token:", token);
 
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        };
 
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      };
+        const watchedMoviesRes = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetMovieByUserId",
+          { headers }
+        );
 
+        const ticketsRes = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTIcketBuyByUserId",
+          { headers }
+        );
 
-      const watchedMoviesRes = await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/GetMovieByUserId",
-        { headers }
-      );
+        const pointsRes = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetPointId",
+          { headers }
+        );
+        const theaterres = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetRapPhimYeuThichNhat",
+          { headers }
+        );
+        const recommendedMoviesRes = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/MovieNowPlaying/Recommend"
+        );
+        setRecommendedMovies(recommendedMoviesRes.data);
+        const dataPhimDaXem = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetTicketsDaXem",
+          { headers }
+        );
+        setDataDaXem(dataPhimDaXem.data);
 
-      const ticketsRes = await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTIcketBuyByUserId",
-        { headers }
-      );
+        const dataPhimSapChieu = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Client/GetTicketsSapChieu",
+          { headers }
+        );
+        setDataSapChieu(dataPhimSapChieu.data);
 
-      const pointsRes = await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/GetPointId",
-        { headers }
-      );
-      const theaterres=await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/GetRapPhimYeuThichNhat",
-        { headers }
-      );
+        setStats({
+          watchedMovies: watchedMoviesRes.data ?? 0,
+          tickets: ticketsRes.data ?? 0,
+          points: pointsRes.data ?? 0,
+          favCinemas: theaterres.data ?? 0,
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
-      setStats({
-        watchedMovies: watchedMoviesRes.data ?? 0,
-        tickets: ticketsRes.data ?? 0,
-        points: pointsRes.data ?? 0,
-        favCinemas: theaterres.data ?? 0,
-      });
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  fetchUserData();
-}, [getToken]);
-
+    fetchUserData();
+  }, [getToken]);
 
   const dashboard = [
     {
@@ -90,80 +108,80 @@ export const DashBoardUser = () => {
     },
   ];
   const membershipTier = {
-  current:
-    stats.points < 1000
-      ? "Bronze"
-      : stats.points < 2000
-      ? "Silver"
-      : stats.points < 3000
-      ? "Gold"
-      : stats.points < 4000
-      ? "Platinum"
-      : stats.points < 5000
-      ? "Diamond"
-      : "VIP",
-  points: stats.points,
-  nextTier:
-    stats.points < 1000
-      ? "Silver"
-      : stats.points < 2000
-      ? "Gold"
-      : stats.points < 3000
-      ? "Platinum"
-      : stats.points < 4000
-      ? "Diamond"
-      : stats.points < 5000
-      ? "VIP"
-      : "VIP",
-  pointsNeeded:
-    stats.points < 1000
-      ? 1000 - stats.points
-      : stats.points < 2000
-      ? 2000 - stats.points
-      : stats.points < 3000
-      ? 3000 - stats.points
-      : stats.points < 4000
-      ? 4000 - stats.points
-      : stats.points < 5000
-      ? 5000 - stats.points
-      : 6000 - stats.points,
-  benefits:
-    stats.points < 1000
-      ? ["5% Giảm Giá", "Miễn Phí Nước Nhỏ"]
-      : stats.points < 2000
-      ? ["10% Giảm Giá", "Miễn Phí Nâng Cấp Bắp Nước", "Priority booking"]
-      : stats.points < 3000
-      ? ["15% Giảm Giá", "Miễn Phí Bắp Rang Lớn", "Truy Cập Phòng Chờ VIP"]
-      : stats.points < 4000
-      ? ["20% Giảm Giá", "Miễn Phí Nước Lớn", "Xem Phim Đặc Biệt"]
-      : stats.points < 5000
-      ? ["25% Giảm Giá", "Ghế VIP Miễn Phí", "Dịch Vụ Cá Nhân"]
-      : ["30% Giảm Giá", "Trải Nghiệm VIP Miễn Phí", "Sự Kiện Đặc Biệt"],
-  bgColor:
-    stats.points < 1000
-      ? "bg-gray-500"
-      : stats.points < 2000
-      ? "bg-yellow-500"
-      : stats.points < 3000
-      ? "bg-orange-500"
-      : stats.points < 4000
-      ? "bg-purple-500"
-      : stats.points < 5000
-      ? "bg-blue-500"
-      : "bg-green-500",
-};
-const percentBar =
-  membershipTier.current === "Bronze"
-    ? 1000
-    : membershipTier.current === "Silver"
-    ? 2000
-    : membershipTier.current === "Gold"
-    ? 3000
-    : membershipTier.current === "Platinum"
-    ? 4000
-    : membershipTier.current === "Diamond"
-    ? 5000
-    : 6000;
+    current:
+      stats.points < 1000
+        ? "Bronze"
+        : stats.points < 2000
+        ? "Silver"
+        : stats.points < 3000
+        ? "Gold"
+        : stats.points < 4000
+        ? "Platinum"
+        : stats.points < 5000
+        ? "Diamond"
+        : "VIP",
+    points: stats.points,
+    nextTier:
+      stats.points < 1000
+        ? "Silver"
+        : stats.points < 2000
+        ? "Gold"
+        : stats.points < 3000
+        ? "Platinum"
+        : stats.points < 4000
+        ? "Diamond"
+        : stats.points < 5000
+        ? "VIP"
+        : "VIP",
+    pointsNeeded:
+      stats.points < 1000
+        ? 1000 - stats.points
+        : stats.points < 2000
+        ? 2000 - stats.points
+        : stats.points < 3000
+        ? 3000 - stats.points
+        : stats.points < 4000
+        ? 4000 - stats.points
+        : stats.points < 5000
+        ? 5000 - stats.points
+        : 6000 - stats.points,
+    benefits:
+      stats.points < 1000
+        ? ["5% Giảm Giá", "Miễn Phí Nước Nhỏ"]
+        : stats.points < 2000
+        ? ["10% Giảm Giá", "Miễn Phí Nâng Cấp Bắp Nước", "Priority booking"]
+        : stats.points < 3000
+        ? ["15% Giảm Giá", "Miễn Phí Bắp Rang Lớn", "Truy Cập Phòng Chờ VIP"]
+        : stats.points < 4000
+        ? ["20% Giảm Giá", "Miễn Phí Nước Lớn", "Xem Phim Đặc Biệt"]
+        : stats.points < 5000
+        ? ["25% Giảm Giá", "Ghế VIP Miễn Phí", "Dịch Vụ Cá Nhân"]
+        : ["30% Giảm Giá", "Trải Nghiệm VIP Miễn Phí", "Sự Kiện Đặc Biệt"],
+    bgColor:
+      stats.points < 1000
+        ? "bg-gray-500"
+        : stats.points < 2000
+        ? "bg-yellow-500"
+        : stats.points < 3000
+        ? "bg-orange-500"
+        : stats.points < 4000
+        ? "bg-purple-500"
+        : stats.points < 5000
+        ? "bg-blue-500"
+        : "bg-green-500",
+  };
+  const percentBar =
+    membershipTier.current === "Bronze"
+      ? 1000
+      : membershipTier.current === "Silver"
+      ? 2000
+      : membershipTier.current === "Gold"
+      ? 3000
+      : membershipTier.current === "Platinum"
+      ? 4000
+      : membershipTier.current === "Diamond"
+      ? 5000
+      : 6000;
 
   return (
     <div className=" ">
@@ -196,16 +214,20 @@ const percentBar =
             <div className="flex flex-col text-2xs font-bold ">
               <h1>{item.title}</h1>
               <h1>{item.count}</h1>
-              </div>
-            <div className={`${item.bgColor} p-2 rounded-full shadow-lg shadow-black/10`}>
-                {item.icon}
-              </div>
+            </div>
+            <div
+              className={`${item.bgColor} p-2 rounded-full shadow-lg shadow-black/10`}
+            >
+              {item.icon}
+            </div>
           </li>
         ))}
       </ul>
 
       {/* Membership */}
-      <div className={`rounded-2xl p-6 mt-4 text-white ${membershipTier.bgColor} ring-1 ring-white/10`} >
+      <div
+        className={`rounded-2xl p-6 mt-4 text-white ${membershipTier.bgColor} ring-1 ring-white/10`}
+      >
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Membership</h3>
           <Award className="w-5 h-5" />
@@ -220,36 +242,70 @@ const percentBar =
           <div className="flex justify-between text-sm mb-1">
             <span>Tiến Độ Tới {membershipTier.nextTier}</span>
             <span>Cần {membershipTier.pointsNeeded} Để Lên Cấp</span>
-            </div>
+          </div>
           <div className="bg-white/20 rounded-full h-3 overflow-hidden">
-            <div className="h-3 rounded-full bg-gradient-to-r " style={{width:`${stats.points/percentBar * 100}%`, backgroundImage: "linear-gradient(to right, var(--color-brand-pink), var(--color-brand-cyan))" }}></div>
+            <div
+              className="h-3 rounded-full bg-gradient-to-r "
+              style={{
+                width: `${(stats.points / percentBar) * 100}%`,
+                backgroundImage:
+                  "linear-gradient(to right, var(--color-brand-pink), var(--color-brand-cyan))",
+              }}
+            ></div>
           </div>
         </div>
         <div className="space-y-1">
           <p className="text-xs text-yellow-100 font-medium">Your Benefits:</p>
-            {membershipTier.benefits.map((benefit, i) => (
+          {membershipTier.benefits.map((benefit, i) => (
             <p key={i} className="text-xs text-yellow-100">
               • {benefit}
-              </p>
-            ))}
-          </div>
+            </p>
+          ))}
         </div>
+      </div>
 
-      <div className="mt-5">
-        <h1 className="text-2xl font-bold text-white">Phim Đề Xuất</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
-          {Array.from({ length: 6 }).map((_, index) => (
+      <div className="mt-8">
+        <h1 className="text-2xl font-bold text-white mb-4">🎬 Phim Đề Xuất</h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {recommendedMovies.map((movie, index) => (
             <div
+              onClick={() => navigate(`/Movies/${movie.original_title}`)}
               key={index}
-              className="p-4 rounded-lg bg-white/5 backdrop-blur hover:bg-white/10 transition-colors ring-1 ring-white/10"
+              className="group flex flex-col bg-white/5 backdrop-blur rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 ring-1 ring-white/10"
             >
-              <h2 className="text-lg font-semibold text-white">
-                  Bộ Phim {index + 1}
-              </h2>
-              <p className="text-sm text-gray-300">Mô tả ngắn về bộ phim.</p>
+              <div className="relative w-full h-64 overflow-hidden">
+                <img
+                  src={Img_path + movie.poster_path}
+                  alt={movie.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+
+                <span className="absolute top-2 right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-lg">
+                  ⭐ {movie.vote_average.toFixed(1)}
+                </span>
+              </div>
+
+
+              <div className="p-4 flex flex-col flex-1">
+                <h2 className="text-lg font-semibold text-white mb-1 line-clamp-1">
+                  {movie.title}
+                </h2>
+                <p className="text-sm text-gray-300 line-clamp-3">
+                  {movie.overview}
+                </p>
+                <p className="mt-3 text-xs text-gray-400">
+                  📅 {movie.release_date}
+                </p>
+              </div>
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-5 w-full flex flex-row justify-between  ">
+        <PhimDaXem movies={dataDaXem} />
+        <PhimSapChieu movies={dataSapChieu} />
       </div>
     </div>
   );
