@@ -12,6 +12,7 @@ import { DanhSachPhimYeuThich } from "../components/Profile/User/DanhSachPhimYeu
 import { MaGiamGia } from "../components/Profile/User/MaGiamGia";
 import { DashBoardUser } from "../components/Profile/User/DashBoardUser";
 import { CreateMaGiamGia } from "../components/Profile/Admin/CreateMaGiamGia";
+import { KhoVoucher } from "../components/Profile/Admin/KhoVoucher";
 
 export const Profile = () => {
   const { getToken } = useAuth();
@@ -72,7 +73,8 @@ export const Profile = () => {
         return <ListPhim />;
       case "Phim":
         return <AddPhim />;
-     
+     case "Voucher":
+      return <KhoVoucher/>
         case "Phim Yêu Thích":
           return <DanhSachPhimYeuThich/>
           case "Tạo Mã Giảm Giá":
@@ -96,6 +98,7 @@ export const Profile = () => {
         { label: "Quản Lý Phim", value: "Danh Sach" },
         { label: "Tạo Suất Chiếu", value: "Phim" },
         {label:"Tạo Mã Giảm Giá", value:"Tạo Mã Giảm Giá"},
+        {label:"Kho Voucher",value:"Voucher"}
       ];
       return (
         <div className="bg-gradient-to-b from-gray-800 to-gray-700 p-6 rounded-3xl flex flex-col items-center min-w-[250px] shadow-lg">

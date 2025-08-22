@@ -168,3 +168,16 @@ export type doanhthu = {
   avune:number[];
 }
 
+export interface Voucher{
+  code:string,
+  description:string,
+  loaiGiam:string,
+  discountAmount:number,
+  expirationDate:string,
+  isActive:string,
+  minimumOrderAmount:number,
+  usageCount:number,
+  ngayBatDau:string,
+  phamViApDung:string,
+  soLuotUserDuocDung:string
+}
