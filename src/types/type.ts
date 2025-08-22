@@ -181,3 +181,14 @@ export interface Voucher{
   phamViApDung:string,
   soLuotUserDuocDung:string
 }
+export type VoucherUser={
+  code:string,
+  description:string,
+  loaiGiam:string,
+  discountAmount:number,
+  expirationDate:string,
+  minimumOrderAmount:number,
+  phamViApDung:string,
+  soLuotUserDuocDung:string
+  used:string
+}

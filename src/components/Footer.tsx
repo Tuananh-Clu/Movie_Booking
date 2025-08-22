@@ -3,7 +3,7 @@ import Logo from "../assets/2040698.png";
 export const Footer = () => {
   return (
     <footer className="w-full text-white px-6 pt-34 pb-8 bg-gradient-to-t from-[--color-brand-pink]/10 via-transparent to-[--color-brand-cyan]/10">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10">
+      <div className=" px-20 flex flex-col md:flex-row justify-between gap-10">
 
         {/* Logo + Socials */}
         <div className="flex flex-col gap-4 items-center md:items-start">

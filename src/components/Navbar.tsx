@@ -6,6 +6,7 @@ import {  useUser } from "@clerk/clerk-react";
 import { Search } from "./Navbar Components/Search";
 import { MobileMenu } from "./Navbar Components/MobileMenu";
 import CustomUserButton from "./CustomUserButton";
+import { Ticket } from "lucide-react";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -71,8 +72,9 @@ export const Navbar = () => {
           onClick={() => {
             setToggleSearch((prev) => !prev);
           }}
-          className="fa-solid fa-magnifying-glass text-xl cursor-pointer transition hover:text-[--color-brand-cyan]"
+          className="fa-solid fa-magnifying-glass text-xl cursor-pointer transition hover:text-pink-600"
         />
+        <Ticket className="cursor-pointer hover:text-pink-600" onClick={()=>navigate("/Voucher")}/>
         <div className="block md:hidden">
           <i
             onClick={() => {
