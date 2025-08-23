@@ -190,7 +190,8 @@ export const DashBoardUser = () => {
         <div>
           <h1 className="text-2xl">Xin chào, {user?.lastName} 🎬</h1>
           <p className="text-xs">
-            Bạn Đang Có 2 Bộ Phim Sắp Chiếu Và 3 Bộ Phim Được Đề Xuất
+    
+            Bạn Đang Có {dataSapChieu.length<0?"":dataSapChieu.length+" "+"Bộ Phim Sắp Chiếu"} Và {recommendedMovies.length<0?"":recommendedMovies.length+" "+"Bộ Phim Được Đề Xuất"} 
           </p>
         </div>
         <div className=" relative z-[1] flex-row flex gap-3 mt-3">
