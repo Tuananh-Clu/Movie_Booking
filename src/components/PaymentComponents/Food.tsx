@@ -34,7 +34,7 @@ export const Food: React.FC<FoodProps> = ({ combo, setState, combototal }) => {
   return (
     <div className="w-full rounded-2xl shadow-xl p-6 text-white bg-white/5 backdrop-blur ring-1 ring-white/10">
       <h2 className="text-2xl font-bold mb-4 border-b pb-2 border-white/10">🍿 Bắp - Nước</h2>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col overflow-y-auto h-52 hide-scrollbar gap-4">
         {combo.map((item, idx) => (
           <div key={idx} className="flex items-center justify-between p-4 rounded-xl ring-1 ring-white/10 bg-white/5">
             <div className="flex flex-col">

@@ -36,7 +36,7 @@ export const MaGiamGia = () => {
       <h2 className="text-xl font-bold text-white">🎟️ Mã Giảm Giá</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {dataVoucherUser.map(v => (
-          <div key={v.code} className="p-4 rounded-2xl bg-white/5 backdrop-blur ring-1 ring-white/10 text-white flex items-center justify-between">
+          <div  className="p-4 rounded-2xl bg-white/5 backdrop-blur ring-1 ring-white/10 text-white flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold">{v.code}</h3>
               <p className="text-sm text-gray-300">{v.description}</p>
