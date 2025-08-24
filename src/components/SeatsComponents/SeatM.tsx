@@ -26,6 +26,7 @@ export const SeatM = React.memo(
     currentTheater?: infoTheater;
     handleClick: (
       id: string,
+      name:string,
       isOrdered: string,
       date: string,
       room: string,
@@ -63,6 +64,7 @@ export const SeatM = React.memo(
                 onClick={() =>
                   handleClick(
                     item.id,
+                    currentTheater?.theatername??"",
                     item.isOrdered || item.isSelected || "false",
                     seatDates[1] ?? "",
                     currentRoom || ids || "",

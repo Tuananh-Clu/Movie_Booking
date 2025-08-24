@@ -45,7 +45,8 @@ export const Payment = () => {
     Location: item.Location || sharedInfo.Location,
     city: item.city || sharedInfo.city,
     roomId: item.roomId || sharedInfo.roomId,
-    price:finalTotal
+    price:finalTotal,
+    name:item.name
   }));
   const [stateMenuVoucher, setStateMenuVoucher] = useState(false);
   useEffect(() => {
@@ -132,23 +133,41 @@ export const Payment = () => {
     giagiam:0,
     loaiGiam:""
   })
+  const HandleClickApDung = async (
+  code: string,
+  price: number,
+  loaiGiam: string,
+  giagiam: number,
+  phamviApDung: string
+) => {
+  try {
+    const response = await axios.get(
+      "https://backendformoviebooking-production.up.railway.app/api/Voucher/LayGiaSauGiam",
+      {
+        params: {
+          VoucherCode: code ?? "",
+          GiaTien: price ?? 0,
+          theaterName: encodeURIComponent(phamviApDung) ?? "", 
+        },
+      }
+    );
 
-  const HandleClickApDung=async(code:string,price:number,loaiGiam:string,giagiam:number)=>{
-    try{
-      const response=await axios.get(`https://backendformoviebooking-production.up.railway.app/api/Voucher/LayGiaSauGiam?VoucherCode=${code}&GiaTien=${price}`)
-      setFinalTotal(response.data)
-      setStateMenuVoucher(false)
-      setPopupGiaSauKhiGiam(true)
-      setDataVoucherSelect({
-        code:code,
-        giagiam:giagiam,
-        loaiGiam:loaiGiam
-      })
-    }
-    catch(error){
-      console.log(error);
-    }
+    console.log("👉 URL đã gửi:", response.request?.responseURL);
+    console.log("👉 Data trả về:", response.data);
+
+    setFinalTotal(response.data);
+    setStateMenuVoucher(false);
+    setPopupGiaSauKhiGiam(true);
+    setDataVoucherSelect({
+      code,
+      giagiam,
+      loaiGiam,
+    });
+  } catch (error) {
+    console.log("❌ Error Apply Voucher:", error);
   }
+};
+
 
   return (
     <div
@@ -201,8 +220,8 @@ export const Payment = () => {
                         Giảm {voucher.discountAmount}{voucher.loaiGiam=="Value"?"VND":"%"}
                       </span>
                       </div>
-                     
-                      <button onClick={()=>HandleClickApDung(voucher.code,finalTotal,voucher.loaiGiam,voucher.discountAmount)} className="bg-gray-800 p-3 rounded-2xl cursor-pointer">Áp Dụng</button>
+                     <h1>{voucher.phamViApDung}</h1>
+                      <button onClick={()=>HandleClickApDung(voucher.code,finalTotal,voucher.loaiGiam,voucher.discountAmount,seat[0].name)} className="bg-gray-800 p-3 rounded-2xl cursor-pointer">Áp Dụng</button>
                     </li>
                   ))}
                 </ul>

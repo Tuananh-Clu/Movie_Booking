@@ -59,6 +59,7 @@ export const Seats = () => {
   const toggleSeat = useCallback(
     (
       id: string,
+      name:string,
       isOrdered: string,
       date: string,
       roomId: string,
@@ -66,7 +67,8 @@ export const Seats = () => {
       movieTitle: string,
       quantity: number,
       location: string,
-      city: string
+      city: string,
+
     ) => {
       if (isOrdered === "true") return;
 
@@ -83,6 +85,7 @@ export const Seats = () => {
         return [
           ...prev,
           {
+            name:name,
             isSelected: isOrdered,
             id,
             movieTitle,

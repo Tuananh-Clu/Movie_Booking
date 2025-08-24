@@ -27,7 +27,11 @@ function App() {
       Email: user?.emailAddresses[0].emailAddress,
       Name: user?.fullName,
       Avatar: user?.imageUrl,
-      role:user?.firstName?.includes("A")?"Admin":"User"
+      role:user?.firstName?.includes("A")?"Admin":"User",
+      point:0,
+      tickets:[],
+      yeuThich:[],
+      voucherCuaBan:[]
     };
     console.log("👉 Gửi body:", body);
     await axios.post("https://backendformoviebooking-production.up.railway.app/api/Client/AddUser", body, {

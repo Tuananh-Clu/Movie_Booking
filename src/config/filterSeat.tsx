@@ -14,7 +14,8 @@ export type Seat = {
   image?: string;   
   seatType:string,
   Location:string,
-  city:string      // Hình ảnh ghế     
+  city:string,
+  name:string    // Hình ảnh ghế     
 };
 export type Store={
  isSelected: string;
@@ -28,7 +29,8 @@ export type Store={
   image?: string;   
   seatType:string,
   Location:string,
-  city:string
+  city:string,
+  name:string,
 }
 
 export type SeatsContextType = {

@@ -55,7 +55,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
   }
    const vipRow = ["D", "E", "F"];
   const {setSeat}=useContext(SeatsContext);
-  const handleClick=(movieTitle: string, time: string, date: string,id:string,image:string,location:string,city:string,roomId:string)=>{
+  const handleClick=(movieTitle: string, time: string, date: string,id:string,image:string,location:string,city:string,roomId:string,namecinema:string)=>{
     setSeat([
       {
         isSelected: "false",
@@ -69,7 +69,8 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
         image: image,
         seatType:vipRow.includes(id.charAt(0)) ? "VIP" : "Regular",
         Location:location,
-        city:city
+        city:city,
+        name:namecinema
       }
     ]);
     navigate(`/Theater/${roomId}/${encodeURIComponent(movieTitle)}`);
@@ -97,7 +98,7 @@ export const DaySelect: React.FC<DaySelectProps> = ({ title }) => {
               {item.time.map((time, idx) => (
                 <span
                   onClick={() => {
-                    handleClick(item.movieTitle, time, item.date,item.roomName,item.poster,item.location,item.location,item.roomId);
+                    handleClick(item.movieTitle, time, item.date,item.roomName,item.poster,item.location,item.location,item.roomId,item.cinemaName);
                   }}
                   key={idx}
                   className="bg-red-600 px-3 py-1 rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer transition-colors"

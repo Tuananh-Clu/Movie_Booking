@@ -111,6 +111,7 @@ export const InfoTheater = () => {
                                         seatType: seatType,
                                         Location: item.address,
                                         city: item.city,
+                                        name:item.name
                                       },
                                     ]);
                                     const title = encodeURIComponent(

@@ -17,6 +17,7 @@ export const KhoVoucher = () => {
           "https://backendformoviebooking-production.up.railway.app/api/Voucher/GetVoucher"
         );
         setDataVoucher(res.data);
+        console.log(res.data)
       } catch (error) {
         console.log(error);
       }
@@ -38,11 +39,12 @@ export const KhoVoucher = () => {
         }]
     try{
     
-        await axios.post("https://backendformoviebooking-production.up.railway.app/api/Client/AddVoucher",data,{headers:{
+       const response= await axios.post("https://backendformoviebooking-production.up.railway.app/api/Client/AddVoucher",data,{headers:{
           "Authorization":`Bearer ${token}`,
           "Content-Type":"application/json"
         }})
         console.log("success")
+        alert(response.data);
     }
     catch(error){
         console.log(error);

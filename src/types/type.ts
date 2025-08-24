@@ -77,7 +77,8 @@ export interface Database{
   role:string,
   point:number,
 tickets:Store[][],
-yeuThich:Movies[]
+yeuThich:Movies[],
+voucherCuaBan:VoucherUser[];
 }
 // types.ts
 export interface SeatProp {

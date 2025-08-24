@@ -36,6 +36,7 @@ export const Ticket = () => {
     try {
       const token = await getToken();
       console.log(token);
+      console.log(storeDataBase?.tickets.flat())
       const response = await axios.post(
         "https://backendformoviebooking-production.up.railway.app/api/Cinema/Update",
         storeDataBase?.tickets.flat(),
