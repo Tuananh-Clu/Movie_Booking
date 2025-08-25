@@ -54,6 +54,7 @@ export const Ticket = () => {
       console.log(error);
     }
   };
+  
 
     useEffect(() => {
     fetchData();

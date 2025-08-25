@@ -67,6 +67,7 @@ export const DashBoardUser = () => {
         );
         setDataSapChieu(dataPhimSapChieu.data);
 
+        
         setStats({
           watchedMovies: watchedMoviesRes.data ?? 0,
           tickets: ticketsRes.data ?? 0,
