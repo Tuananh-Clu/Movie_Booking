@@ -14,7 +14,7 @@ export const KhoVoucher = () => {
     const fetchAll = async () => {
       try {
         const res = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Voucher/GetVoucher"
+          "https://backendformoviebooking-production.up.railway.app/api/Voucher/GetVoucherActive"
         );
         setDataVoucher(res.data);
         console.log(res.data)

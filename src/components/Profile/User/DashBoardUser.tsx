@@ -159,11 +159,11 @@ export const DashBoardUser = () => {
         : ["30% Giảm Giá", "Trải Nghiệm VIP Miễn Phí", "Sự Kiện Đặc Biệt"],
     bgColor:
       stats.points < 1000
-        ? "bg-gray-500"
+        ? "bg-gray-600"
         : stats.points < 2000
-        ? "bg-yellow-500"
+        ? "bg-gray-400"
         : stats.points < 3000
-        ? "bg-orange-500"
+        ? "bg-yellow-500"
         : stats.points < 4000
         ? "bg-purple-500"
         : stats.points < 5000
@@ -185,7 +185,7 @@ export const DashBoardUser = () => {
 
   return (
     <div className=" ">
-      <div className="font-bold relative overflow-hidden text-white p-5 rounded-2xl bg-gradient-to-tr from-[--color-brand-pink] via-pink-400 to-[--color-brand-cyan] ring-1 ring-white/10">
+      <div className="font-bold relative overflow-hidden  text-white p-5 rounded-2xl bg-gradient-to-tr from-[--color-brand-pink] via-pink-400 to-[--color-brand-cyan] ring-1 ring-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.2),transparent_40%),radial-gradient(circle_at_80%_120%,rgba(255,255,255,0.15),transparent_40%)]" />
         <div>
           <h1 className="text-2xl">Xin chào, {user?.lastName} 🎬</h1>

@@ -65,7 +65,7 @@ export const ListPhim = () => {
                   </td>
                   <td className="px-4 py-2 border border-white/10">{item.count}</td>
                   <td className="px-4 py-2 border border-white/10 text-[--color-brand-cyan] font-medium">
-                    {(item.count * 75000).toLocaleString("vi-VN")} ₫
+                    {(item.doanhthu).toLocaleString("vi-VN")} ₫
                   </td>
                 </tr>
               ))}

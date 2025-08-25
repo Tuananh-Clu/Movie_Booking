@@ -129,9 +129,7 @@ export const Ticket = () => {
                   <p>
                     💰 Tổng tiền:{" "}
                     <span className="font-semibold">
-                      {ticketGroup
-                        .slice(1, ticketGroup.length)
-                        .reduce((sum, item) => sum + item.price, 0)
+                      {ticketGroup.slice(0,1).map(item=>item.price)
                         .toLocaleString("vi-VN")}
                       đ
                     </span>
