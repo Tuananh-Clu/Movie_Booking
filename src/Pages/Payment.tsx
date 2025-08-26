@@ -7,16 +7,21 @@ import { InfoCustomer } from "../components/PaymentComponents/InfoCustomer";
 import { Food } from "../components/PaymentComponents/Food";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
-import type { VoucherUser } from "../types/type";
+import type { TierMember, VoucherUser } from "../types/type";
 
 export const Payment = () => {
   const { seat, store, setStore, setSeat } = useContext(SeatsContext);
   const { getToken } = useAuth();
+
   const [popUp, setPopUp] = useState(false);
   const buttonPay = useRef<HTMLButtonElement>(null);
+
   const vipRow = ["D", "E", "F"];
 
+
   const totalPrice = seat.reduce((sum, item) => sum + item.price, 0);
+
+
   const [combo, setCombo] = useState([
     { name: "Bắp ngọt lớn", price: 45000, quantity: 0 },
     { name: "Nước Coca 500ml", price: 25000, quantity: 0 },
@@ -29,12 +34,14 @@ export const Payment = () => {
     { name: "Nước cam tươi", price: 30000, quantity: 0 },
     { name: "Bánh quy giòn", price: 18000, quantity: 0 },
   ]);
-  const comboTotal = combo.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const [finalTotal, setFinalTotal] = useState<any>(comboTotal + totalPrice);
+  const comboTotal = combo.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+
+  const [finalTotal, setFinalTotal] = useState(comboTotal + totalPrice);
+
+
   const sharedInfo = seat[0] || {};
+
 
   const mergeStore = seat.map((item) => ({
     ...item,
@@ -48,94 +55,112 @@ export const Payment = () => {
     price: finalTotal,
     name: item.name,
   }));
-  const [stateMenuVoucher, setStateMenuVoucher] = useState(false);
-  useEffect(() => {
-    console.log(stateMenuVoucher);
-  }, [setStateMenuVoucher]);
-  const FetchUser = async () => {
-    try {
-      const token = await getToken();
-      console.log(token);
-      const response = await axios.post(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/Up",
-        store,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("succees");
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const deleteVocherAfterUsed = async () => {
-    const token = await getToken();
-    await axios.post(
-      `https://backendformoviebooking-production.up.railway.app/api/Client/Used?code=${DataVoucherSelect.code}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log(DataVoucherSelect.code);
-  };
-  const successPay = async () => {
-    setStore((prev) => [...prev, [...mergeStore]]);
-    setPopUp(true);
-  };
-  useEffect(() => {
-    FetchUser();
-    deleteVocherAfterUsed();
-  }, [successPay]);
-  useEffect(() => {
-    if (popUp) {
-      setTimeout(() => {
-        setStore([]);
-        setSeat([]);
-      }, 2000);
-    }
-  }, [popUp]);
+
+  const [stateMenuVoucher, setStateMenuVoucher] = useState(false);
   const [dataVoucherUser, setDatVoucherUser] = useState<VoucherUser[]>([]);
   const [dataSearch, setDataSearch] = useState<string>("");
-  useEffect(() => {
-    const fetch = async () => {
-      const datas = dataSearch?.length == 0 ? "" : dataSearch;
-      try {
-        const token = await getToken();
-        const response = await axios.get(
-          `https://backendformoviebooking-production.up.railway.app/api/Client/GetVoucherByCode?code=${encodeURIComponent(
-            datas as any
-          )}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        setDatVoucherUser(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetch();
-  }, [dataSearch]);
-  const [PopupGiaSauKhiGiam, setPopupGiaSauKhiGiam] = useState<boolean>(false);
+  const [membershipTier, setMembershipTier] = useState<TierMember[]>();
+  const dataMember = membershipTier?.find((item) => item);
+
+  const [PopupGiaSauKhiGiam, setPopupGiaSauKhiGiam] = useState(false);
   const [toast, setToast] = useState<any>();
   const [DataVoucherSelect, setDataVoucherSelect] = useState({
     code: "",
     giagiam: 0,
     loaiGiam: "",
   });
+
+
+  useEffect(() => {
+    const fetchMembership = async () => {
+      const token = await getToken();
+      const headers = { Authorization: `Bearer ${token}`, Accept: "application/json" };
+      const res = await axios.get(
+        "https://backendformoviebooking-production.up.railway.app/api/Client/GetMemberShip",
+        { headers }
+      );
+      setMembershipTier(res.data);
+    };
+    fetchMembership();
+  }, [getToken]);
+
+  useEffect(() => {
+    const fetchVoucher = async () => {
+      try {
+        const token = await getToken();
+        const response = await axios.get(
+          `https://backendformoviebooking-production.up.railway.app/api/Client/GetVoucherByCode?code=${encodeURIComponent(
+            dataSearch || ""
+          )}`,
+          {
+            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          }
+        );
+        setDatVoucherUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchVoucher();
+  }, [dataSearch, getToken]);
+
+  const FetchUser = async () => {
+    try {
+      const token = await getToken();
+      await axios.post(
+        "https://backendformoviebooking-production.up.railway.app/api/Client/Up",
+        store,
+        {
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        }
+      );
+      console.log("✅ Upload store success");
+    } catch (error) {
+      console.log("❌ Upload error:", error);
+    }
+  };
+
+
+  const deleteVoucherAfterUsed = async () => {
+    if (!DataVoucherSelect.code) return;
+    try {
+      const token = await getToken();
+      await axios.post(
+        `https://backendformoviebooking-production.up.railway.app/api/Client/Used?code=${DataVoucherSelect.code}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        }
+      );
+      console.log("🗑 Voucher deleted:", DataVoucherSelect.code);
+    } catch (error) {
+      console.log("❌ Error deleting voucher:", error);
+    }
+  };
+
+
+  const successPay = async () => {
+    setStore((prev) => [...prev, mergeStore]);
+
+    setPopUp(true);
+  };
+  useEffect(() => {
+    if (popUp) {
+      const handlePaymentSuccess = async () => {
+        await FetchUser();
+        await deleteVoucherAfterUsed();
+
+        setTimeout(() => {
+          setStore([]);
+          setSeat([]);
+        }, 2000);
+      };
+      handlePaymentSuccess();
+    }
+  }, [popUp]);
+
+
   const HandleClickApDung = async (
     code: string,
     price: number,
@@ -148,37 +173,37 @@ export const Payment = () => {
         "https://backendformoviebooking-production.up.railway.app/api/Voucher/LayGiaSauGiam",
         {
           params: {
-            VoucherCode: code ?? "",
-            GiaTien: price ?? 0,
-            theaterName:phamviApDung ?? "",
+            role: dataMember?.role,
+            VoucherCode: code,
+            GiaTien: price,
+            theaterName: phamviApDung,
           },
         }
       );
+
       if (typeof response.data === "string") {
         setPopupGiaSauKhiGiam(false);
         setFinalTotal(comboTotal + totalPrice);
         setToast(response.data);
-      
       } else {
-        setToast(null)
+        setToast(null);
         setFinalTotal(response.data);
         setStateMenuVoucher(false);
         setPopupGiaSauKhiGiam(true);
-        setDataVoucherSelect({
-          code,
-          giagiam,
-          loaiGiam,
-        });
+        setDataVoucherSelect({ code, giagiam, loaiGiam });
       }
     } catch (error) {
       console.log("❌ Error Apply Voucher:", error);
     }
   };
-    useEffect(()=>{
-          setTimeout(() => {
-            setToast(0);
-          }, 2000);
-        },[HandleClickApDung])
+
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(0), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   return (
     <div
@@ -192,24 +217,22 @@ export const Payment = () => {
       className="text-white"
     >
       <Navbar />
+
       {popUp && <LoadingSuccess />}
+
+      {/* Popup Voucher */}
       {stateMenuVoucher && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center backdrop-blur-2xl bg-black/70">
           {typeof toast === "string" && (
             <div
-              className={`absolute top-0 left-1/2 -translate-x-1/2 z-[100] 
-                        transition-all duration-500
-                           shadow${
-                             toast
-                               ? "opacity-100 translate-y-10"
-                               : "opacity-0 -translate-y-full"
-                           }`}
+              className={`absolute top-0 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500`}
             >
-              <h1 className="text-red-600 text-shadow-2xs font-bold  shadow-lg px-4 py-2 rounded-xl bg-gray-600/20">
+              <h1 className="text-red-600 font-bold px-4 py-2 rounded-xl bg-gray-600/20">
                 X {toast}
               </h1>
             </div>
           )}
+
           <div className="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl p-6 border border-white/20 text-white relative">
             <button
               onClick={() => setStateMenuVoucher(false)}
@@ -227,10 +250,8 @@ export const Payment = () => {
                   placeholder="Nhập mã voucher..."
                   className="flex-1 px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-[--color-brand-cyan] outline-none"
                 />
-                <button className="bg-[--color-brand-cyan] hover:opacity-90 px-4 py-2 rounded-xl font-semibold">
-                  Áp dụng
-                </button>
               </div>
+
               <div className="bg-white/5 rounded-xl p-3 space-y-2">
                 <h2 className="font-semibold">Kho voucher</h2>
                 <ul className="space-y-1 text-sm text-gray-300">
@@ -243,11 +264,12 @@ export const Payment = () => {
                         <span className="font-bold text-[--color-brand-cyan]">
                           {voucher.code}
                         </span>
-                        <span className="">{voucher.description}</span>
-                        <span className="bg-[--color-brand-pink] text-white  py-1 rounded text-xs font-semibold">
+                        <span>{voucher.description}</span>
+                        <span className="bg-[--color-brand-pink] text-white py-1 rounded text-xs font-semibold">
                           Giảm {voucher.discountAmount}
-                          {voucher.loaiGiam == "Value" ? "VND" : "%"}
+                          {voucher.loaiGiam === "Value" ? "VND" : "%"}
                         </span>
+                        <span>Áp Dụng Tại Khu Vực {voucher.phamViApDung}</span>
                       </div>
                       <button
                         onClick={() =>
@@ -256,7 +278,7 @@ export const Payment = () => {
                             finalTotal,
                             voucher.loaiGiam,
                             voucher.discountAmount,
-                            seat[0].name
+                            seat[0]?.name || ""
                           )
                         }
                         className="bg-gray-800 p-3 rounded-2xl cursor-pointer"
@@ -272,10 +294,11 @@ export const Payment = () => {
         </div>
       )}
 
-      <div className="pt-32 pb-16 flex justify-center z-0 ">
+      {/* Nội dung chính */}
+      <div className="pt-32 pb-16 flex justify-center">
         <div className="grid grid-cols-2 gap-8 max-w-6xl w-full px-6">
           {/* LEFT */}
-          <div className="md:col-span-1 flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             {/* Thông Tin Vé */}
             {seat[0] && (
               <div className="rounded-2xl shadow-xl p-6 bg-white/5 backdrop-blur ring-1 ring-white/10">
@@ -304,13 +327,10 @@ export const Payment = () => {
                     <p>
                       <b>Loại ghế:</b>{" "}
                       {seat
-                        .slice(1)
                         .map(
                           (items) =>
                             `${items.id} (${
-                              vipRow.includes(items.id.charAt(0))
-                                ? "VIP"
-                                : "Regular"
+                              vipRow.includes(items.id.charAt(0)) ? "VIP" : "Regular"
                             })`
                         )
                         .join(", ")}
@@ -335,18 +355,15 @@ export const Payment = () => {
             </div>
           </div>
 
+          {/* RIGHT */}
           <div className="flex flex-col gap-6">
             <div className="rounded-2xl shadow-xl p-6 flex flex-col gap-6 bg-white/5 backdrop-blur ring-1 ring-white/10">
-              <div className="w-full">
-                <InfoCustomer
-                  setState={setStateMenuVoucher}
-                  dataVoucher={DataVoucherSelect}
-                  popupVoucher={PopupGiaSauKhiGiam}
-                />
-              </div>
-              <div className="mt-6">
-                <OptionPayment />
-              </div>
+              <InfoCustomer
+                setState={setStateMenuVoucher}
+                dataVoucher={DataVoucherSelect}
+                popupVoucher={PopupGiaSauKhiGiam}
+              />
+              <OptionPayment />
             </div>
 
             <div className="rounded-2xl shadow-xl p-6 bg-white/5 backdrop-blur ring-1 ring-white/10">

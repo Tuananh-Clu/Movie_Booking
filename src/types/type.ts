@@ -79,6 +79,7 @@ export interface Database{
 tickets:Store[][],
 yeuThich:Movies[],
 voucherCuaBan:VoucherUser[];
+tier:string
 }
 // types.ts
 export interface SeatProp {
@@ -192,4 +193,11 @@ export type VoucherUser={
   phamViApDung:string,
   soLuotUserDuocDung:string
   used:string
+}
+export type TierMember={
+  benefit:any[],
+  nextTier:string,
+  pointNeed:number,
+  colorTier:string
+  role:string
 }

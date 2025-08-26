@@ -31,7 +31,8 @@ function App() {
       point:0,
       tickets:[],
       yeuThich:[],
-      voucherCuaBan:[]
+      voucherCuaBan:[],
+      tier:""
     };
     console.log("👉 Gửi body:", body);
     await axios.post("https://backendformoviebooking-production.up.railway.app/api/Client/AddUser", body, {
