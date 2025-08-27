@@ -8,19 +8,20 @@ import { Food } from "../components/PaymentComponents/Food";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import type { TierMember, VoucherUser } from "../types/type";
+import { ArrowBigLeftDashIcon } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export const Payment = () => {
   const { seat, store, setStore, setSeat } = useContext(SeatsContext);
   const { getToken } = useAuth();
+  const navigate=useNavigate()
 
   const [popUp, setPopUp] = useState(false);
   const buttonPay = useRef<HTMLButtonElement>(null);
 
   const vipRow = ["D", "E", "F"];
 
-
   const totalPrice = seat.reduce((sum, item) => sum + item.price, 0);
-
 
   const [combo, setCombo] = useState([
     { name: "Bắp ngọt lớn", price: 45000, quantity: 0 },
@@ -34,14 +35,14 @@ export const Payment = () => {
     { name: "Nước cam tươi", price: 30000, quantity: 0 },
     { name: "Bánh quy giòn", price: 18000, quantity: 0 },
   ]);
-  const comboTotal = combo.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
+  const comboTotal = combo.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   const [finalTotal, setFinalTotal] = useState(comboTotal + totalPrice);
 
-
   const sharedInfo = seat[0] || {};
-
 
   const mergeStore = seat.map((item) => ({
     ...item,
@@ -55,7 +56,6 @@ export const Payment = () => {
     price: finalTotal,
     name: item.name,
   }));
-
 
   const [stateMenuVoucher, setStateMenuVoucher] = useState(false);
   const [dataVoucherUser, setDatVoucherUser] = useState<VoucherUser[]>([]);
@@ -71,11 +71,13 @@ export const Payment = () => {
     loaiGiam: "",
   });
 
-
   useEffect(() => {
     const fetchMembership = async () => {
       const token = await getToken();
-      const headers = { Authorization: `Bearer ${token}`, Accept: "application/json" };
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      };
       const res = await axios.get(
         "https://backendformoviebooking-production.up.railway.app/api/Client/GetMemberShip",
         { headers }
@@ -94,7 +96,10 @@ export const Payment = () => {
             dataSearch || ""
           )}`,
           {
-            headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
         );
         setDatVoucherUser(response.data);
@@ -112,7 +117,10 @@ export const Payment = () => {
         "https://backendformoviebooking-production.up.railway.app/api/Client/Up",
         store,
         {
-          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
       console.log("✅ Upload store success");
@@ -120,7 +128,6 @@ export const Payment = () => {
       console.log("❌ Upload error:", error);
     }
   };
-
 
   const deleteVoucherAfterUsed = async () => {
     if (!DataVoucherSelect.code) return;
@@ -130,7 +137,10 @@ export const Payment = () => {
         `https://backendformoviebooking-production.up.railway.app/api/Client/Used?code=${DataVoucherSelect.code}`,
         {},
         {
-          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
       console.log("🗑 Voucher deleted:", DataVoucherSelect.code);
@@ -138,7 +148,6 @@ export const Payment = () => {
       console.log("❌ Error deleting voucher:", error);
     }
   };
-
 
   const successPay = async () => {
     setStore((prev) => [...prev, mergeStore]);
@@ -159,7 +168,6 @@ export const Payment = () => {
       handlePaymentSuccess();
     }
   }, [popUp]);
-
 
   const HandleClickApDung = async (
     code: string,
@@ -196,7 +204,27 @@ export const Payment = () => {
       console.log("❌ Error Apply Voucher:", error);
     }
   };
-
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await axios.get(
+          "https://backendformoviebooking-production.up.railway.app/api/Voucher/LayGiaSauGiam",
+          {
+            params: {
+              role: dataMember?.role,
+              VoucherCode: "",
+              GiaTien: totalPrice,
+              theaterName: "",
+            },
+          }
+        );
+        setFinalTotal(response.data);
+      } catch (error) {
+        console.log("❌ Error Apply Voucher:", error);
+      }
+    };
+    fetch();
+  },[membershipTier]);
 
   useEffect(() => {
     if (toast) {
@@ -217,9 +245,11 @@ export const Payment = () => {
       className="text-white"
     >
       <Navbar />
-
       {popUp && <LoadingSuccess />}
-
+              <div onClick={()=> navigate(-1)} className="flex flex-row cursor-pointer absolute mt-20 pl-30 hover:text-pink-600">
+                  <ArrowBigLeftDashIcon/>
+                  <h1>Back</h1>
+        </div>
       {/* Popup Voucher */}
       {stateMenuVoucher && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center backdrop-blur-2xl bg-black/70">
@@ -295,7 +325,7 @@ export const Payment = () => {
       )}
 
       {/* Nội dung chính */}
-      <div className="pt-32 pb-16 flex justify-center">
+      <div className="pt-32 pb-16 flex justify-center"> 
         <div className="grid grid-cols-2 gap-8 max-w-6xl w-full px-6">
           {/* LEFT */}
           <div className="flex flex-col gap-6">
@@ -330,7 +360,9 @@ export const Payment = () => {
                         .map(
                           (items) =>
                             `${items.id} (${
-                              vipRow.includes(items.id.charAt(0)) ? "VIP" : "Regular"
+                              vipRow.includes(items.id.charAt(0))
+                                ? "VIP"
+                                : "Regular"
                             })`
                         )
                         .join(", ")}
@@ -370,7 +402,11 @@ export const Payment = () => {
               <h2 className="text-xl font-bold border-b border-white/10 pb-3 mb-4">
                 💰 Thanh Toán
               </h2>
-              <p className="text-xl font-semibold mb-4">
+              <span className={`p-2 ${dataMember?.colorTier} rounded-2xl  `}>
+                {dataMember?.benefit.slice(0, 1).map((item) => item)}-
+                {dataMember?.role}
+              </span>
+              <p className="text-xl font-semibold mb-6 mt-3">
                 Tổng cộng:{" "}
                 <span className="text-[--color-brand-pink]">
                   {Number(finalTotal).toLocaleString()} VNĐ

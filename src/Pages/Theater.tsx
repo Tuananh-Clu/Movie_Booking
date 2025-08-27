@@ -17,10 +17,10 @@ export const Theater = () => {
     Filters();
   });
   return (
-    <div className=" w-full flex z-0 bg-gradient-to-br from-black via-neutral-900 to-black">
+    <div className=" w-full flex z-0 bg-gradient-to-br  from-black via-neutral-900 to-black">
       <Navbar />
       <div className=" w-full ">
-        <div className=" pt-40 h-full w-full md:px-20 px-10  flex flex-col  items-center justify-between">
+        <div className=" pt-40 pb-100  w-full md:px-20 px-10  flex flex-col  items-center justify-between">
         <div className="flex md:flex-row flex-col  w-full justify-between">
           <h1 className="text-2xl font-bold text-white">
             Danh Sách Các Rạp Phim Trên Toàn Quốc

@@ -28,6 +28,7 @@
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
+    "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^6.30.1",
     "react-youtube": "^10.1.0",
     "tailwindcss": "^4.1.11"

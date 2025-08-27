@@ -10,9 +10,10 @@ import { Footer } from "../components/Footer";
 import axios from "axios";
 import { BookingContext } from "../config/BookingContext";
 import { useAuth } from "@clerk/clerk-react";
+import { Heart } from "lucide-react";
 
 export const MoviesInformation = () => {
-  const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
+  const IMG_PATH = "https://image.tmdb.org/t/p/original";
   const { id } = useParams<string>() || {};
 const {setFavoriteMovies}=useContext(BookingContext);
   const [MainMovies, setMainMovies] = useState<MovieApi[]>([]);
@@ -51,11 +52,17 @@ const {setFavoriteMovies}=useContext(BookingContext);
       setToggleFavorite(false);
     } else {
       setFavoriteMovies((prev) => [...prev, movieData]);
+      setToast(true)
       setToggleFavorite(true);
     }
     console.log("Toggle favorite for movie:", movieData);
   }
-
+  useEffect(()=>{
+    setTimeout(() => {
+      setToast(false)
+    }, 3000);
+  },[handleToggleFavorite])
+  const [toast,setToast]=useState(false);
   const {getToken}=useAuth();
     const [movies, setMovies] = useState<Movies[]>([]);
   useEffect(()=>{
@@ -83,6 +90,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
     (item) => item.original_title.toString() === id
   );
   const movie = movieFromNowPlaying || movieFromComingSoon;
+  const poster=IMG_PATH+movie?.backdrop_path;
   const isFavourite=movie?
   movies.some((item) => item.title.trim().toLowerCase() === movie.original_title.trim().toLowerCase()):false;
   useEffect(() => {
@@ -100,7 +108,14 @@ const {setFavoriteMovies}=useContext(BookingContext);
           <div className="w-14 h-14 border-4 border-gray-100 border-t-red-500 rounded-full animate-spin" />
         </div>
       )}
-
+      {
+        toast==true?(
+          <div className="absolute left-1/2 -translate-x-1/2  p-3 flex flex-row top-18 text-white bg-gray-600/80 rounded-2xl gap-2 z-300 ">
+            <Heart className="text-red-400"/>
+            <h1>Đã Thêm Vào Danh Sách Yêu Thích</h1>
+          </div>
+        ):("")
+      }
       {/* Preload image */}
       {movie && (
         <img
@@ -115,7 +130,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
         <>
           <div
             style={{
-              backgroundImage: `url(${IMG_PATH}${movie.backdrop_path})`,
+              backgroundImage: `url(${poster})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -124,6 +139,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
           <div className="absolute bottom-0 left-0 w-full flex items-start md:px-40 px-10 pb-10 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
             <div className="md:w-[180px] md:h-[300px] rounded-xl overflow-hidden shadow-lg border border-white/10">
               <img
+              loading="lazy"
                 src={IMG_PATH + movie.poster_path}
                 alt={movie.original_title}
                 className="w-full h-full object-cover"
