@@ -167,7 +167,7 @@ export const Profile = () => {
     <div className="bg-gray-600 min-h-screen w-full">
       <Navbar />
       <div 
-       className="pt-32 px-6 md:px-20 flex flex-col md:flex-row gap-6">
+       className="pt-32 px-6  md:px-20 flex flex-col md:flex-row gap-6">
                   <Sidebar />
         <div ref={current} className={`flex-1  rounded-3xl md:w-6/8 min-h-[600px] p-6 pt-20 md:pt-0 ${userData?.role === "Admin" ? "bg-gray-100/10 backdrop-blur-md shadow-inner" : "bg-gray-800/30 backdrop-blur-md shadow-inner"}`}>
           {userData?.role === "Admin" ? renderContent() : userData?.role === "User" ? renderContent() :renderContent()}

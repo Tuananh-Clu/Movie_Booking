@@ -140,8 +140,8 @@ export const AddPhim = () => {
   };
 
   return (
-    <div className="text-white w-full px-4">
-      <h1 className="text-2xl font-bold mb-6">🎥 Phim Đang Chiếu</h1>
+    <div className="text-white w-full px-4 pt-6">
+      <h1 className="md:text-3xl text-2xl font-bold mb-6">🎥 Phim Đang Chiếu</h1>
 
       {/* Movie Slider */}
       <div className="flex items-center gap-3 mb-8">

@@ -6,6 +6,7 @@ import type { VoucherUser } from "../../../types/type";
 
 
 
+
 export const MaGiamGia = () => {
   const [dataVoucherUser, setDataVoucherUser] = useState<VoucherUser[]>([]);
   const { getToken } = useAuth()
@@ -32,8 +33,12 @@ export const MaGiamGia = () => {
   }, [getToken]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-6">
       <h2 className="text-xl font-bold text-white">🎟️ Mã Giảm Giá</h2>
+      {dataVoucherUser.length<=0?
+      <div className="w-full text-center">
+        <h1 className="text-gray-500">Hiện Chưa Có Mã Giảm Giá!</h1>
+      </div>:
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {dataVoucherUser.map(v => (
           <div  className="p-4 rounded-2xl bg-white/5 backdrop-blur ring-1 ring-white/10 text-white flex items-center justify-between">
@@ -46,6 +51,7 @@ export const MaGiamGia = () => {
           </div>
         ))}
       </div>
+}
     </div>
   );
 }

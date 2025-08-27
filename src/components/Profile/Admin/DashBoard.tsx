@@ -10,7 +10,7 @@ export const DashBoard = ({
   doanhthu: number;
 }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 pt-6 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {/* Người dùng */}
       <div className="relative overflow-hidden text-white p-6 rounded-2xl shadow-lg flex items-center gap-4 bg-gradient-to-br from-[--color-brand-pink] to-[--color-brand-cyan] ring-1 ring-white/10">
         <div className="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
