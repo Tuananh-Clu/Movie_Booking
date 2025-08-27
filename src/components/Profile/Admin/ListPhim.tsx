@@ -25,17 +25,17 @@ export const ListPhim = () => {
   }, []);
 
   return (
-    <div className="p-6 text-white">
+    <div className="md:p-6 text-white">
       <div className="flex items-center gap-3 mb-6">
-        <img src={ticket} alt="ticket" className="w-12 h-12" />
-        <h1 className="text-3xl font-bold">Doanh Số Bán Vé Theo Phim</h1>
+        <img src={ticket} alt="ticket" className="md:w-12 md:h-12 w-7 h-7" />
+        <h1 className="md:text-3xl font-bold">Doanh Số Bán Vé Theo Phim</h1>
       </div>
 
       {loading && <p className="text-gray-300">Đang tải dữ liệu...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       {!loading && !error && (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto hide-scrollbar">
           <table className="w-full border-collapse text-center rounded-md overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur">
             <thead>
               <tr className="text-white bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan]">
