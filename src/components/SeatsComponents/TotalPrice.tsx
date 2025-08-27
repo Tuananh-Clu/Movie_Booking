@@ -9,7 +9,7 @@ export const TotalPrice = () => {
     useEffect(()=> {console.log(seat)}, [seat]);
     const navigate =useNavigate();
   return (
-    <div className="bg-white/5 ring-1 ring-white/10 backdrop-blur text-white p-4 rounded-lg shadow-md w-full max-w-1/2 mx-auto mt-6">
+    <div className="bg-white/5 ring-1 ring-white/10 backdrop-blur text-white p-4 rounded-lg shadow-md w-full   mt-6">
       <h2 className="text-lg font-semibold">Tổng giá vé</h2>
       {seat.length > 0 ? (
         <div className='flex flex-row justify-between items-center'>

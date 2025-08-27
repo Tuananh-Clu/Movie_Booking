@@ -134,7 +134,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
-            className="md:w-full max-sm:max-w-[500px] bg-cover object-center h-screen relative shadow-inner"
+            className="md:w-full max-sm:max-w-[600px] bg-cover object-center h-screen relative shadow-inner"
           />
           <div className="absolute bottom-0 left-0 w-full flex items-start md:px-40 px-10 pb-10 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
             <div className="md:w-[180px] md:h-[300px] rounded-xl overflow-hidden shadow-lg border border-white/10">
@@ -142,7 +142,7 @@ const {setFavoriteMovies}=useContext(BookingContext);
               loading="lazy"
                 src={IMG_PATH + movie.poster_path}
                 alt={movie.original_title}
-                className="w-full h-full object-cover"
+                className="md:w-full w-[750px] h-full object-cover"
                 onLoad={() => setPosterLoaded(true)}
               />
             </div>

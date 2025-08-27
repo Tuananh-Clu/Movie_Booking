@@ -102,12 +102,13 @@ export const Profile = () => {
         {label:"Kho Voucher",value:"Voucher"}
       ];
       return (
-        <div className="bg-gradient-to-b from-gray-800 to-gray-700 p-6 rounded-3xl flex flex-col items-center min-w-[250px] shadow-lg">
+        <div className="bg-gradient-to-b from-gray-800 to-gray-700 p-6 rounded-3xl flex flex-col items-center min-w-[350px] shadow-lg">
           <img className="w-32 h-32 rounded-full object-cover border-4 border-white" src={user?.imageUrl} alt="Avatar" />
           <h2 className="mt-4 text-white text-xl font-bold text-center">{user?.fullName}</h2>
           <p className="text-gray-300">{userData?.role}</p>
           <hr className="w-full my-4 border-gray-400" />
-          <ul className=" flex flex-col gap-3">
+          <div className="md:block hidden">
+             <ul className=" flex md:flex-col flex-wrap gap-3">
             {items.map((item) => (
               <li
                 key={item.value}
@@ -120,6 +121,9 @@ export const Profile = () => {
               </li>
             ))}
           </ul>
+
+          </div>
+         
         </div>
       );
     } else {
@@ -146,7 +150,7 @@ export const Profile = () => {
       <Navbar />
       <div className="pt-32 px-6 md:px-20 flex flex-col md:flex-row gap-6">
         <Sidebar />
-        <div className={`flex-1 rounded-3xl w-6/8 min-h-[600px] p-6 ${userData?.role === "Admin" ? "bg-gray-100/10 backdrop-blur-md shadow-inner" : "bg-gray-800/30 backdrop-blur-md shadow-inner"}`}>
+        <div className={`flex-1 rounded-3xl md:w-full min-h-[600px] p-6 ${userData?.role === "Admin" ? "bg-gray-100/10 backdrop-blur-md shadow-inner" : "bg-gray-800/30 backdrop-blur-md shadow-inner"}`}>
           {userData?.role === "Admin" ? renderContent() : userData?.role === "User" ? renderContent() :renderContent()}
         </div>
       </div>

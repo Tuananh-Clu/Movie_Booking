@@ -76,9 +76,9 @@ export const Actors = ({ movieName }: { movieName: string }) => {
   }
 
   return (
-    <div className='mt-20 md:px-30 px-10 flex flex-col gap-5'>
+    <div className='mt-10 md:px-30 px-10 flex flex-col gap-5'>
       <h1 className='text-2xl font-bold text-white'>Your Favourite Cast</h1>
-      <div className='flex flex-wrap gap-4'>
+      <div className='grid grid-cols-2 md:flex md:flex-wrap gap-4'>
         {actorList.length > 0 ? (
           actorList.slice(0, 9).map((item, index) => (
             <div key={ index} className='flex flex-col gap-3 p-3 rounded-2xl bg-white/5 backdrop-blur ring-1 ring-white/10'>

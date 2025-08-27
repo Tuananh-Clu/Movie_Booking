@@ -246,7 +246,7 @@ export const Payment = () => {
     >
       <Navbar />
       {popUp && <LoadingSuccess />}
-              <div onClick={()=> navigate(-1)} className="flex flex-row cursor-pointer absolute mt-20 pl-30 hover:text-pink-600">
+              <div onClick={()=> navigate(-1)} className="flex flex-row cursor-pointer absolute mt-20 md:pl-30 pl-10 hover:text-pink-600">
                   <ArrowBigLeftDashIcon/>
                   <h1>Back</h1>
         </div>
@@ -324,9 +324,9 @@ export const Payment = () => {
         </div>
       )}
 
-      {/* Nội dung chính */}
+
       <div className="pt-32 pb-16 flex justify-center"> 
-        <div className="grid grid-cols-2 gap-8 max-w-6xl w-full px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full px-6">
           {/* LEFT */}
           <div className="flex flex-col gap-6">
             {/* Thông Tin Vé */}
