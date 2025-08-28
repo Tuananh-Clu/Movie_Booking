@@ -13,7 +13,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Heart } from "lucide-react";
 
 export const MoviesInformation = () => {
-  const IMG_PATH = "https://image.tmdb.org/t/p/original";
+  const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
   const { id } = useParams<string>() || {};
 const {setFavoriteMovies}=useContext(BookingContext);
   const [MainMovies, setMainMovies] = useState<MovieApi[]>([]);

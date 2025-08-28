@@ -11,7 +11,6 @@ import type { TierMember, VoucherUser } from "../types/type";
 import { ArrowBigLeftDashIcon } from "lucide-react";
 import {  useNavigate } from "react-router";
 import { v4 as uuidv4 } from "uuid";
-
 export const Payment = () => {
   const { seat, store, setStore, setSeat } = useContext(SeatsContext);
   const { getToken } = useAuth();
@@ -150,17 +149,13 @@ export const Payment = () => {
       console.log("❌ Error deleting voucher:", error);
     }
   };
-    let ran = false
-  useEffect(()=>{
-    if(ran) return;
-    ran=true
-    setStore((prev) => [...prev, mergeStore]);
-  },[])
+
   const successPay = async () => {
     setStore((prev) => [...prev, mergeStore]);
     setPopUp(true);
   };
   useEffect(() => {
+    console.log(store)
     if (popUp) {
       const handlePaymentSuccess = async () => {
         await FetchUser();
@@ -404,6 +399,7 @@ export const Payment = () => {
                 popupVoucher={PopupGiaSauKhiGiam}
               />
               <OptionPayment
+              mergeStore={mergeStore}
                 orderId={orderId}
                 amount={finalTotal.toString()}
               />

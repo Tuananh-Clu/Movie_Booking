@@ -179,7 +179,7 @@ export const Seats = () => {
       </div>
 
       {/* Total price */}
-      <div className="sticky bottom-0 w-full p-4 shadow-lg z-50 bg-white/5 backdrop-blur ring-1 ring-white/10">
+      <div className="sticky bottom-0 w-full p-4 shadow-lg z-50  bg-white/5 backdrop-blur ring-1 ring-white/10">
         <TotalPrice />
       </div>
     </div>

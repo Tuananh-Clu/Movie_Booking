@@ -1,18 +1,18 @@
-import {  useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { SeatsContext } from "../../config/filterSeat";
 
-
-export const OptionPayment = ({orderId,amount}:{orderId:string,amount:string}) => {
+export const OptionPayment = ({orderId,amount,mergeStore}:{orderId:string,amount:string,mergeStore:any}) => {
   const [method, setMethod] = useState<"Cash" | "MOMO" | "Paypal" | null>(null);
-
+  const {setStore}=useContext(SeatsContext)
   const navigate=useNavigate()
   const handleClick = (option: "Cash" | "MOMO" | "Paypal") => {
     setMethod(option);
 
   };
-  const ClickToPayMentPage=async(item:string)=>{
+  const ClickToPayMentPage=(item:string)=>{
     navigate(`/Payment/${orderId}/${amount}/DangThanhToan/${item}`)
-
+    setStore((prev)=>[...prev,[...mergeStore]])
   }
 
   return (
