@@ -1,96 +1,93 @@
-import { useRef, useState } from "react";
+import {  useState } from "react";
+import { useNavigate } from "react-router";
 
-export const OptionPayment = () => {
-    const buttonPay = useRef<HTMLButtonElement>(null);
-      const [method, setMethod] = useState<"Cash" | "MOMO" | "Paypal" | null>(null);
-     const handleClick = (Aka: "Cash" | "MOMO" | "Paypal") => {
-    setMethod(Aka);
+
+export const OptionPayment = ({orderId,amount}:{orderId:string,amount:string}) => {
+  const [method, setMethod] = useState<"Cash" | "MOMO" | "Paypal" | null>(null);
+
+  const navigate=useNavigate()
+  const handleClick = (option: "Cash" | "MOMO" | "Paypal") => {
+    setMethod(option);
+
   };
+  const ClickToPayMentPage=async(item:string)=>{
+    navigate(`/Payment/${orderId}/${amount}/DangThanhToan/${item}`)
+
+  }
+
   return (
-    <div>
-              <h2 className="text-xl font-semibold mb-3 border-b pb-2">
-                💳 Phương Thức Thanh Toán
-              </h2>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => handleClick("Cash")}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border ring-1 ring-white/10 bg-white/5 backdrop-blur ${
-                    method === "Cash" ? "outline outline-2 outline-[--color-brand-cyan]" : ""
-                  } transition`}
-                >
-                  <img
-                    src=" https://cdn-icons-png.flaticon.com/512/3135/3135706.png"
-                    alt="cash"
-                    className="w-6 h-6"
-                  />
-                  <span>Tiền mặt</span>
-                </button>
-                <button
-                  onClick={() => handleClick("MOMO")}
-                  className={`flex items-center gap-2 px-4 py-2  rounded-xl border ring-1 ring-white/10 bg-white/5 backdrop-blur ${
-                    method === "MOMO" ? "outline outline-2 outline-[--color-brand-cyan]" : ""
-                  } transition`}
-                >
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png "
-                    alt="momo"
-                    className="w-6 h-6"
-                  />
-                  <span>MoMo</span>
-                </button>
-                <button
-                  onClick={() => handleClick("Paypal")}
-                  className={`flex items-center gap-2 px-4 py-2  rounded-xl border ring-1 ring-white/10 bg-white/5 backdrop-blur ${
-                    method === "Paypal"
-                      ? "outline outline-2 outline-[--color-brand-cyan]"
-                      : ""
-                  } transition`}
-                >
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/633/633611.png"
-                    alt="card"
-                    className="w-6 h-6"
-                  />
-                  <span>Thẻ ngân hàng</span>
-                </button>
-              </div>
-              {method === "MOMO" ? (
-                <div className="text-center mt-10 flex flex-col gap-2">
-                  <h1>Chuyển Đến Trang Thanh Toán Của Momo</h1>
-                  <button className="px-5 py-3 rounded-2xl text-white bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan] hover:opacity-90">
-                    Đến Ngay
-                  </button>
-                </div>
-              ) : method === "Paypal" ? (
-                <div>
-                  <div className="text-center mt-10 flex flex-col gap-4 items-center">
-                    <h1 className="text-xl font-semibold">
-                      Nhập Thông Tin Tài Khoản PayPal
-                    </h1>
+    <div className="p-4">
+      <h2 className="text-xl font-semibold mb-4 border-b pb-2">
+        💳 Phương Thức Thanh Toán
+      </h2>
 
-                    <input
-                      type="text"
-                      placeholder="Tên Chủ Tài Khoản"
-                      className="w-80 p-3 rounded-xl bg-white/5 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-[--color-brand-cyan] text-white placeholder-gray-400"
-                    />
+      {/* Options */}
+      <div className="grid sm:grid-cols-3 text-black cursor-pointer gap-4">
+        <button
+          onClick={() => handleClick("Cash")}
+          className={`flex items-center gap-3 px-4 py-3 rounded-2xl border-2 transition
+            ${method === "Cash" ? "border-green-500 bg-green-50" : "border-gray-200 bg-white hover:border-green-400"}
+          `}
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png"
+            alt="cash"
+            className="w-8 h-8"
+          />
+          <span className="font-medium">Tiền mặt</span>
+        </button>
 
-                    <input
-                      type="text"
-                      placeholder="Số Tài Khoản / Email PayPal"
-                      className="w-80 p-3 rounded-xl bg-white/5 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-[--color-brand-cyan] text-white placeholder-gray-400"
-                    />
+        <button
+          onClick={() => handleClick("MOMO")}
+          className={`flex items-center gap-3 px-4 py-3 rounded-2xl border-2 transition
+            ${method === "MOMO" ? "border-pink-500 bg-pink-50" : "border-gray-200 bg-white hover:border-pink-400"}
+          `}
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png"
+            alt="momo"
+            className="w-8 h-8"
+          />
+          <span className="font-medium">MoMo</span>
+        </button>
 
-                    <button
-                      onClick={() => buttonPay.current?.scrollIntoView()}
-                      className="px-5 py-3 rounded-2xl text-white bg-gradient-to-r from-[--color-brand-pink] to-[--color-brand-cyan] hover:opacity-90"
-                    >
-                      Xác Nhận Thanh Toán
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-  )
-}
+        <button
+          onClick={() => handleClick("Paypal")}
+          className={`flex items-center gap-3 px-4 py-3 rounded-2xl border-2 transition
+            ${method === "Paypal" ? "border-blue-500 bg-blue-50" : "border-gray-200 bg-white hover:border-blue-400"}
+          `}
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/633/633611.png"
+            alt="paypal"
+            className="w-8 h-8"
+          />
+          <span className="font-medium">PayPal</span>
+        </button>
+      </div>
+
+      {/* Action */}
+      {method && (
+        <div className="mt-8 text-center">
+          <h3 className="mb-4 text-lg font-medium">
+            {method === "Cash"
+              ? "Bạn sẽ thanh toán bằng tiền mặt tại quầy."
+              : `Chuyển đến trang thanh toán của ${method}`}
+          </h3>
+          <button
+          onClick={()=>ClickToPayMentPage(method)}
+            className={`px-6 py-3 rounded-2xl text-white font-semibold shadow-md transition
+              ${method === "MOMO"
+                ? "bg-gradient-to-r from-pink-500 to-pink-600 hover:opacity-90"
+                : method === "Paypal"
+                ? "bg-gradient-to-r from-blue-500 to-blue-600 hover:opacity-90"
+                : "bg-gradient-to-r from-green-500 to-green-600 hover:opacity-90"}
+            `}
+          >
+            Thanh Toán Ngay
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};

@@ -31,5 +31,5 @@ createRoot(document.getElementById('root')!).render(
     </NewProvider>
     </BookingProvider>
     </ClerkProvider>
-  </StrictMode>,
+  </StrictMode>
 )

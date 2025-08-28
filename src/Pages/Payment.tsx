@@ -9,12 +9,14 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import type { TierMember, VoucherUser } from "../types/type";
 import { ArrowBigLeftDashIcon } from "lucide-react";
-import { useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
+import { v4 as uuidv4 } from "uuid";
 
 export const Payment = () => {
   const { seat, store, setStore, setSeat } = useContext(SeatsContext);
   const { getToken } = useAuth();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+
 
   const [popUp, setPopUp] = useState(false);
   const buttonPay = useRef<HTMLButtonElement>(null);
@@ -22,7 +24,7 @@ export const Payment = () => {
   const vipRow = ["D", "E", "F"];
 
   const totalPrice = seat.reduce((sum, item) => sum + item.price, 0);
-
+  const orderId = `Order_${Date.now().toString() + uuidv4()}`;
   const [combo, setCombo] = useState([
     { name: "Bắp ngọt lớn", price: 45000, quantity: 0 },
     { name: "Nước Coca 500ml", price: 25000, quantity: 0 },
@@ -148,10 +150,14 @@ export const Payment = () => {
       console.log("❌ Error deleting voucher:", error);
     }
   };
-
+    let ran = false
+  useEffect(()=>{
+    if(ran) return;
+    ran=true
+    setStore((prev) => [...prev, mergeStore]);
+  },[])
   const successPay = async () => {
     setStore((prev) => [...prev, mergeStore]);
-
     setPopUp(true);
   };
   useEffect(() => {
@@ -224,7 +230,7 @@ export const Payment = () => {
       }
     };
     fetch();
-  },[membershipTier]);
+  }, [membershipTier]);
 
   useEffect(() => {
     if (toast) {
@@ -246,10 +252,13 @@ export const Payment = () => {
     >
       <Navbar />
       {popUp && <LoadingSuccess />}
-              <div onClick={()=> navigate(-1)} className="flex flex-row cursor-pointer absolute mt-20 md:pl-30 pl-10 hover:text-pink-600">
-                  <ArrowBigLeftDashIcon/>
-                  <h1>Back</h1>
-        </div>
+      <div
+        onClick={() => navigate(-1)}
+        className="flex flex-row cursor-pointer absolute mt-20 md:pl-30 pl-10 hover:text-pink-600"
+      >
+        <ArrowBigLeftDashIcon />
+        <h1>Back</h1>
+      </div>
       {/* Popup Voucher */}
       {stateMenuVoucher && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center backdrop-blur-2xl bg-black/70">
@@ -324,8 +333,7 @@ export const Payment = () => {
         </div>
       )}
 
-
-      <div className="pt-32 pb-16 flex justify-center"> 
+      <div className="pt-32 pb-16 flex justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl w-full px-6">
           {/* LEFT */}
           <div className="flex flex-col gap-6">
@@ -395,7 +403,10 @@ export const Payment = () => {
                 dataVoucher={DataVoucherSelect}
                 popupVoucher={PopupGiaSauKhiGiam}
               />
-              <OptionPayment />
+              <OptionPayment
+                orderId={orderId}
+                amount={finalTotal.toString()}
+              />
             </div>
 
             <div className="rounded-2xl shadow-xl p-6 bg-white/5 backdrop-blur ring-1 ring-white/10">

@@ -15,6 +15,8 @@ import { Ticket } from "./Pages/Ticket";
 import { News } from "./Pages/News";
 import { Profile } from "./Pages/Profile";
 import { KhoVoucher } from "./Pages/KhoVoucher";
+import { GialapThanhToan } from "./Pages/GialapThanhToan";
+import { KetQuaThongBaoThanhToan } from "./Pages/KetQuaThongBaoThanhToan";
 
 function App() {
   const { isSignedIn, user } = useUser();
@@ -72,6 +74,8 @@ function App() {
         <Route path="/News" element={<News />} />
         <Route path="/Profile" element={<Profile/>}></Route>
         <Route path="/Voucher" element={<KhoVoucher/>}/>
+        <Route path="/Payment/:orderid/:amount/:status/:method" element={<GialapThanhToan/>} />
+        <Route path="/Result/:orderid/:amount/:status/:method" element={<KetQuaThongBaoThanhToan/>}/>
       </Routes>
     </>
   );
