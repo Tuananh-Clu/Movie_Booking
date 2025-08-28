@@ -59,6 +59,13 @@ function App() {
   useEffect(() => {
     fetchDataDelete();
   }, []);
+  window.addEventListener("offline",()=>{
+    alert("Ban Dang Offline")
+  })
+  window.addEventListener("online",()=>{
+    alert("Chao Mung Ban Quay Tro Lai")
+  })
+
 
   return (
     <>
