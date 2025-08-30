@@ -65,8 +65,16 @@ Trang Chủ:
 Phần Hiển Thị Của Account User và Có Phân Hạng Khi Mua Số Lượng Nhiều:
 <img width="1898" height="999" alt="image" src="https://github.com/user-attachments/assets/344d7257-1db4-42fb-9798-f5e92c693625" />
 
-
 Phần Quản Lý Của Admin Account(Tài Khoản Sẽ Được Tạo Từ Swagger của phía BackEnd Nhé):
 <img width="1918" height="1010" alt="image" src="https://github.com/user-attachments/assets/b35dc16c-95bd-4eae-a8ab-23656fdfc388" />
 
+Đặt Vé Theo Ghế Ngồi
+<img width="1891" height="992" alt="image" src="https://github.com/user-attachments/assets/806990ca-8d6e-499f-9d4d-8fc453ac93d8" />
 
+Thanh Toán Có Mock Giả Lập Momo Và PayPal
+<img width="1895" height="1004" alt="image" src="https://github.com/user-attachments/assets/32d1bfcf-d9f4-419c-a159-be98be521d22" />
+
+
+
+
+---Đây Chỉ Là Sản Phẩm Minh Trong Quá Trình Học Cách Kết Nối Mongo và Call Được Api Từ BackEnd Thay Vì Mock Dữ Liệu Như TRước Mọi Người Có Góp Ý Cho Mình Tiến Bộ Hơn---
