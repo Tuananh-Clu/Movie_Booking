@@ -7,6 +7,7 @@ import { SeatsContext } from "../config/filterSeat";
 import { useEffect } from "react";
 import type { TheaterType } from "../types/type";
 import axios from "axios";
+import { buildApiUrl, API_CONFIG } from "../config/api";
 
 export const InfoTheater = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ export const InfoTheater = () => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get<TheaterType[]>(`https://backendformoviebooking-production.up.railway.app/api/Cinema/GetTheaterById?id=${id}`);
+        const response = await axios.get<TheaterType[]>(`${buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_THEATER_BY_ID)}?id=${id}`);
         setTheaterData(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);

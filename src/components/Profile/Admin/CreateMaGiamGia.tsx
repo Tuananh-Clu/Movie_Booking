@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import type { Voucher } from "../../../types/type";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 export const CreateMaGiamGia = () => {
   const [voucherCode, setVoucherCode] = useState("");
@@ -97,7 +98,7 @@ export const CreateMaGiamGia = () => {
 
     try {
       await axios.post(
-        "https://backendformoviebooking-production.up.railway.app/api/Voucher/AddVoucher",
+        buildApiUrl(API_CONFIG.BACKEND.VOUCHER.ADD_VOUCHER),
         data
       );
       alert("Tạo mã giảm giá thành công!");

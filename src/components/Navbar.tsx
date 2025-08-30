@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Logo from "../assets/2040698.png";
 import { useNavigate } from "react-router";
 import { MenuLogin } from "./MenuLogin";
-import {  useUser } from "@clerk/clerk-react";
+import { useUser } from "../config/AuthContext";
 import { Search } from "./Navbar Components/Search";
 import { MobileMenu } from "./Navbar Components/MobileMenu";
 import CustomUserButton from "./CustomUserButton";
@@ -86,25 +86,24 @@ export const Navbar = () => {
         {isSignedIn ? (
           <div className="flex items-center gap-3">
             <p className="text-sm hidden sm:inline">
-              Xin chào, <span className="font-semibold">{user.fullName}</span>
+              Xin chào, <span className="font-semibold">{user?.name}</span>
             </p>
             <CustomUserButton/>
           </div>
         ) : (
-          <>
-            <i
-              onClick={() => setToggleMenu((prev) => !prev)}
-              className="fa-solid fa-user text-xl cursor-pointer transition hover:text-[--color-brand-cyan]"
-            />
-
-            {toggleMenu && (
-              <div className="absolute right-0 top-12 text-white p-4 rounded-xl shadow-lg backdrop-blur-md bg-white/5 ring-1 ring-white/10">
-                <MenuLogin />
-              </div>
-            )}
-          </>
+          <button
+            onClick={() => setToggleMenu(true)}
+            className="flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-4 py-2 text-white"
+          >
+            <i className="fa-solid fa-user text-lg"></i>
+            <span className="hidden sm:block">Đăng nhập</span>
+          </button>
         )}
       </div>
+      
+      {/* Modal đăng nhập/đăng ký */}
+      <MenuLogin isOpen={toggleMenu} onClose={() => setToggleMenu(false)} />
+      
       {toggleMobileMenu ? <MobileMenu setState={setToggleMobileMenu} /> : ""}
     </div>
   );

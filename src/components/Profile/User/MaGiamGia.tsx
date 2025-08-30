@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth } from "../../../config/AuthContext";
 import type { VoucherUser } from "../../../types/type";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 
 
@@ -9,13 +10,18 @@ import type { VoucherUser } from "../../../types/type";
 
 export const MaGiamGia = () => {
   const [dataVoucherUser, setDataVoucherUser] = useState<VoucherUser[]>([]);
-  const { getToken } = useAuth()
+  const { isSignedIn } = useAuth();
+  
   useEffect(() => {
     const fetch = async () => {
+      if (!isSignedIn) return;
+      
       try {
-        const token = await getToken();
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
         const response = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetVoucher",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_VOUCHER),
           {
             headers: {
               "Authorization": `Bearer ${token}`,
@@ -30,7 +36,7 @@ export const MaGiamGia = () => {
       }
     };
     fetch();
-  }, [getToken]);
+  }, [isSignedIn]);
 
   return (
     <div className="space-y-4 pt-6">

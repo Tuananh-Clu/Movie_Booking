@@ -6,13 +6,14 @@ import { MoviesSlider } from "../components/Home Components/MoviesSlider";
 import { Trailer } from "../components/Trailer";
 import { Footer } from "../components/Footer";
 import axios from 'axios';
+import { buildApiUrl, API_CONFIG } from "../config/api";
 export const Home = () => {
   const [moviesPlaying, setMoviesPlaying] = useState<MovieApi[]>([]);
   const [moviesUpcoming,setMoviesUpcoming]=useState<MovieApi[]>([])
  useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendformoviebooking-production.up.railway.app/api/MovieNowPlaying/Show");
+      const response = await axios.get(buildApiUrl(API_CONFIG.BACKEND.MOVIE.NOW_PLAYING));
       setMoviesPlaying(response.data); 
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
@@ -25,7 +26,7 @@ export const Home = () => {
   useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://backendformoviebooking-production.up.railway.app/api/MovieUpcoming/Show");
+      const response = await axios.get(buildApiUrl(API_CONFIG.BACKEND.MOVIE.UPCOMING));
       setMoviesUpcoming(response.data)
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { type MovieApi } from "../../types/type";
 import { MovieCard } from "../Home Components/MovieCard";
 import axios from "axios";
+import { API_CONFIG, buildApiUrl } from "../../config/api";
 
 export const Recommend = () => {
   const [currentMovies, setCurrentMovies] = useState<MovieApi[]>([]);
@@ -12,7 +13,7 @@ export const Recommend = () => {
 
  const fetchDataManyPage = async () => {
 try{
-  const response=await axios("https://backendformoviebooking-production.up.railway.app/api/StorageMovie/ShowAll")
+  const response=await axios(buildApiUrl(API_CONFIG.BACKEND.STORAGE_MOVIE.SHOW_ALL))
  setCurrentMovies(response.data);
 }
 catch{

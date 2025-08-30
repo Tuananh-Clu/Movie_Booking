@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import type { Movies } from "../../../types/type";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 export const NowBooking = () => {
   const [dataMovie, setDataMovie] = useState<Movies[]>([]);
@@ -10,7 +11,7 @@ export const NowBooking = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/Cinema/MovieBooking"
+        buildApiUrl(API_CONFIG.BACKEND.CINEMA.MOVIE_BOOKING)
       );
       setDataMovie(response.data);
     } catch (error) {
@@ -24,7 +25,7 @@ export const NowBooking = () => {
   const fetchInfo = async ({ title }: { title: string }) => {
     try {
       const response = await axios.get(
-        `https://backendformoviebooking-production.up.railway.app/api/Cinema/GetShowTimeById?movieTitle=${encodeURIComponent(
+        `buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_SHOW_TIME_BY_ID)?movieTitle=${encodeURIComponent(
           title
         )}`
       );
@@ -37,7 +38,7 @@ export const NowBooking = () => {
   const Delete = async ({ title,time,name }: { title: string,time:string,name:string }) => {
     try {
        await axios.delete(
-        `https://backendformoviebooking-production.up.railway.app/api/Cinema/DeleteShowTime?movieId=${encodeURIComponent(
+        `buildApiUrl(API_CONFIG.BACKEND.CINEMA.DELETE_SHOW_TIME)?movieId=${encodeURIComponent(
           title)}&movietheater=${encodeURIComponent(name)}&time=${encodeURIComponent(time)}`
       );
     } catch (error) {

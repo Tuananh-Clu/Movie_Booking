@@ -7,9 +7,8 @@ import { InfoTheater } from "./Pages/InfoTheater";
 import { Seats } from "./Pages/Seats";
 import { Payment } from "./Pages/Payment";
 import { useEffect } from "react";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "./config/AuthContext";
 import axios from "axios";
-
 import "./index.css";
 import { Ticket } from "./Pages/Ticket";
 import { News } from "./Pages/News";
@@ -17,27 +16,31 @@ import { Profile } from "./Pages/Profile";
 import { KhoVoucher } from "./Pages/KhoVoucher";
 import { GialapThanhToan } from "./Pages/GialapThanhToan";
 import { KetQuaThongBaoThanhToan } from "./Pages/KetQuaThongBaoThanhToan";
+import { buildApiUrl, API_CONFIG } from "./config/api";
 
 function App() {
-  const { isSignedIn, user } = useUser();
-  const { getToken } = useAuth();
+  const { isSignedIn,user } = useUser();
+  const { user: authUser } = useAuth();
 
   const fetchUser = async () => {
-   const token = await getToken();
+    const token = localStorage.getItem("token");
+    if (!token || !authUser) return;
+    
     const body = {
-      Id: user?.id,
-      Email: user?.emailAddresses[0].emailAddress,
-      Name: user?.fullName,
-      Avatar: user?.imageUrl,
-      role:user?.firstName?.includes("A")?"Admin":"User",
-      point:0,
-      tickets:[],
-      yeuThich:[],
-      voucherCuaBan:[],
-      tier:""
+      Id: authUser.id,
+      Email: authUser.email,
+      Name: authUser.name,
+      Avatar: authUser.avatar || "",
+      role: authUser.name?.includes("A") ? "Admin" : "User",
+      password:user?.password,
+      point: 0,
+      tickets: [],
+      yeuThich: [],
+      voucherCuaBan: [],
+      tier: ""
     };
     console.log("👉 Gửi body:", body);
-    await axios.post("https://backendformoviebooking-production.up.railway.app/api/Client/AddUser", body, {
+    await axios.post(buildApiUrl(API_CONFIG.BACKEND.CLIENT.ADD_USER), body, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -46,26 +49,26 @@ function App() {
   };
 
   useEffect(() => {
-    if (isSignedIn) {
+    if (isSignedIn && authUser) {
       fetchUser();
       console.log("Gui thanh cong");
     }
-  }, [isSignedIn]);
-  const fetchDataDelete = async () => {
+  }, [isSignedIn, authUser]);
 
-    await axios.delete("https://backendformoviebooking-production.up.railway.app/api/Cinema/DeleteSHowTimeOld",{}
-    );
+  const fetchDataDelete = async () => {
+    await axios.delete(buildApiUrl(API_CONFIG.BACKEND.CINEMA.DELETE_SHOW_TIME_OLD), {});
   };
+  
   useEffect(() => {
     fetchDataDelete();
   }, []);
-  window.addEventListener("offline",()=>{
+  
+  window.addEventListener("offline", () => {
     alert("Ban Dang Offline")
   })
-  window.addEventListener("online",()=>{
+  window.addEventListener("online", () => {
     alert("Chao Mung Ban Quay Tro Lai")
   })
-
 
   return (
     <>

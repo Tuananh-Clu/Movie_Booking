@@ -1,6 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import axios from "axios";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "../config/AuthContext";
 import {  useEffect, useRef, useState } from "react";
 import type { TierMember ,Database } from "../types/type";
 import { DashBoard } from "../components/Profile/Admin/DashBoard";
@@ -14,16 +14,17 @@ import { DashBoardUser } from "../components/Profile/User/DashBoardUser";
 import { CreateMaGiamGia } from "../components/Profile/Admin/CreateMaGiamGia";
 import { KhoVoucher } from "../components/Profile/Admin/KhoVoucher";
 import { Crown, Diamond, Medal, Star } from "lucide-react";
+import { API_CONFIG, buildApiUrl } from "../config/api";
 
 export const Profile = () => {
-  const { getToken } = useAuth();
+  const { isSignedIn } = useAuth();
   const { user } = useUser();
 
   const [userData, setUserData] = useState<Database>();
   const [userLength, setUserLength] = useState(0);
   const [ticket, setTicket] = useState(0);
   const [doanhThu, setDoanhThu] = useState(0);
-  const [dataRole,setDataRole]=useState<TierMember[]>()
+  const [dataRole, setDataRole] = useState<TierMember[]>()
 
   const [clickState, setClickState] = useState("");
 
@@ -39,14 +40,18 @@ export const Profile = () => {
 
   useEffect(() => {
     const fetchAll = async () => {
+      if (!isSignedIn) return;
+      
       try {
-        const token = await getToken();
-        const [userRes, allUser, ticketRes, revenueRes,datarole] = await Promise.all([
-          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetUser", { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetAllUser"),
-          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTicket"),
-          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetDoanhthuTicket"),
-          axios.get("https://backendformoviebooking-production.up.railway.app/api/Client/GetMemberShip", { headers: { Authorization: `Bearer ${token}` } }),
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
+        const [userRes, allUser, ticketRes, revenueRes, datarole] = await Promise.all([
+          axios.get(buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_USER), { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_ALL_USER)),
+          axios.get(buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_QUANTITY_TICKET)),
+          axios.get(buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_DOANHTHU_TICKET)),
+          axios.get(buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_MEMBER_SHIP), { headers: { Authorization: `Bearer ${token}` } }),
         ]);
 
         setUserData(userRes.data);
@@ -59,7 +64,7 @@ export const Profile = () => {
       }
     };
     fetchAll();
-  }, []);
+  }, [isSignedIn]);
 
   // Admin: render content theo click
   const renderContent = () => {
@@ -114,8 +119,8 @@ export const Profile = () => {
       ];
       return (
         <div className="bg-gradient-to-b from-gray-800 to-gray-700 p-6 rounded-3xl flex flex-col items-center min-w-[250px]  shadow-lg">
-          <img className="w-32 h-32 rounded-full object-cover border-4 border-white" src={user?.imageUrl} alt="Avatar" />
-          <h2 className="mt-4 text-white text-xl font-bold text-center">{user?.fullName}</h2>
+          <img className="w-32 h-32 rounded-full object-cover border-4 border-white" src={user?.avatar} alt="Avatar" />
+          <h2 className="mt-4 text-white text-xl font-bold text-center">{user?.name}</h2>
           <p className={`text-gray-300 `}>{tier?.role}</p>
           <hr className="w-full my-4 border-gray-400" />
           <ul className=" flex md:flex-col flex-wrap gap-3">
@@ -137,9 +142,9 @@ export const Profile = () => {
       const items = ["Overview","Mã Giảm Giá", "Phim Yêu Thích"];
       return (
         <div className="bg-gray-900/80 p-6 flex flex-col items-center rounded-3xl min-w-[250px]  shadow-lg">
-          <img className="w-32 h-32 rounded-full object-cover border-4 border-red-500" src={user?.imageUrl} alt="Avatar" />
+          <img className="w-32 h-32 rounded-full object-cover border-4 border-red-500" src={user?.avatar} alt="Avatar" />
          <div className="flex items-center gap-2 mt-3 px-3 py-1 rounded-full bg-gray-800 text-white w-fit shadow-md">
-          <h2 className=" text-white text-xl font-bold text-center">{user?.fullName}</h2>
+          <h2 className=" text-white text-xl font-bold text-center">{user?.name}</h2>
           {
             tier?.role=="Bronze"? <Medal className="w-5 h-5 text-orange-700" />:
                            tier?.role=="Silver"?<Medal className="w-5 h-5 text-gray-400" />:

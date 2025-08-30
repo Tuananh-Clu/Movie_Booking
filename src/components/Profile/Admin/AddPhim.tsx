@@ -4,6 +4,7 @@ import { type MovieApi, type Movies, type SeatProp } from "../../../types/type";
 import { FilterContext } from "../../../config/FilterTheater";
 import seat from "../../../assets/Seat.json";
 import { BookingContext } from "../../../config/BookingContext";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 export const AddPhim = () => {
   const { allCinemas } = useContext(FilterContext);
@@ -18,6 +19,7 @@ export const AddPhim = () => {
   const [seatNum, setSeatNum] = useState<number>(0);
   const [prices, setPrices] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  
 
   const slider = useRef<HTMLDivElement>(null);
   const IMG_PATH = "https://image.tmdb.org/t/p/original";
@@ -39,7 +41,7 @@ export const AddPhim = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/MovieNowPlaying/Show"
+          buildApiUrl(API_CONFIG.BACKEND.MOVIE.NOW_PLAYING)
         );
         setMoviesPlaying(response.data);
       } catch (error) {
@@ -65,7 +67,7 @@ export const AddPhim = () => {
 
   const uploadToServer = async (dataToSend: any) => {
     try {
-      const response = await axios.post(`https://backendformoviebooking-production.up.railway.app/api/Cinema/AddShowTime?movieId=${
+      const response = await axios.post(`buildApiUrl(API_CONFIG.BACKEND.CINEMA.ADD_SHOW_TIME)?movieId=${
         encodeURIComponent(
        selectValue)}&roomId=${selectedRoom}`, dataToSend, {
         headers: {

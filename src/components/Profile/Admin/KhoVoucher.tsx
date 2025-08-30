@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Ticket, Calendar, AlertCircle, Pause, Play } from "lucide-react";
 import axios from "axios";
 import type { Voucher } from "../../../types/type";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 export const KhoVoucher = () => {
   const [voucherData, setVoucherData] = useState<Voucher[]>([]);
@@ -22,7 +23,7 @@ export const KhoVoucher = () => {
   };
   const handleChangeProp=async(item:string)=>{
     try{
-        await axios.post(`https://backendformoviebooking-production.up.railway.app/api/Voucher/Change?VoucherCode=${item}`);
+        await axios.post(`buildApiUrl(API_CONFIG.BACKEND.VOUCHER.CHANGE)?VoucherCode=${item}`);
 
     }
     catch(error){
@@ -34,7 +35,7 @@ export const KhoVoucher = () => {
     const fetchAll = async () => {
       try {
         const fetchAll = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Voucher/GetVoucher"
+          buildApiUrl(API_CONFIG.BACKEND.VOUCHER.GET_VOUCHER)
         );
         setVoucherData(fetchAll.data);
       } catch (error) {

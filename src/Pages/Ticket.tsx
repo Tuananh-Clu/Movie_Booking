@@ -3,21 +3,26 @@ import { Navbar } from "../components/Navbar";
 import { type Seat } from "../config/filterSeat";
 import { ViewTickets } from "../components/TicketsComponents/ViewTickets";
 import axios from "axios";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth } from "../config/AuthContext";
 import type { Database } from "../types/type";
+import { API_CONFIG, buildApiUrl } from "../config/api";
 
 
 export const Ticket = () => {
-  const { getToken } = useAuth();
+  const { isSignedIn } = useAuth();
   const [activePopupIndex, setActivePopupIndex] = useState<number | null>(null);
   const [storeDataBase, setStoreDataBase] = useState<Database>();
 
-
   const fetchData = async () => {
-    const token = await getToken();
+    if (!isSignedIn) return;
+    
     try {
+      const token = localStorage.getItem("token");
+      console.log(token)
+      if (!token) return;
+      
       const response = await axios(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/GetUser",
+        buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_USER),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -25,20 +30,24 @@ export const Ticket = () => {
           },
         }
       );
-      console.log(token);
+      console.log("Token:", token);
       setStoreDataBase(response.data);
     } catch (error) {
       console.log(error);
-      console.log(token);
     }
   };
+  
   const UpdateTicket = async () => {
+    if (!isSignedIn) return;
+    
     try {
-      const token = await getToken();
-      console.log(token);
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
+      console.log("Token:", token);
       console.log(storeDataBase?.tickets.flat())
       const response = await axios.post(
-        "https://backendformoviebooking-production.up.railway.app/api/Cinema/Update",
+        buildApiUrl(API_CONFIG.BACKEND.CINEMA.UPDATE),
         storeDataBase?.tickets.flat(),
         {
           headers: {
@@ -47,7 +56,7 @@ export const Ticket = () => {
           },
         }
       );
-    console.log( storeDataBase?.tickets.slice(1,storeDataBase.tickets.length).flat())
+      console.log(storeDataBase?.tickets.slice(1, storeDataBase.tickets.length).flat())
       console.log("succeessad");
       return response;
     } catch (error) {
@@ -56,9 +65,9 @@ export const Ticket = () => {
   };
   
 
-    useEffect(() => {
+  useEffect(() => {
     fetchData();
-  }, []); 
+  }, [isSignedIn]); 
   useEffect(() => {
     if (storeDataBase?.tickets && storeDataBase.tickets.length > 0) {
       UpdateTicket();

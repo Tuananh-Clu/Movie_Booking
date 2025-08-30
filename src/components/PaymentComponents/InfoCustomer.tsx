@@ -1,4 +1,4 @@
-import { useUser } from "@clerk/clerk-react";
+import { useUser } from "../../config/AuthContext";
 import { Tag } from "lucide-react";
 import type React from "react";
 
@@ -24,15 +24,15 @@ export const InfoCustomer:React.FC<InfoCustomer> = ({setState,popupVoucher,dataV
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 text-base">
             <div>
-              <span className="font-semibold">Họ và tên:</span> {user?.fullName}
+              <span className="font-semibold">Họ và tên:</span> {user?.name}
             </div>
             <div>
               <span className="font-semibold">SĐT:</span>{" "}
-              {user?.phoneNumbers[0]?.phoneNumber}
+              {user?.phoneNumber || "Chưa cập nhật"}
             </div>
             <div>
               <span className="font-semibold">Email:</span>{" "}
-              {user?.emailAddresses[0]?.emailAddress}
+              {user?.email}
             </div>
             <div>
               <span className="font-semibold">Ngày đặt:</span>{" "}

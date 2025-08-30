@@ -6,7 +6,8 @@ import React, {
 } from "react";
 import type { Movies, SeatProp } from "../types/type";
 import axios from "axios";
-import { useAuth} from "@clerk/clerk-react";
+import { useAuth } from "./AuthContext";
+import { buildApiUrl, API_CONFIG } from "./api";
 
 type Booking = {
   movie: Movies;
@@ -39,34 +40,38 @@ export const BookingContext = createContext<BookingContextType>({
   setFavoriteMovies: () => {},
 });
 
-
 export const BookingProvider = ({ children }: { children: ReactNode }) => {
   const [bookingData, setBookingData] = useState<Booking | null>(null);
   const [favoriteMovies, setFavoriteMovies] = useState<Movies[]>([]);
-   const { getToken } = useAuth();
-   const fetchMovie = async () => {
-   
+  const { isSignedIn } = useAuth();
+  
+  const fetchMovie = async () => {
+    if (!isSignedIn) return;
+    
     try {
-      const token = await getToken();
-       await axios.post(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/GetFavoriteMovies",
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
+      await axios.post(
+        buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_FAVORITE_MOVIES),
         favoriteMovies,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-           "Content-Type":"application/json"
+            "Content-Type": "application/json"
           },
         }
       );
-      console.log(token);
+      console.log("Token:", token);
     
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
   };
-  useEffect(()=>{
-      fetchMovie();
-  },[favoriteMovies]);
+  
+  useEffect(() => {
+    fetchMovie();
+  }, [favoriteMovies, isSignedIn]);
  
   return (
     <BookingContext.Provider

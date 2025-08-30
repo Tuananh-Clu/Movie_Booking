@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import axios from "axios";
 import type { BookingType,TheaterFullTypeFill } from "../types/type";
+import { buildApiUrl, API_CONFIG } from "./api";
 
 interface Filter {
   name: string; 
@@ -32,7 +33,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 
   const Filters = async () => {
     try {
-      const response = await axios.post(`https://backendformoviebooking-production.up.railway.app/api/Cinema/Filter_movie?movie=${filter.name}`, filterTheater);
+      const response = await axios.post(`${buildApiUrl(API_CONFIG.BACKEND.CINEMA.FILTER_MOVIE)}?movie=${filter.name}`, filterTheater);
       setFilteredSearch(response.data);
     } catch (error) {
       console.log(error);
@@ -50,7 +51,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get<TheaterFullTypeFill[]>("https://backendformoviebooking-production.up.railway.app/api/Cinema/GetTheater");
+        const response = await axios.get<TheaterFullTypeFill[]>(buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_THEATER));
         setFilterTheater(response.data);
         setFilteredSearch(response.data);
       } catch (error) {
@@ -64,7 +65,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
-        const response = await axios.get<BookingType[]>("https://backendformoviebooking-production.up.railway.app/api/Cinema/GetInfoBookingData");
+        const response = await axios.get<BookingType[]>(buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_INFO_BOOKING_DATA));
         setAllCinemas(response.data);
       } catch (error) {
         console.error("Lỗi khi fetch dữ liệu Cinema:", error);

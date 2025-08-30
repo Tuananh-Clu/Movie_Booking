@@ -4,17 +4,18 @@ import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import type { Voucher, VoucherUser } from "../types/type";
 import { Gift, Calendar, Tag } from "lucide-react";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth } from "../config/AuthContext";
+import { buildApiUrl, API_CONFIG } from "../config/api";
 
 export const KhoVoucher = () => {
   const [dataVoucher, setDataVoucher] = useState<Voucher[]>([]);
-  const {getToken}=useAuth()
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
         const res = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Voucher/GetVoucherActive"
+          buildApiUrl(API_CONFIG.BACKEND.VOUCHER.GET_VOUCHER_ACTIVE)
         );
         setDataVoucher(res.data);
         console.log(res.data)
@@ -24,30 +25,36 @@ export const KhoVoucher = () => {
     };
     fetchAll();
   }, []);
-  const handleClickSubmit=async(item:Voucher)=>{
-      const token=await getToken()
-        const data:VoucherUser[]=[{
-            code:item.code,
-            description:item.description,
-            loaiGiam:item.loaiGiam,
-            discountAmount:item.discountAmount,
-            expirationDate:item.expirationDate,
-            minimumOrderAmount:item.minimumOrderAmount,
-            phamViApDung:item.phamViApDung,
-            soLuotUserDuocDung:item.soLuotUserDuocDung,
-            used:"DangGiu"
-        }]
-    try{
+  
+  const handleClickSubmit = async (item: Voucher) => {
+    if (!isSignedIn) return;
     
-       const response= await axios.post("https://backendformoviebooking-production.up.railway.app/api/Client/AddVoucher",data,{headers:{
-          "Authorization":`Bearer ${token}`,
-          "Content-Type":"application/json"
-        }})
-        console.log("success")
-        alert(response.data);
-    }
-    catch(error){
-        console.log(error);
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    
+    const data: VoucherUser[] = [{
+      code: item.code,
+      description: item.description,
+      loaiGiam: item.loaiGiam,
+      discountAmount: item.discountAmount,
+      expirationDate: item.expirationDate,
+      minimumOrderAmount: item.minimumOrderAmount,
+      phamViApDung: item.phamViApDung,
+      soLuotUserDuocDung: item.soLuotUserDuocDung,
+      used: "DangGiu"
+    }]
+    
+    try {
+      const response = await axios.post(buildApiUrl(API_CONFIG.BACKEND.CLIENT.ADD_VOUCHER), data, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      console.log("success")
+      alert(response.data);
+    } catch (error) {
+      console.log(error);
     }
   }
   return (

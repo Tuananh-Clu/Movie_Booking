@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SeatsContext } from '../../config/filterSeat';
 import { useNavigate } from 'react-router';
-import { SignInButton, useUser } from '@clerk/clerk-react';
+import { useUser } from '../../config/AuthContext';
 
 export const TotalPrice = () => {
     const { seat } = React.useContext(SeatsContext);
@@ -18,11 +18,15 @@ export const TotalPrice = () => {
             <h1>Tổng Giá Tiền :{seat.reduce((total,item)=>total+item.price,0).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</h1>
         </div>
         <div>
-          {isSignedIn?<button onClick={() => navigate('/Payment')} className='bg-[--color-brand-cyan] hover:opacity-90 text-white font-semibold py-2 px-4 rounded'>Xác Nhận Đặt Vé</button>:
-          <SignInButton mode='modal'>
-                     <button  className='bg-[--color-brand-cyan] hover:opacity-90 text-white font-semibold py-2 px-4 rounded'>Bạn Cần Đăng Nhập Tài Khoản</button>
-            </SignInButton>}
-            
+          {isSignedIn ? (
+            <button onClick={() => navigate('/Payment')} className='bg-[--color-brand-cyan] hover:opacity-90 text-white font-semibold py-2 px-4 rounded'>
+              Xác Nhận Đặt Vé
+            </button>
+          ) : (
+            <button onClick={() => navigate('/')} className='bg-[--color-brand-cyan] hover:opacity-90 text-white font-semibold py-2 px-4 rounded'>
+              Bạn Cần Đăng Nhập Tài Khoản
+            </button>
+          )}
         </div>
         </div>
       ) : (

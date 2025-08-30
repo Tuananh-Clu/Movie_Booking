@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import type { items } from "../../types/type";
 import { NewContext } from "../../config/new";
 import axios from "axios";
+import { API_CONFIG, buildApiUrl } from "../../config/api";
 
 export const MainArticle = () => {
   const [article, setArticle] = useState<items[]>([]);
@@ -10,7 +11,7 @@ export const MainArticle = () => {
   const displayArticle=SelectArticle.enclosure?.link===""?firstArticle:SelectArticle;
 const fetchAllMovieNews=async()=>{
     try{
-      const response=await axios("https://backendformoviebooking-production.up.railway.app/api/Article/Show")
+      const response=await axios(buildApiUrl(API_CONFIG.BACKEND.ARTICLE.SHOW))
       setArticle(response.data);
     }
     catch(error){

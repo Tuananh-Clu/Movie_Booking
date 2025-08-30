@@ -22,6 +22,7 @@ import {
 
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Pie, PolarArea } from "react-chartjs-2";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 ChartJS.register(
   ArcElement,
@@ -48,7 +49,7 @@ export const DoanhThuRap = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Cinema/GetDoanhThuRap"
+          buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_DOANH_THU_RAP)
         );
         setDatas(response.data);
       } catch (error) {

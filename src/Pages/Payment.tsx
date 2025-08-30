@@ -6,14 +6,15 @@ import { OptionPayment } from "../components/PaymentComponents/OptionPayment";
 import { InfoCustomer } from "../components/PaymentComponents/InfoCustomer";
 import { Food } from "../components/PaymentComponents/Food";
 import axios from "axios";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth } from "../config/AuthContext";
 import type { TierMember, VoucherUser } from "../types/type";
 import { ArrowBigLeftDashIcon } from "lucide-react";
 import {  useNavigate } from "react-router";
 import { v4 as uuidv4 } from "uuid";
+import { API_CONFIG, buildApiUrl } from "../config/api";
 export const Payment = () => {
   const { seat, store, setStore, setSeat } = useContext(SeatsContext);
-  const { getToken } = useAuth();
+  const { isSignedIn } = useAuth();
   const navigate = useNavigate();
 
 
@@ -74,26 +75,34 @@ export const Payment = () => {
 
   useEffect(() => {
     const fetchMembership = async () => {
-      const token = await getToken();
+      if (!isSignedIn) return;
+      
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       const headers = {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       };
       const res = await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/GetMemberShip",
+        buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_MEMBER_SHIP),
         { headers }
       );
       setMembershipTier(res.data);
     };
     fetchMembership();
-  }, [getToken]);
+  }, [isSignedIn]);
 
   useEffect(() => {
     const fetchVoucher = async () => {
+      if (!isSignedIn) return;
+      
       try {
-        const token = await getToken();
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
         const response = await axios.get(
-          `https://backendformoviebooking-production.up.railway.app/api/Client/GetVoucherByCode?code=${encodeURIComponent(
+          `buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_VOUCHER)ByCode?code=${encodeURIComponent(
             dataSearch || ""
           )}`,
           {
@@ -109,13 +118,17 @@ export const Payment = () => {
       }
     };
     fetchVoucher();
-  }, [dataSearch, getToken]);
+  }, [dataSearch, isSignedIn]);
 
   const FetchUser = async () => {
+    if (!isSignedIn) return;
+    
     try {
-      const token = await getToken();
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       await axios.post(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/Up",
+        buildApiUrl(API_CONFIG.BACKEND.CLIENT.UP),
         store,
         {
           headers: {
@@ -131,11 +144,14 @@ export const Payment = () => {
   };
 
   const deleteVoucherAfterUsed = async () => {
-    if (!DataVoucherSelect.code) return;
+    if (!DataVoucherSelect.code || !isSignedIn) return;
+    
     try {
-      const token = await getToken();
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       await axios.post(
-        `https://backendformoviebooking-production.up.railway.app/api/Client/Used?code=${DataVoucherSelect.code}`,
+        `buildApiUrl(API_CONFIG.BACKEND.CLIENT.USED)?code=${DataVoucherSelect.code}`,
         {},
         {
           headers: {
@@ -179,7 +195,7 @@ export const Payment = () => {
   ) => {
     try {
       const response = await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/Voucher/LayGiaSauGiam",
+        buildApiUrl(API_CONFIG.BACKEND.VOUCHER.LAY_GIA_SAU_GIAM),
         {
           params: {
             role: dataMember?.role,
@@ -209,7 +225,7 @@ export const Payment = () => {
     const fetch = async () => {
       try {
         const response = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Voucher/LayGiaSauGiam",
+          buildApiUrl(API_CONFIG.BACKEND.VOUCHER.LAY_GIA_SAU_GIAM),
           {
             params: {
               role: dataMember?.role,

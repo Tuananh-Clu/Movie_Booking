@@ -3,6 +3,7 @@ import type { MovieApi } from "../../types/type";
 import { ListMovieByType } from "../../services/tmdb";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { buildApiUrl, API_CONFIG } from "../../config/api";
 
 export const Search = () => {
   const [movie, setMovie] = useState<MovieApi[]>([]);
@@ -19,7 +20,7 @@ export const Search = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://backendformoviebooking-production.up.railway.app/api/StorageMovie/ShowAll"
+        buildApiUrl(API_CONFIG.BACKEND.STORAGE_MOVIE.SHOW_ALL)
       );
       setMovies(response.data);
     } catch (error) {

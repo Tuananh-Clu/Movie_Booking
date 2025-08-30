@@ -1,16 +1,17 @@
 import axios from "axios";
 import ticket from "../../../assets/ticket.png";
 import { useEffect, useState } from "react";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 export const ListPhim = () => {
   const [tickets, setTickets] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  
   const fetchDataReport = async () => {
     try {
       const response = await axios(
-        "https://backendformoviebooking-production.up.railway.app/api/Cinema/GetSoLuongVeBan"
+        buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_SO_LUONG_VE_BAN)
       );
       setTickets(response.data);
     } catch (err) {

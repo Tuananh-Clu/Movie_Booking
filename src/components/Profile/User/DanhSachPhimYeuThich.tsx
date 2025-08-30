@@ -1,18 +1,23 @@
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth } from "../../../config/AuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import type { Movies } from "../../../types/type";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 export const DanhSachPhimYeuThich = () => {
-  const { getToken } = useAuth();
+  const { isSignedIn } = useAuth();
   const [Edit, setEdit] = useState(false);
   const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
   const [movies, setMovies] = useState<Movies[]>([]);
   const handleClickDelete = async (movieId: string) => {
+    if (!isSignedIn) return;
+    
     try {
-      const token = await getToken();
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       await axios.delete(
-        `https://backendformoviebooking-production.up.railway.app/api/Client/DeleteUserFavorite?movieTitle=${encodeURIComponent(
+        `buildApiUrl(API_CONFIG.BACKEND.CLIENT.DELETE_USER_FAVORITE)?movieTitle=${encodeURIComponent(
           movieId
         )}`,
         {
@@ -28,10 +33,14 @@ export const DanhSachPhimYeuThich = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!isSignedIn) return;
+      
       try {
-        const token = await getToken();
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
         const response = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetFavouriteMovieByUser",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_FAVOURITE_MOVIE_BY_USER),
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -45,7 +54,7 @@ export const DanhSachPhimYeuThich = () => {
       }
     };
     fetchData();
-  }, [handleClickDelete, getToken]);
+  }, [isSignedIn]);
 
   return (
     <div className="p-4">

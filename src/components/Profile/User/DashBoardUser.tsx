@@ -1,4 +1,4 @@
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "../../../config/AuthContext";
 import axios from "axios";
 import { Calendar, Ticket, Heart, Star, Award, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -6,10 +6,11 @@ import { PhimDaXem } from "./PhimDaXem";
 import { PhimSapChieu } from "./PhimSapChieu";
 import type { Movies, TierMember } from "../../../types/type";
 import { useNavigate } from "react-router";
+import { API_CONFIG, buildApiUrl } from "../../../config/api";
 
 export const DashBoardUser = () => {
   const { user } = useUser();
-  const { getToken } = useAuth({ template: "backend-api" });
+  const { isSignedIn } = useAuth();
   const Img_path = "https://image.tmdb.org/t/p/w500";
   const [stats, setStats] = useState({
     watchedMovies: 0,
@@ -20,13 +21,17 @@ export const DashBoardUser = () => {
   const [dataDaXem, setDataDaXem] = useState<Movies[]>([]);
   const [dataSapChieu, setDataSapChieu] = useState<Movies[]>([]);
   const [recommendedMovies, setRecommendedMovies] = useState<any[]>([]);
-  const [membershipTier,setMembershipTier]=useState<TierMember[]>()
-  const navigate=useNavigate();
+  const [membershipTier, setMembershipTier] = useState<TierMember[]>()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
+      if (!isSignedIn) return;
+      
       try {
-        const token = await getToken({ template: "aspnet-core" });
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
         console.log("JWT Token:", token);
 
         const headers = {
@@ -35,40 +40,40 @@ export const DashBoardUser = () => {
         };
 
         const watchedMoviesRes = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetMovieByUserId",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_MOVIE_BY_USER_ID),
           { headers }
         );
 
         const ticketsRes = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetQuantityTIcketBuyByUserId",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_QUANTITY_TICKET_BUY_BY_USER_ID),
           { headers }
         );
 
         const pointsRes = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetPointId",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_POINT_ID),
           { headers }
         );
         const theaterres = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetRapPhimYeuThichNhat",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_RAP_PHIM_YEU_THICH_NHAT),
           { headers }
         );
         const recommendedMoviesRes = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/MovieNowPlaying/Recommend"
+          buildApiUrl(API_CONFIG.BACKEND.MOVIE.RECOMMEND)
         );
         setRecommendedMovies(recommendedMoviesRes.data);
         const dataPhimDaXem = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetTicketsDaXem",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_TICKETS_DA_XEM),
           { headers }
         );
         setDataDaXem(dataPhimDaXem.data);
 
         const dataPhimSapChieu = await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetTicketsSapChieu",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_TICKETS_SAP_CHIEU),
           { headers }
         );
         setDataSapChieu(dataPhimSapChieu.data);
          const getmemberShip= await axios.get(
-          "https://backendformoviebooking-production.up.railway.app/api/Client/GetMemberShip",
+          buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_MEMBER_SHIP),
           { headers }
         );
         setMembershipTier(getmemberShip.data);
@@ -88,7 +93,7 @@ export const DashBoardUser = () => {
 
 
     fetchUserData();
-  }, [getToken]);
+  }, [isSignedIn]);
   useEffect(()=>{
     console.log(membershipTier)
   })
@@ -139,7 +144,7 @@ const dataMember=membershipTier?.find((item)=>item);
       <div className="font-bold relative overflow-hidden  text-white p-5 rounded-2xl bg-gradient-to-tr from-[--color-brand-pink] via-pink-400 to-[--color-brand-cyan] ring-1 ring-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.2),transparent_40%),radial-gradient(circle_at_80%_120%,rgba(255,255,255,0.15),transparent_40%)]" />
         <div>
-          <h1 className="text-2xl">Xin chào, {user?.lastName} 🎬</h1>
+          <h1 className="text-2xl">Xin chào, {user?.name} 🎬</h1>
           <p className="text-xs">
     
             Bạn Đang Có {dataSapChieu.length<0?"":dataSapChieu.length+" "+"Bộ Phim Sắp Chiếu"} Và {recommendedMovies.length<0?"":recommendedMovies.length+" "+"Bộ Phim Được Đề Xuất"} 

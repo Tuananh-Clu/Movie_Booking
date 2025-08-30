@@ -1,26 +1,30 @@
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth } from "../config/AuthContext";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { SeatsContext } from "../config/filterSeat";
+import { API_CONFIG, buildApiUrl } from "../config/api";
 
 export const KetQuaThongBaoThanhToan = () => {
   const { orderid, method, status } = useParams();
-  const { getToken } = useAuth();
+  const { isSignedIn } = useAuth();
   const { store, setStore } = useContext(SeatsContext);
   const navigate = useNavigate();
-  
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-    const [times,setTimes]=useState(3)
+  const [times, setTimes] = useState(3)
 
   const upTicket = async () => {
+    if (!isSignedIn) return;
+    
     setIsLoading(true);
     setError(null);
     try {
-      const token = await getToken();
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       await axios.post(
-        "https://backendformoviebooking-production.up.railway.app/api/Client/Up",
+        buildApiUrl(API_CONFIG.BACKEND.CLIENT.UP),
         store,
         {
           headers: {
@@ -34,7 +38,7 @@ export const KetQuaThongBaoThanhToan = () => {
       console.log(store)
     } catch (error) {
       console.log("❌ Lỗi upload:", error);
-            console.log(store)
+      console.log(store)
     } finally {
       setIsLoading(false);
     }
