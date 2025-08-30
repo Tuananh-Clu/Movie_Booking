@@ -67,12 +67,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     email: string,
     password: string,
     name: string,
-    avatarUrl:string
+    avatar:string
   ) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/Auth/Register`,
-        { email, password, name ,avatarUrl}, 
+        { email, password, name ,avatar}, 
         {
           headers: { "Content-Type": "application/json" }, 
         }

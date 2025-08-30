@@ -23,7 +23,7 @@ export const KhoVoucher = () => {
   };
   const handleChangeProp=async(item:string)=>{
     try{
-        await axios.post(`buildApiUrl(API_CONFIG.BACKEND.VOUCHER.CHANGE)?VoucherCode=${item}`);
+        await axios.post(`${buildApiUrl(API_CONFIG.BACKEND.VOUCHER.CHANGE)}?VoucherCode=${item}`);
 
     }
     catch(error){

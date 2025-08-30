@@ -25,7 +25,7 @@ export const NowBooking = () => {
   const fetchInfo = async ({ title }: { title: string }) => {
     try {
       const response = await axios.get(
-        `buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_SHOW_TIME_BY_ID)?movieTitle=${encodeURIComponent(
+        `${buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_SHOW_TIME_BY_ID)}?movieTitle=${encodeURIComponent(
           title
         )}`
       );
@@ -38,7 +38,7 @@ export const NowBooking = () => {
   const Delete = async ({ title,time,name }: { title: string,time:string,name:string }) => {
     try {
        await axios.delete(
-        `buildApiUrl(API_CONFIG.BACKEND.CINEMA.DELETE_SHOW_TIME)?movieId=${encodeURIComponent(
+        `${buildApiUrl(API_CONFIG.BACKEND.CINEMA.DELETE_SHOW_TIME)}?movieId=${encodeURIComponent(
           title)}&movietheater=${encodeURIComponent(name)}&time=${encodeURIComponent(time)}`
       );
     } catch (error) {

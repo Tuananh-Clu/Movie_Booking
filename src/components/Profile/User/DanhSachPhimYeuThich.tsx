@@ -17,7 +17,7 @@ export const DanhSachPhimYeuThich = () => {
       if (!token) return;
       
       await axios.delete(
-        `buildApiUrl(API_CONFIG.BACKEND.CLIENT.DELETE_USER_FAVORITE)?movieTitle=${encodeURIComponent(
+        `${buildApiUrl(API_CONFIG.BACKEND.CLIENT.DELETE_USER_FAVORITE)}?movieTitle=${encodeURIComponent(
           movieId
         )}`,
         {

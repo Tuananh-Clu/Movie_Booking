@@ -11,7 +11,7 @@ export const AnotherArticle = () => {
 
  const fetchAllMovieNews=async()=>{
     try{
-      const response=await axios(buildApiUrl(API_CONFIG.BACKEND.ARTICLE.SHOW))
+      const response=await axios.get(buildApiUrl(API_CONFIG.BACKEND.ARTICLE.SHOW))
       setArticle(response.data);
     }
     catch(error){

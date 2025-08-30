@@ -6,6 +6,7 @@ import { TotalPrice } from "../components/SeatsComponents/TotalPrice";
 import axios from "axios";
 import { type SeatProp, type infoTheater } from "../types/type";
 import { SeatM } from "../components/SeatsComponents/SeatM";
+import { API_CONFIG, buildApiUrl } from "../config/api";
 
 export const Seats = () => {
   const { room, title } = useParams();
@@ -29,7 +30,7 @@ export const Seats = () => {
     const fetchSeat = async () => {
       try {
         const { data } = await axios.get(
-          `buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_SEAT)?movieid=${decodedTitle}&roomid=${room}&ngay=${seat[0].date}&time=${seat[0].time}`
+          `${buildApiUrl(API_CONFIG.BACKEND.CINEMA.GET_SEAT)}?movieid=${decodedTitle}&roomid=${room}&ngay=${seat[0].date}&time=${seat[0].time}`
         );
         setSeats(data);
       } catch (error) {
@@ -43,7 +44,7 @@ export const Seats = () => {
     const fetchCinemas = async () => {
       try {
         const { data } = await axios.get(
-          `buildApiUrl(API_CONFIG.BACKEND.CINEMA.LAY_THONG_TIN_RAP)?location=${seat[0].Location}&room=${room}&title=${decodedTitle}`
+          `${buildApiUrl(API_CONFIG.BACKEND.CINEMA.LAY_THONG_TIN_RAP)}?location=${seat[0].Location}&room=${room}&title=${decodedTitle}`
         );
         setCinema(data);
       } catch (error) {
@@ -104,12 +105,11 @@ export const Seats = () => {
     [setSeat, vipRow]
   );
 
-  // Nhóm ghế theo hàng
   const seatRows = useMemo(() => {
     return regularRow
       .map((rowLabel) => ({
         rowLabel,
-        rowSeats: seats.filter((s) => s.id.startsWith(rowLabel)),
+        rowSeats: seats?.filter((s) => s.id.startsWith(rowLabel)),
       }))
       .filter(({ rowSeats }) => rowSeats.length > 0);
   }, [regularRow, seats]);

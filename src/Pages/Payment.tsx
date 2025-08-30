@@ -102,7 +102,7 @@ export const Payment = () => {
         if (!token) return;
         
         const response = await axios.get(
-          `buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_VOUCHER)ByCode?code=${encodeURIComponent(
+          `${buildApiUrl(API_CONFIG.BACKEND.CLIENT.GET_VOUCHER_BY_CODE)}?code=${encodeURIComponent(
             dataSearch || ""
           )}`,
           {
@@ -151,7 +151,7 @@ export const Payment = () => {
       if (!token) return;
       
       await axios.post(
-        `buildApiUrl(API_CONFIG.BACKEND.CLIENT.USED)?code=${DataVoucherSelect.code}`,
+        `${buildApiUrl(API_CONFIG.BACKEND.CLIENT.USED)}?code=${DataVoucherSelect.code}`,
         {},
         {
           headers: {

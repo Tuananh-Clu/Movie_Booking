@@ -76,6 +76,7 @@ export interface Database{
   email:string,
   role:string,
   point:number,
+  avatar:string,
 tickets:Store[][],
 yeuThich:Movies[],
 voucherCuaBan:VoucherUser[];

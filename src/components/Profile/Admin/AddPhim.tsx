@@ -67,7 +67,7 @@ export const AddPhim = () => {
 
   const uploadToServer = async (dataToSend: any) => {
     try {
-      const response = await axios.post(`buildApiUrl(API_CONFIG.BACKEND.CINEMA.ADD_SHOW_TIME)?movieId=${
+      const response = await axios.post(`${buildApiUrl(API_CONFIG.BACKEND.CINEMA.ADD_SHOW_TIME)}?movieId=${
         encodeURIComponent(
        selectValue)}&roomId=${selectedRoom}`, dataToSend, {
         headers: {

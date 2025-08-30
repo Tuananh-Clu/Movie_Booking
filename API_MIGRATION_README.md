@@ -11,7 +11,7 @@ Dự án đã được cập nhật để sử dụng cấu hình API tập trun
 
 ### 2. Base URL mới
 - **Trước**: `https://backendformoviebooking-production.up.railway.app/api`
-- **Sau**: `http://localhost:5000/api`
+- **Sau**: `https://localhost:7083/api`
 
 ### 3. Cách sử dụng mới
 ```typescript
@@ -67,7 +67,7 @@ API_CONFIG.BACKEND.MOVIE = {
 
 ```typescript
 // Local development
-BASE_URL: "http://localhost:5000/api"
+BASE_URL: "https://localhost:7083/api"
 
 // Production
 BASE_URL: "https://backendformoviebooking-production.up.railway.app/api"

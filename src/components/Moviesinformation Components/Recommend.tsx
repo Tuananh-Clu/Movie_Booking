@@ -13,7 +13,7 @@ export const Recommend = () => {
 
  const fetchDataManyPage = async () => {
 try{
-  const response=await axios(buildApiUrl(API_CONFIG.BACKEND.STORAGE_MOVIE.SHOW_ALL))
+        const response=await axios.get(buildApiUrl(API_CONFIG.BACKEND.STORAGE_MOVIE.SHOW_ALL))
  setCurrentMovies(response.data);
 }
 catch{
