@@ -1,7 +1,7 @@
 // API Configuration
 export const API_CONFIG = {
   // Base URL for backend API
-  BASE_URL: "https://backendformoviebooking-1.onrender.com",
+  BASE_URL: "https://backendformoviebooking-1.onrender.com/api",
   
   // Backend endpoints
   BACKEND: {
